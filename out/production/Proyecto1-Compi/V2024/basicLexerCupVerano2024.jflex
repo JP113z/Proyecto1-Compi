@@ -54,6 +54,11 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 %state STRING
 
 %%
+
+/* Procedimiento main */
+<YYINITIAL>"_verano_" { return symbol(sym.MAIN); }
+
+
 /* Apertura de bloques de código */
 <YYINITIAL>"abrecuento" { return symbol(sym.ABRECUENTO); }
 <YYINITIAL>"cierracuento" { return symbol(sym.CIERRACUENTO); }
@@ -97,6 +102,25 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 <YYINITIAL>"gaspar" { return symbol(sym.DISYUNCION); }
 <YYINITIAL>"baltazar" { return symbol(sym.NEGACION); }
 
+/* Delimitador de final de expresión */
+<YYINITIAL>"finregalo" { return symbol(sym.FIN_EXPRESION); }
+
+
+/* Estructuras de control */
+<YYINITIAL>"elfo" { return symbol(sym.IF); }
+<YYINITIAL>"hada" { return symbol(sym.ELSE); }
+<YYINITIAL>"envuelve" { return symbol(sym.WHILE); }
+<YYINITIAL>"duende" { return symbol(sym.FOR); }
+<YYINITIAL>"varios" { return symbol(sym.SWITCH); }
+<YYINITIAL>"historia" { return symbol(sym.CASE); }
+<YYINITIAL>"ultimo" { return symbol(sym.DEFAULT); }
+<YYINITIAL>"corta" { return symbol(sym.BREAK); }
+<YYINITIAL>"envia" { return symbol(sym.RETURN); }
+<YYINITIAL>"sigue" { return symbol(sym.DOS_PUNTOS); }
+
+/* Operaciones de entrada/salida */
+<YYINITIAL>"narra" { return symbol(sym.PRINT); }
+<YYINITIAL>"escucha" { return symbol(sym.READ); }
 
 /* Identificadores y validación de errores (siempre debe ser tipo _x_) */
 <YYINITIAL> {

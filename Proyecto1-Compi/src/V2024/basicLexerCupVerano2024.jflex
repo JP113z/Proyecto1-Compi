@@ -34,12 +34,9 @@ InputCharacter = [^\r\n]
 WhiteSpace = {LineTerminator} | [ \t\f]
 
 /* comments */
-Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
-TraditionalComment = "/*" [^*]* "*"+ "/"
-/* Comment can be the last line of the file, without line terminator */
-EndOfLineComment = "//" {InputCharacter}* {LineTerminator}
-DocumentationComment = "/**" {CommentContent}* "*"+ "/"
-CommentContent = [^*] | "*" [^/]
+SingleLineComment = "#" {InputCharacter}*
+MultiLineCommentStart = "\_"
+MultiLineCommentEnd = "_/"
 
 /* Identificadores de tipo _nombre_ */
 Identifier = _ [a-zA-Z0-9]+ _
@@ -154,8 +151,18 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
     "magos" { return symbol(sym.MODULO); }
     "adviento" { return symbol(sym.POTENCIA); }
 
-    /* comments */
-    {Comment} { /* ignore */ }
+    <YYINITIAL> {
+        /* Comentarios de una sola línea */
+        {SingleLineComment} { /* Ignore single-line comments */ }
+
+        /* Comentarios de múltiples líneas */
+        {MultiLineCommentStart} {
+            while (!yytext().contains("_/")) {
+                yylex();
+            }
+            /* Ignore multi-line comments */
+        }
+    }
 
     /* whitespace */
     {WhiteSpace} { /* ignore */ }
