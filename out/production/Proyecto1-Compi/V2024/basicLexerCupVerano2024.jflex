@@ -64,11 +64,27 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 <YYINITIAL>"trueno " { return symbol(sym.BOOL); }
 <YYINITIAL>"cupido" { return symbol(sym.CHAR); }
 <YYINITIAL>"cometa" { return symbol(sym.STRING); }
+<<EOF>> { return symbol(sym.EOF); }
 
+/* Identificadores y validación de errores (siempre debe ser tipo _x_) */
 <YYINITIAL> {
-    /* identifiers */
+    /* Identificadores válidos */
     {Identifier} { return symbol(sym.IDENTIFICADOR); }
 
+    /* Identificadores mal formados */
+    "_" [^a-zA-Z0-9]+ {
+        System.err.println("Error léxico en línea " + yyline + ", columna " + yycolumn + ": identificador mal formado '" + yytext() + "'");
+        /* si falta un _ como _x o x_ o un simbolo no valido como @ */
+    }
+    [a-zA-Z0-9]+ {
+        System.err.println("Error léxico en línea " + yyline + ", columna " + yycolumn + ": identificador sin guiones bajos '" + yytext() + "'");
+        /* si fuera solo x*/
+    }
+}
+
+
+
+<YYINITIAL> {
     /* literals */
     {DecIntegerLiteral} { return symbol(sym.L_INTEGER); }
 

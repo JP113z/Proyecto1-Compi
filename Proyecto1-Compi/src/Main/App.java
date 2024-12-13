@@ -6,55 +6,46 @@ import java.nio.file.Paths;
 public class App {
 
     public static void GenerarLexerParser() throws Exception {
-        String basePath, fullPathLexer, fullPathParser, jlexer, jparser, jlexerCarpeta;
-        MainJFlexCup mfjc;
+        String basePath = System.getProperty("user.dir");
+        // Actualiza las rutas para que coincidan con la estructura actual
+        String lexerPath = basePath + "\\Proyecto1-Compi\\src\\V2024\\basicLexerCupVerano2024.jflex";
+        String parserPath = basePath + "\\Proyecto1-Compi\\src\\V2024\\parserV2024Ini.cup";
 
-        basePath = System.getProperty("user.dir");
-        // java de parser y lexer
-        jlexer = "parser.java";
-        jparser = "MyLexer.java";
-        jlexerCarpeta = "";
+        String parserFile = "parser.java";
+        String lexerFile = "MyLexer.java";
 
-        mfjc = new MainJFlexCup();
+        // Instancia para la gestión del lexer y parser
+        MainJFlexCup mainTool = new MainJFlexCup();
 
-        // genera el analizador léxico y sintáctico
-        // elimina archivos
-        Files.deleteIfExists(Paths.get(basePath + "\\src\\ParserLexer\\sym.java"));
+        // Eliminar archivos generados previamente
+        Files.deleteIfExists(Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\sym.java"));
+        Files.deleteIfExists(Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\" + parserFile));
+        Files.deleteIfExists(Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\" + lexerFile));
 
-        // Verano 2024
-        fullPathLexer = basePath + "\\src\\V2024\\basicLexerCupVerano2024.jflex";
-        fullPathParser = basePath + "\\src\\V2024\\parserV2024Ini.cup";
+        // Generar lexer y parser
+        mainTool.iniLexerParser(lexerPath, parserPath);
 
-        Files.deleteIfExists(Paths.get(basePath + "\\src\\ParserLexer\\" + jparser));
-        Files.deleteIfExists(Paths.get(basePath + "\\src\\ParserLexer\\" + jlexer));
-
-        // crear analizar léxico y sintáctico
-        mfjc.iniLexerParser(fullPathLexer, fullPathParser);
-
-        // mover archivos
-        Files.move(Paths.get(basePath + "\\sym.java"), Paths.get(basePath + "\\src\\ParserLexer\\sym.java"));
-        Files.move(Paths.get(basePath + "\\" + jparser), Paths.get(basePath + "\\src\\ParserLexer\\" + jparser));
-        Files.move(Paths.get(basePath + "\\src\\" + jlexerCarpeta + "\\" + jlexer), Paths.get(basePath + "\\src\\ParserLexer\\" + jlexer));
+        // Mover los archivos generados a la carpeta correspondiente
+        Files.move(Paths.get(basePath + "\\sym.java"), Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\sym.java"));
+        Files.move(Paths.get(basePath + "\\" + lexerFile), Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\" + lexerFile));
+        Files.move(Paths.get(basePath + "\\" + parserFile), Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\" + parserFile));
     }
 
-    public static void PruebasLexerParser() throws Exception {
-        String basePath, fullPathScanner, fullPathParser, fullPathParserIT2024, fullPathParserV2024;
-        MainJFlexCup mfjc;
+    public static void PruebasLexerParser(String inputPath) throws Exception {
+        MainJFlexCup mainTool = new MainJFlexCup();
 
-        basePath = System.getProperty("user.dir");
-        fullPathScanner = basePath + "\\src\\codigoPrueba\\ejemplo1.txt";
-        fullPathParser = basePath + "\\src\\codigoPrueba\\ejemploParser.txt";
-        fullPathParserIT2024 = basePath + "\\src\\codigoPrueba\\ejemploParserIT2024.txt";
-        fullPathParserV2024 = basePath + "\\src\\codigoPrueba\\ejemploParserV2024.txt";
-
-        mfjc = new MainJFlexCup();
-        // ejercicio de prueba scanner
-        mfjc.ejercicioLexerV2024(fullPathParserV2024); // lexer cup ajustado V 2024
+        // Probar el lexer con un archivo de entrada
+        mainTool.ejercicioLexerV2024(inputPath);
     }
 
-    public static void main(String[] args) throws Exception {
-        // GenerarLexerParser();
-        // GenerarBasico();
-        PruebasLexerParser();
+
+    public static void main(String[] args) {
+        try {
+            GenerarLexerParser();
+            // PruebasLexerParser(System.getProperty("user.dir") + "\\Proyecto1-Compi\\src\\codigoPrueba\\ejemplo1.txt");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
+

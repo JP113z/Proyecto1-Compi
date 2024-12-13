@@ -35,5 +35,12 @@ non terminal programa, programaAux ;
 //produccion de inicio
 start with programa;
 
-programa ::= programaAux ;
 programa ::= INTEGER ;
+
+programa ::= programaAux;
+
+programaAux ::= tipo_dato IDENTIFICADOR ASIGNA L_INTEGER SUMA L_INTEGER ASIGNA IDENTIFICADOR
+              | tipo_dato IDENTIFICADOR ASIGNA L_STRING
+              | ABRECUENTO programaAux CIERRACUENTO;
+
+tipo_dato ::= INTEGER | FLOAT | BOOL | CHAR | STRING;

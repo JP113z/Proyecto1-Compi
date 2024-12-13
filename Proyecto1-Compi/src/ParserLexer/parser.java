@@ -1,4 +1,8 @@
+/* Parser.java - Parser generado por CUP */
 package ParserLexer;
 
-public class parser {
+import java_cup.runtime.*;
+
+public class Parser {
+
 }

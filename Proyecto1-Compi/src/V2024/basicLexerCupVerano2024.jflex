@@ -64,6 +64,7 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 <YYINITIAL>"trueno " { return symbol(sym.BOOL); }
 <YYINITIAL>"cupido" { return symbol(sym.CHAR); }
 <YYINITIAL>"cometa" { return symbol(sym.STRING); }
+<<EOF>> { return symbol(sym.EOF); }
 
 /* Identificadores y validación de errores (siempre debe ser tipo _x_) */
 <YYINITIAL> {
