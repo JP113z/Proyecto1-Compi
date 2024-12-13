@@ -92,6 +92,12 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 <YYINITIAL>"mary" { return symbol(sym.IGUAL); }
 <YYINITIAL>"openslae" { return symbol(sym.DIFERENTE); }
 
+/* Operadores lógicos */
+<YYINITIAL>"melchor" { return symbol(sym.CONJUNCION); }
+<YYINITIAL>"gaspar" { return symbol(sym.DISYUNCION); }
+<YYINITIAL>"baltazar" { return symbol(sym.NEGACION); }
+
+
 /* Identificadores y validación de errores (siempre debe ser tipo _x_) */
 <YYINITIAL> {
     /* Identificadores válidos */

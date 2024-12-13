@@ -29,6 +29,7 @@ terminal ABRECUENTO, CIERRACUENTO,  ABREEMPAQUE, CIERREEMPAQUE, ASIGNA, PARENTES
 terminal INTEGER, STRING, CHAR, FLOAT,BOOL, IDENTIFICADOR; /*  tipos de datos e identificador */
 terminal  SUMA,RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DECREMENTO, NEGATIVO; /*  expresiones aritméticas y operadores unarios */
 terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE; /* expresiones relacionales*/
+terminal CONJUNCION, DISYUNCION, NEGACION; /* expresiones lógicas*/
 terminal  L_INTEGER, L_STRING;
 
 // no terminales
@@ -38,7 +39,6 @@ non terminal programa, programaAux ;
 start with programa;
 
 programa ::= INTEGER ;
-
 programa ::= programaAux;
 
 programaAux ::= tipo_dato IDENTIFICADOR ASIGNA L_INTEGER SUMA L_INTEGER ASIGNA IDENTIFICADOR
