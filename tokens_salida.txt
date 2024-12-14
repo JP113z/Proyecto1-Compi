@@ -1,0 +1,8 @@
+Token 16: bromista , Valor: bromista 
+Token 18: _func1_, Valor: _func1_
+Token 7: abreregalo, Valor: abreregalo
+Token 15: cupido, Valor: cupido
+Token 18: _x22_, Valor: _x22_
+Token 15: cupido, Valor: cupido
+Token 18: _miChar_, Valor: _miChar_
+Token 6: entrega, Valor: entrega
