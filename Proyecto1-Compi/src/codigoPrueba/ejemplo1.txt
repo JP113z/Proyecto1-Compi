@@ -1,4 +1,8 @@
-rodolfo = 10 + 5;
-abrecuento
-bromista _miVar_ = 3.14;
-cierracuento
+\_ esto es un comentario inicial
+
+de mas de una linea _/
+#comentario de una linea
+
+bromista _func1_ abreregalo cupido _x22_
+
+var_  cupido _miChar_ entrega
