@@ -30,7 +30,7 @@ private Symbol symbol(int type, Object value) {
 }
 %}
 
-/* Definiciones de patrones */
+/* Definiciones de saltos de linea, espacios en blanco */
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 WhiteSpace = {LineTerminator} | [ \t\f]
@@ -40,11 +40,12 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 Identifier = _ [a-zA-Z0-9]+ _
 
 
-/* Literals */
-DecIntegerLiteral = 0 | [1-9][0-9]* /* ojo no permite negativos */
+/* Literales */
 digit = [0-9]
 digitoNoCero = [1-9]
-DecIntegerLiteral = {digitoNoCero} {digit}*
+signo = [-]?
+DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
+
 
 %state STRING
 
@@ -117,11 +118,21 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 <YYINITIAL>"narra" { return symbol(sym.PRINT); }
 <YYINITIAL>"escucha" { return symbol(sym.READ); }
 
+/* literales */
+    <YYINITIAL>{DecIntegerLiteral} {
+        try {
+            if (yytext().contains(".")) {
+                return symbol(sym.L_FLOAT, Double.parseDouble(yytext())); // Si es decimal
+            } else {
+                return symbol(sym.L_INTEGER, Integer.parseInt(yytext())); // Si es entero
+            }
+        } catch (NumberFormatException e) {
+            System.err.println("Error léxico: Número mal formado '" + yytext() + "' en línea " + yyline + ", columna " + yycolumn);
+        }
+    }
+
 
 <YYINITIAL> {
-    /* literals */
-    {DecIntegerLiteral} { return symbol(sym.L_INTEGER); }
-
     "\"" { string.setLength(0); yybegin(STRING); }
 
     /* operators */
@@ -133,7 +144,7 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
     "adviento" { return symbol(sym.POTENCIA); }
 
 
-    /* whitespace */
+    /* whitespace que representa los espacios en blanco */
     {WhiteSpace} { /* ignore */ }
 }
 

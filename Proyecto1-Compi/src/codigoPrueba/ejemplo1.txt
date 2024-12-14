@@ -5,4 +5,4 @@ de mas de una linea _/
 
 bromista _func1_ abreregalo cupido _x22_
 
-var_  cupido _miChar_ entrega
+var_  cupido _miChar_ entrega -2 5.6

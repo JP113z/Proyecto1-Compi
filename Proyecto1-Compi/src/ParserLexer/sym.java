@@ -8,6 +8,7 @@ package ParserLexer;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
+  public static final int L_FLOAT = 49;
   public static final int L_STRING = 48;
   public static final int PARENTESISCIERRE = 8;
   public static final int CHAR = 15;
@@ -106,7 +107,8 @@ public class sym {
   "RETURN",
   "DOS_PUNTOS",
   "L_INTEGER",
-  "L_STRING"
+  "L_STRING",
+  "L_FLOAT"
   };
 }
 
