@@ -32,7 +32,7 @@ terminal  SUMA,RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DE
 terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE; /* expresiones relacionales*/
 terminal CONJUNCION, DISYUNCION, NEGACION; /* expresiones lógicas*/
 terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS; /*estructuras de control*/
-terminal  L_INTEGER, L_STRING;
+terminal  L_INTEGER, L_STRING, L_FLOAT;
 
 // no terminales
 non terminal programa, programaAux ;
