@@ -17,18 +17,20 @@ import java_cup.runtime.*;
 %line
 %column
 
-{
-    StringBuffer string = new StringBuffer();
+%{
+/* Definiciones de código Java */
+StringBuffer string = new StringBuffer();
 
-    private Symbol symbol(int type) {
-        return new Symbol(type, yyline, yycolumn);
-    }
-
-    private Symbol symbol(int type, Object value) {
-        return new Symbol(type, yyline, yycolumn, value);
-    }
+private Symbol symbol(int type) {
+    return new Symbol(type, yyline, yycolumn);
 }
 
+private Symbol symbol(int type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+}
+%}
+
+/* Definiciones de patrones */
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 WhiteSpace = {LineTerminator} | [ \t\f]
@@ -58,6 +60,10 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 <YYINITIAL>"abrecuento" { return symbol(sym.ABRECUENTO); }
 <YYINITIAL>"cierracuento" { return symbol(sym.CIERRACUENTO); }
 
+/* Apertura y cierre de arreglos */
+<YYINITIAL>"abreempaque" { return symbol(sym.ABREEMPAQUE); }
+<YYINITIAL>"cierraempaque" { return symbol(sym.CIERREEMPAQUE); }
+
 /* Tipos de datos */
 <YYINITIAL>"rodolfo" { return symbol(sym.INTEGER); }
 <YYINITIAL>"bromista " { return symbol(sym.FLOAT); }
@@ -65,6 +71,28 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 <YYINITIAL>"cupido" { return symbol(sym.CHAR); }
 <YYINITIAL>"cometa" { return symbol(sym.STRING); }
 <<EOF>> { return symbol(sym.EOF); }
+
+/* Operador de asignación */
+<YYINITIAL>"entrega" { return symbol(sym.ASIGNA); }
+
+/* Paréntesis para  operadores y operandos */
+<YYINITIAL>"abreregalo" { return symbol(sym.PARENTESISAPERTURA); }
+<YYINITIAL>"cierraregalo" { return symbol(sym.PARENTESISCIERRE); }
+
+
+/* Operadores unarios */
+<YYINITIAL>"quien" { return symbol(sym.INCREMENTO); }
+<YYINITIAL>"grinch" { return symbol(sym.DECREMENTO); }
+<YYINITIAL>"-" { return symbol(sym.NEGATIVO); }
+
+
+/* Operadores relacionales */
+<YYINITIAL>"snowball" { return symbol(sym.MENOR); }
+<YYINITIAL>"evergreen" { return symbol(sym.MENOR_IGUAL); }
+<YYINITIAL>"minstix" { return symbol(sym.MAYOR); }
+<YYINITIAL>"upatree" { return symbol(sym.MAYOR_IGUAL); }
+<YYINITIAL>"mary" { return symbol(sym.IGUAL); }
+<YYINITIAL>"openslae" { return symbol(sym.DIFERENTE); }
 
 /* Identificadores y validación de errores (siempre debe ser tipo _x_) */
 <YYINITIAL> {
@@ -91,9 +119,12 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
     "\"" { string.setLength(0); yybegin(STRING); }
 
     /* operators */
-    "=" { return symbol(sym.ASIGNA); }
-    "==" { return symbol(sym.COMPARACION); }
-    "+" { return symbol(sym.SUMA); }
+    "navidad" { return symbol(sym.SUMA); }
+    "intercambio" { return symbol(sym.RESTA); }
+    "reyes" { return symbol(sym.DIVISION); }
+    "nochebuena" { return symbol(sym.MULTIPLICACION); }
+    "magos" { return symbol(sym.MODULO); }
+    "adviento" { return symbol(sym.POTENCIA); }
 
     /* comments */
     {Comment} { /* ignore */ }

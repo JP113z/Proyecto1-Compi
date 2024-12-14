@@ -17,18 +17,20 @@ import java_cup.runtime.*;
 %line
 %column
 
-{
-    StringBuffer string = new StringBuffer();
+%{
+/* Definiciones de código Java */
+StringBuffer string = new StringBuffer();
 
-    private Symbol symbol(int type) {
-        return new Symbol(type, yyline, yycolumn);
-    }
-
-    private Symbol symbol(int type, Object value) {
-        return new Symbol(type, yyline, yycolumn, value);
-    }
+private Symbol symbol(int type) {
+    return new Symbol(type, yyline, yycolumn);
 }
 
+private Symbol symbol(int type, Object value) {
+    return new Symbol(type, yyline, yycolumn, value);
+}
+%}
+
+/* Definiciones de patrones */
 LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 WhiteSpace = {LineTerminator} | [ \t\f]

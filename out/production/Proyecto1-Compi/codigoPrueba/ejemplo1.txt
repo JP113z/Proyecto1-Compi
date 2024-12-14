@@ -1,0 +1,4 @@
+rodolfo = 10 + 5;
+abrecuento
+bromista _miVar_ = 3.14;
+cierracuento

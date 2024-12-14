@@ -7,12 +7,15 @@ public class App {
 
     public static void GenerarLexerParser() throws Exception {
         String basePath = System.getProperty("user.dir");
+        System.out.print("HOLA TIOS CHAVALES AQUI EL PRIMO EN MAINCRAF COMENTADIO");
+        System.out.print(basePath);
+
         // Actualiza las rutas para que coincidan con la estructura actual
         String lexerPath = basePath + "\\Proyecto1-Compi\\src\\V2024\\basicLexerCupVerano2024.jflex";
         String parserPath = basePath + "\\Proyecto1-Compi\\src\\V2024\\parserV2024Ini.cup";
 
         String parserFile = "parser.java";
-        String lexerFile = "MyLexer.java";
+        String lexerFile = "BasicLexerCupV.java";
 
         // Instancia para la gestión del lexer y parser
         MainJFlexCup mainTool = new MainJFlexCup();
@@ -27,16 +30,16 @@ public class App {
 
         // Mover los archivos generados a la carpeta correspondiente
         Files.move(Paths.get(basePath + "\\sym.java"), Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\sym.java"));
-        Files.move(Paths.get(basePath + "\\" + lexerFile), Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\" + lexerFile));
-        Files.move(Paths.get(basePath + "\\" + parserFile), Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\" + parserFile));
+        Files.move(Paths.get(basePath + "\\BasicLexerCupV.java"), Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\" + lexerFile));
+        Files.move(Paths.get(basePath + "\\parser.java"), Paths.get(basePath + "\\Proyecto1-Compi\\src\\ParserLexer\\parser.java"));
     }
-
+/*
     public static void PruebasLexerParser(String inputPath) throws Exception {
         MainJFlexCup mainTool = new MainJFlexCup();
 
         // Probar el lexer con un archivo de entrada
         mainTool.ejercicioLexerV2024(inputPath);
-    }
+    } */
 
 
     public static void main(String[] args) {
