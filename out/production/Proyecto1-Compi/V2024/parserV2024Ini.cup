@@ -25,10 +25,13 @@ init with {: :};
 scan with {: return lex.next_token(); :};
 
 /* Terminales (tokens retornados por el scanner). */
-terminal ABRECUENTO, CIERRACUENTO,  ABREEMPAQUE, CIERREEMPAQUE, ASIGNA, PARENTESISAPERTURA, PARENTESISCIERRE;
+terminal ABRECUENTO, CIERRACUENTO,  ABREEMPAQUE, CIERREEMPAQUE, ASIGNA, PARENTESISAPERTURA, PARENTESISCIERRE, FIN_EXPRESION,
+        PRINT, READ, MAIN;
 terminal INTEGER, STRING, CHAR, FLOAT,BOOL, IDENTIFICADOR; /*  tipos de datos e identificador */
 terminal  SUMA,RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DECREMENTO, NEGATIVO; /*  expresiones aritméticas y operadores unarios */
 terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE; /* expresiones relacionales*/
+terminal CONJUNCION, DISYUNCION, NEGACION; /* expresiones lógicas*/
+terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS; /*estructuras de control*/
 terminal  L_INTEGER, L_STRING;
 
 // no terminales
@@ -37,8 +40,5 @@ non terminal programa, programaAux ;
 //produccion de inicio
 start with programa;
 
+programa ::= programaAux ;
 programa ::= INTEGER ;
-
-programa ::= programaAux;
-
-tipo_dato ::= INTEGER | FLOAT | BOOL | CHAR | STRING;
