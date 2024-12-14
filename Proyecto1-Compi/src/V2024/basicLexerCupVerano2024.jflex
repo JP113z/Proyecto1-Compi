@@ -35,10 +35,6 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 WhiteSpace = {LineTerminator} | [ \t\f]
 
-/* comments */
-SingleLineComment = "#" {InputCharacter}*
-MultiLineCommentStart = "\_"
-MultiLineCommentEnd = "_/"
 
 /* Identificadores de tipo _nombre_ */
 Identifier = _ [a-zA-Z0-9]+ _
@@ -121,6 +117,34 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
 <YYINITIAL>"narra" { return symbol(sym.PRINT); }
 <YYINITIAL>"escucha" { return symbol(sym.READ); }
 
+
+<YYINITIAL> {
+    /* literals */
+    {DecIntegerLiteral} { return symbol(sym.L_INTEGER); }
+
+    "\"" { string.setLength(0); yybegin(STRING); }
+
+    /* operators */
+    "navidad" { return symbol(sym.SUMA); }
+    "intercambio" { return symbol(sym.RESTA); }
+    "reyes" { return symbol(sym.DIVISION); }
+    "nochebuena" { return symbol(sym.MULTIPLICACION); }
+    "magos" { return symbol(sym.MODULO); }
+    "adviento" { return symbol(sym.POTENCIA); }
+
+
+    /* whitespace */
+    {WhiteSpace} { /* ignore */ }
+}
+
+<YYINITIAL> {
+    /* Comentarios de una sola línea */
+    "#" {InputCharacter}* { /* Ignore single-line comments */ }
+
+    /* Comentarios de múltiples líneas */
+    "\\_" ([^\\_])* "_/" { /* Ignore multi-line comments */ }
+}
+
 /* Identificadores y validación de errores (siempre debe ser tipo _x_) */
 <YYINITIAL> {
     /* Identificadores válidos */
@@ -137,38 +161,6 @@ DecIntegerLiteral = {digitoNoCero} {digit}*
     }
 }
 
-
-
-<YYINITIAL> {
-    /* literals */
-    {DecIntegerLiteral} { return symbol(sym.L_INTEGER); }
-
-    "\"" { string.setLength(0); yybegin(STRING); }
-
-    /* operators */
-    "navidad" { return symbol(sym.SUMA); }
-    "intercambio" { return symbol(sym.RESTA); }
-    "reyes" { return symbol(sym.DIVISION); }
-    "nochebuena" { return symbol(sym.MULTIPLICACION); }
-    "magos" { return symbol(sym.MODULO); }
-    "adviento" { return symbol(sym.POTENCIA); }
-
-    <YYINITIAL> {
-        /* Comentarios de una sola línea */
-        {SingleLineComment} { /* Ignore single-line comments */ }
-
-        /* Comentarios de múltiples líneas */
-        {MultiLineCommentStart} {
-            while (!yytext().contains("_/")) {
-                yylex();
-            }
-            /* Ignore multi-line comments */
-        }
-    }
-
-    /* whitespace */
-    {WhiteSpace} { /* ignore */ }
-}
 
 <STRING> {
     "\"" { yybegin(YYINITIAL); return symbol(sym.L_STRING, string.toString()); }
