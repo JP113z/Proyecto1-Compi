@@ -1,8 +1,13 @@
 package Main;
 
+import ParserLexer.BasicLexerCupV;
+import java_cup.runtime.Symbol;
 import jflex.exceptions.SilentExit;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 
 public class MainJFlexCup {
 
@@ -25,7 +30,7 @@ public class MainJFlexCup {
         System.out.println("Generando parser desde: " + ruta);
         java_cup.Main.main(new String[]{ruta});
     }
- /*
+
     public void ejercicioLexerV2024(String rutaScanear) throws IOException {
         try (Reader reader = new BufferedReader(new FileReader(rutaScanear))) {
             BasicLexerCupV lexer = new BasicLexerCupV(reader);
@@ -43,6 +48,6 @@ public class MainJFlexCup {
         } catch (Exception e) {
             System.err.println("Error durante el análisis léxico: " + e.getMessage());
         }
-    } */
+    }
 }
 
