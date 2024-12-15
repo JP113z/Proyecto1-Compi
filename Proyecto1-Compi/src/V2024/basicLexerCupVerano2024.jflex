@@ -37,7 +37,12 @@ WhiteSpace = {LineTerminator} | [ \t\f]
 
 
 /* Identificadores de tipo _nombre_ */
-Identifier = _ [a-zA-Z0-9]+ _
+Identifier = "_" [a-zA-Z0-9]+ "_"
+
+/* Identificadores invalidos como: _var, var_ o _var _*/
+IdentificadorInicioInv = [a-zA-Z0-9]+ "_"
+IdentificadorFinInv = "_" [a-zA-Z0-9]+
+IdentificadorInv = "_" [^a-zA-Z0-9_]+ "_"
 
 
 /* Literales */
@@ -159,18 +164,24 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 /* Identificadores y validación de errores (siempre debe ser tipo _x_) */
 <YYINITIAL> {
     /* Identificadores válidos */
-    {Identifier} { return symbol(sym.IDENTIFICADOR); }
-
-    /* Identificadores mal formados */
-    "_" [^a-zA-Z0-9]+ {
-        System.err.println("Error léxico en línea " + yyline + ", columna " + yycolumn + ": identificador mal formado '" + yytext() + "'");
-        /* si falta un _ como _x o x_ o un simbolo no valido como @ */
+    "_" [a-zA-Z0-9]+ "_" {
+        return symbol(sym.IDENTIFICADOR);
     }
-    [a-zA-Z0-9]+ {
-        System.err.println("Error léxico en línea " + yyline + ", columna " + yycolumn + ": identificador sin guiones bajos '" + yytext() + "'");
-        /* si fuera solo x*/
+    /* Identificadores inválidos */
+    {IdentificadorInicioInv} {
+        System.err.println("Error léxico: Identificador debe iniciar con '_': '" + yytext() + "' en línea "
+            + (yyline + 1) + ", columna " + (yycolumn + 1));
+    }
+    {IdentificadorFinInv} {
+        System.err.println("Error léxico: Identificador debe terminar con '_': '" + yytext() + "' en línea "
+            + (yyline + 1) + ", columna " + (yycolumn + 1));
+    }
+    {IdentificadorInv} {
+        System.err.println("Error léxico: Identificador mal formado (caracteres no válidos o espacios): '" + yytext() +
+            "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
     }
 }
+
 
 
 <STRING> {
