@@ -182,6 +182,9 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
     "\\\"" { string.append('\"'); }
     "\\\\" { string.append('\\'); }
 }
+// Recuperación de errores el [^] es el que captura cualquier cosa no definida en la gramatica
+<YYINITIAL>[^] {
+    System.err.println("Error léxico: Token no reconocido '" + yytext() +
+        "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
 
-/* error fallback */
-[^] { throw new Error("Illegal character <" + yytext() + ">"); }
+}

@@ -6,3 +6,5 @@ Token 18: _x22_, Valor: _x22_
 Token 15: cupido, Valor: cupido
 Token 18: _miChar_, Valor: _miChar_
 Token 6: entrega, Valor: entrega
+Token 47: -2, Valor: -2
+Token 49: 5.6, Valor: 5.6

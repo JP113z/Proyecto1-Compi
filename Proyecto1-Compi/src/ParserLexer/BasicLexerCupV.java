@@ -105,7 +105,7 @@ public class BasicLexerCupV implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\2\0\1\1\2\2\1\3\1\4\1\5\1\6\1\7"+
-    "\2\1\22\7\1\10\1\11\1\1\1\6\2\0\1\12"+
+    "\2\1\22\7\1\10\1\11\1\0\1\6\2\0\1\12"+
     "\2\0\41\7\1\13\1\14\1\15\1\16\1\17\1\6"+
     "\1\0\1\20\1\0\45\7\1\21\1\0\11\7\1\22"+
     "\10\7\1\23\3\7\1\24\17\7\1\0\10\7\1\25"+
@@ -212,7 +212,7 @@ public class BasicLexerCupV implements java_cup.runtime.Scanner {
     "\1\11\1\12\1\13\1\14\1\15\1\16\1\17\1\20"+
     "\1\21\1\22\1\23\1\24\1\25\1\12\1\26\1\27"+
     "\1\30\1\12\1\31\1\32\1\33\1\34\1\35\1\36"+
-    "\4\12\2\37\2\3\1\37\1\40\6\37\1\41\31\37"+
+    "\4\12\2\37\2\0\1\37\1\40\6\37\1\41\31\37"+
     "\50\0\1\4\43\0\2\7\2\0\42\7\12\0\1\42"+
     "\43\0\1\43\1\0\1\11\1\12\2\0\30\12\12\0"+
     "\2\12\2\0\30\12\15\0\1\44\30\0\12\45\2\46"+
@@ -440,10 +440,11 @@ public class BasicLexerCupV implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\2\11\1\1\1\11\31\1\1\11\2\1\2\0"+
-    "\1\1\2\0\41\1\5\11\1\1\1\0\1\11\1\0"+
-    "\45\1\1\11\1\0\46\1\1\0\45\1\1\0\36\1"+
-    "\1\0\27\1\1\11\1\1\1\11\24\1\1\11\30\1";
+    "\2\0\2\11\1\1\1\11\31\1\1\11\1\0\1\1"+
+    "\2\0\1\1\2\0\41\1\5\11\1\1\1\0\1\11"+
+    "\1\0\45\1\1\11\1\0\46\1\1\0\45\1\1\0"+
+    "\36\1\1\0\27\1\1\11\1\1\1\11\24\1\1\11"+
+    "\30\1";
 
   private static int [] zzUnpackAttribute() {
     int [] result = new int[299];
@@ -961,7 +962,9 @@ private Symbol symbol(int type, Object value) {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { throw new Error("Illegal character <" + yytext() + ">");
+            { System.err.println("Error léxico: Token no reconocido '" + yytext() +
+        "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+    // Recuperación en Modo Pánico: ignorar el token inválido y continuar
             }
           // fall through
           case 61: break;

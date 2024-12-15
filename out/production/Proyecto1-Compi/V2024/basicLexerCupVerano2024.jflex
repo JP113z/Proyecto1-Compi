@@ -183,5 +183,8 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
     "\\\\" { string.append('\\'); }
 }
 
-/* error fallback */
-[^] { throw new Error("Illegal character <" + yytext() + ">"); }
+<YYINITIAL>[^] {
+    System.err.println("Error léxico: Token no reconocido '" + yytext() +
+        "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+    // Recuperación en Modo Pánico: ignorar el token inválido y continuar
+}

@@ -2,7 +2,7 @@
 
 de mas de una linea _/
 #comentario de una linea
-
+,
 bromista _func1_ abreregalo cupido _x22_
 
-var_  cupido _miChar_ entrega -2 5.6
+var_  cupido _miChar_ entrega -2 5.6 !
