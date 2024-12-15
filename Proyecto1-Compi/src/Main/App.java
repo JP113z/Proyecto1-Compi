@@ -5,6 +5,16 @@ import java.nio.file.Paths;
 
 public class App {
 
+    /**
+     * Método: GenerarLexerParser
+     * Objetivo: Generar el lexer y parser utilizando los archivos .jflex y .cup, eliminando archivos previos
+     *           y moviendo los archivos generados a la carpeta llamada ParserLexer.
+     * Entradas: Ninguna.
+     * Salida: Genera y mueve los archivos `sym.java`, `BasicLexerCupV.java` y `parser.java`
+     *         a la carpeta `ParserLexer`.
+     * Restricciones:
+     *   - Los archivos .jflex y .cup deben existir en las rutas especificadas.
+     */
     public static void GenerarLexerParser() throws Exception {
         String basePath = System.getProperty("user.dir");
 
@@ -58,7 +68,16 @@ public class App {
         }
     }
 
-
+    /**
+     * Método: PruebasLexerParser
+     * Objetivo: Ejecuta el analisis lexico del archivo de entrada haciendo una llamada al metodo 'ejercicioLexerV2024'
+     * que se encuentra en la clase MainJFlexCup.
+     * Entradas:
+     *   - inputPath: Ruta del archivo fuente a analizar.
+     * Salida: Ninguna, solo llama a ese metodo, es el metodo al que llama que tiene salidas.
+     * Restricciones:
+     *   - El archivo fuente especificado en `inputPath` debe existir y estar correctamente formateado.
+     */
     public static void PruebasLexerParser(String inputPath) throws Exception {
         MainJFlexCup mainTool = new MainJFlexCup();
 
@@ -66,7 +85,16 @@ public class App {
         mainTool.ejercicioLexerV2024(inputPath);
     }
 
-
+    /**
+     * Método: main
+     * Objetivo: Punto de entrada principal del programa. Ejecuta los metodos para generar
+     *           el lexer/parser y probar el analisis léxico sobre un archivo de ejemplo.
+     * Entradas: Ninguna.
+     * Salida: Ninguna, solo llama a ese metodo, es el metodo al que llama que tiene salidas.
+     * Restricciones:
+     *   - La ruta del archivo fuente debe existir.
+     *   - Los archivos .jflex y .cup deben estar correctamente configurados.
+     */
     public static void main(String[] args) {
         try {
             GenerarLexerParser();
