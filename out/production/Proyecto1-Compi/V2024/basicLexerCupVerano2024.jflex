@@ -83,7 +83,7 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 <YYINITIAL>"abreregalo" { return symbol(sym.PARENTESISAPERTURA); }
 <YYINITIAL>"cierraregalo" { return symbol(sym.PARENTESISCIERRE); }
 
-/* Separador de parámetros (coma) */
+/* Separador */
 <YYINITIAL>"," { return symbol(sym.COMA); }
 
 /* Operadores unarios */

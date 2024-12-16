@@ -184,6 +184,7 @@ public class MainJFlexCup {
             case sym.PARENTESISAPERTURA: return "Paréntesis de apertura";
             case sym.PARENTESISCIERRE: return "Paréntesis de cierre";
             case sym.FIN_EXPRESION: return "Delimitador de fin de expresión";
+            case sym.COMA: return "Separador (coma)";
 
             // Estructuras de control
             case sym.IF: return "Estructura de control (if)";
