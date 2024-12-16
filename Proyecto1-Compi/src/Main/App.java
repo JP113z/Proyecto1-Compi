@@ -1,7 +1,9 @@
 package Main;
 
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class App {
 
@@ -86,6 +88,38 @@ public class App {
     }
 
     /**
+     * Método: pedirRutaArchivo
+     * Objetivo: Mostrar un pequeño menú para que el usuario ingrese la ruta del archivo a analizar, se repetira con un while
+     *          hasta que el input del usuario sea valido
+     * Entradas: Ninguna.
+     * Salida: Ruta valida ingresada por el usuario.
+     * Restricciones: La ruta debe ser valida y el archivo debe existir.
+     */
+    public static String pedirRutaArchivo() {
+        String rutaCompleta;
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            try {
+                System.out.print("Ingresa la ruta del archivo al que desea realizarle el análisis léxico: ");
+                rutaCompleta = scanner.nextLine();
+
+                File archivo = new File(rutaCompleta);
+                if (archivo.exists() && archivo.isFile()) {
+                    System.out.println("Ruta válida. Procesando el archivo...");
+                    break;
+                } else {
+                    System.out.println("La ruta ingresada no es válida o el archivo no existe. Inténtalo de nuevo.");
+                }
+            } catch (Exception e) {
+                System.err.println("Error al leer la entrada. Inténtalo nuevamente.");
+                scanner.nextLine();
+            }
+        }
+        return rutaCompleta;
+    }
+
+    /**
      * Método: main
      * Objetivo: Punto de entrada principal del programa. Ejecuta los metodos para generar
      *           el lexer/parser y probar el analisis léxico sobre un archivo de ejemplo.
@@ -97,8 +131,10 @@ public class App {
      */
     public static void main(String[] args) {
         try {
+            String rutaArchivo = pedirRutaArchivo();
             GenerarLexerParser();
-            PruebasLexerParser(System.getProperty("user.dir") + "\\Proyecto1-Compi\\src\\codigoPrueba\\ejemplo1.txt");
+
+            PruebasLexerParser(rutaArchivo);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,65 +1,167 @@
-Token: abrecuento, Tipo: Apertura de bloque (abrecuento), Líneas de aparición: [3, 7, 17, 20, 26, 30, 34, 45]
-Token: cierracuento, Tipo: Cierre de bloque (cierracuento), Líneas de aparición: [8, 23, 28, 32, 39, 41, 43, 56]
-Token: abreempaque, Tipo: Apertura de arreglo (abreempaque), Líneas de aparición: [7, 9]
-Token: cierraempaque, Tipo: Cierre de arreglo (cierraempaque), Líneas de aparición: [7, 9]
-Token: entrega, Tipo: Operador de asignación, Líneas de aparición: [4, 5, 6, 7, 9, 10, 12, 15, 21, 38]
-Token: abreregalo, Tipo: Paréntesis de apertura, Líneas de aparición: [3, 12, 15, 18, 25, 34, 45, 51, 52, 53]
-Token: cierraregalo, Tipo: Paréntesis de cierre, Líneas de aparición: [3, 5, 13, 16, 19, 25, 34, 45, 51, 52, 53]
-Token: finregalo, Tipo: Delimitador de fin de expresión, Líneas de aparición: [4, 5, 6, 8, 9, 10, 13, 21, 22, 27, 31, 35, 36, 37, 38, 42, 51, 52, 54, 55]
-Token: narra, Tipo: Operación de salida (print), Líneas de aparición: [52]
-Token: escucha, Tipo: Operación de entrada (read), Líneas de aparición: [51]
-Token: _verano_, Tipo: Procedimiento principal (_verano_), Líneas de aparición: [45]
-Token: ,, Tipo: Separador (coma), Líneas de aparición: [3, 15]
-Token: rodolfo, Tipo: Tipo de dato (entero), Líneas de aparición: [45]
-Token: cometa, Tipo: Tipo de dato (cadena), Líneas de aparición: [5]
-Token: cupido, Tipo: Tipo de dato (carácter), Líneas de aparición: [3, 4, 7]
-Token: bromista , Tipo: Tipo de dato (flotante), Líneas de aparición: [3, 6]
-Token: trueno , Tipo: Tipo de dato (booleano), Líneas de aparición: [10]
-Token: _mibool_, Tipo: Identificador, Líneas de aparición: [10, 12]
-Token: _var_, Tipo: Identificador, Líneas de aparición: [21, 25]
-Token: _str1_, Tipo: Identificador, Líneas de aparición: [5]
-Token: _id_, Tipo: Identificador, Líneas de aparición: [35, 36, 38]
-Token: _miChar_, Tipo: Identificador, Líneas de aparición: [4]
-Token: _lit_, Tipo: Identificador, Líneas de aparición: [7, 9]
-Token: _s1_, Tipo: Identificador, Líneas de aparición: [51]
-Token: _func1_, Tipo: Identificador, Líneas de aparición: [3]
-Token: _x22_, Tipo: Identificador, Líneas de aparición: [3]
-Token: _i_, Tipo: Identificador, Líneas de aparición: [15]
-Token: _arr_, Tipo: Identificador, Líneas de aparición: [7, 9]
-Token: _miFunc_, Tipo: Identificador, Líneas de aparición: [53]
-Token: _ch_, Tipo: Identificador, Líneas de aparición: [34]
-Token: _fl1_, Tipo: Identificador, Líneas de aparición: [6, 12]
-Token: _var2_, Tipo: Identificador, Líneas de aparición: [18]
-Token: _b1_, Tipo: Identificador, Líneas de aparición: [52]
-Token: _bl1_, Tipo: Identificador, Líneas de aparición: [55]
-Token: navidad, Tipo: Operador aritmético (suma), Líneas de aparición: [18]
-Token: intercambio, Tipo: Operador aritmético (resta), Líneas de aparición: [21]
-Token: nochebuena, Tipo: Operador aritmético (multiplicación), Líneas de aparición: [12, 15]
-Token: quien, Tipo: Operador unario (incremento), Líneas de aparición: [13, 16, 35]
-Token: grinch, Tipo: Operador unario (decremento), Líneas de aparición: [36]
-Token: snowball, Tipo: Operador relacional (menor), Líneas de aparición: [13, 15]
-Token: minstix, Tipo: Operador relacional (mayor), Líneas de aparición: [18, 19]
-Token: mary, Tipo: Operador relacional (igual), Líneas de aparición: [25]
-Token: melchor, Tipo: Operador lógico (conjunción), Líneas de aparición: [13]
-Token: gaspar, Tipo: Operador lógico (disyunción), Líneas de aparición: [18]
-Token: elfo, Tipo: Estructura de control (if), Líneas de aparición: [25]
-Token: hada, Tipo: Estructura de control (else), Líneas de aparición: [29]
-Token: envuelve, Tipo: Estructura de control (while), Líneas de aparición: [18]
-Token: duende, Tipo: Estructura de control (for), Líneas de aparición: [15]
-Token: varios, Tipo: Estructura de control (switch), Líneas de aparición: [34]
-Token: historia, Tipo: Estructura de control (case), Líneas de aparición: [35, 36]
-Token: ultimo, Tipo: Estructura de control (default), Líneas de aparición: [38]
-Token: envia, Tipo: Control de flujo (return), Líneas de aparición: [22, 27, 31, 37, 42, 55]
-Token: sigue, Tipo: Delimitador (dos puntos), Líneas de aparición: [35, 36, 38]
-Token: 33, Tipo: Literal (entero), Líneas de aparición: [18]
-Token: 0, Tipo: Literal (entero), Líneas de aparición: [25]
-Token: 56, Tipo: Literal (entero), Líneas de aparición: [13]
-Token: 34, Tipo: Literal (entero), Líneas de aparición: [18]
-Token: 12, Tipo: Literal (entero), Líneas de aparición: [19]
-Token: 1, Tipo: Literal (entero), Líneas de aparición: [21, 35, 42]
-Token: 2, Tipo: Literal (entero), Líneas de aparición: [15, 36, 50]
-Token: 30, Tipo: Literal (entero), Líneas de aparición: [15]
-Token: 10, Tipo: Literal (entero), Líneas de aparición: [15]
-Token: 56.6, Tipo: Literal (flotante), Líneas de aparición: [6]
-Token: 12.2, Tipo: Literal (flotante), Líneas de aparición: [18]
-Token: 3.7, Tipo: Literal (flotante), Líneas de aparición: [12]
+Token: 17, Lexema: bromista , Línea: 3, Columna: 1
+Token: 19, Lexema: _func1_, Línea: 3, Columna: 10
+Token: 7, Lexema: abreregalo, Línea: 3, Columna: 18
+Token: 16, Lexema: cupido, Línea: 3, Columna: 29
+Token: 19, Lexema: _x22_, Línea: 3, Columna: 36
+Token: 13, Lexema: ,, Línea: 3, Columna: 42
+Token: 16, Lexema: cupido, Línea: 3, Columna: 44
+Token: 19, Lexema: _x22_, Línea: 3, Columna: 51
+Token: 8, Lexema: cierraregalo, Línea: 3, Columna: 57
+Token: 2, Lexema: abrecuento, Línea: 3, Columna: 71
+Token: 16, Lexema: cupido, Línea: 4, Columna: 6
+Token: 19, Lexema: _miChar_, Línea: 4, Columna: 13
+Token: 6, Lexema: entrega, Línea: 4, Columna: 22
+Token: 9, Lexema: finregalo, Línea: 4, Columna: 34
+Token: 15, Lexema: cometa, Línea: 5, Columna: 6
+Token: 19, Lexema: _str1_, Línea: 5, Columna: 13
+Token: 6, Lexema: entrega, Línea: 5, Columna: 20
+Token: 8, Lexema: cierraregalo, Línea: 5, Columna: 47
+Token: 9, Lexema: finregalo, Línea: 5, Columna: 68
+Token: 17, Lexema: bromista , Línea: 6, Columna: 6
+Token: 19, Lexema: _fl1_, Línea: 6, Columna: 15
+Token: 6, Lexema: entrega, Línea: 6, Columna: 21
+Token: 50, Lexema: 56.6, Línea: 6, Columna: 29
+Token: 9, Lexema: finregalo, Línea: 6, Columna: 34
+Token: 16, Lexema: cupido, Línea: 7, Columna: 6
+Token: 19, Lexema: _arr_, Línea: 7, Columna: 13
+Token: 4, Lexema: abreempaque, Línea: 7, Columna: 19
+Token: 19, Lexema: _lit_, Línea: 7, Columna: 31
+Token: 5, Lexema: cierraempaque, Línea: 7, Columna: 37
+Token: 6, Lexema: entrega, Línea: 7, Columna: 52
+Token: 2, Lexema: abrecuento, Línea: 7, Columna: 62
+Token: 3, Lexema: cierracuento, Línea: 8, Columna: 1
+Token: 9, Lexema: finregalo, Línea: 8, Columna: 15
+Token: 19, Lexema: _arr_, Línea: 9, Columna: 5
+Token: 4, Lexema: abreempaque, Línea: 9, Columna: 11
+Token: 19, Lexema: _lit_, Línea: 9, Columna: 23
+Token: 5, Lexema: cierraempaque, Línea: 9, Columna: 29
+Token: 6, Lexema: entrega, Línea: 9, Columna: 44
+Token: 9, Lexema: finregalo, Línea: 9, Columna: 57
+Token: 18, Lexema: trueno , Línea: 10, Columna: 6
+Token: 19, Lexema: _mibool_, Línea: 10, Columna: 13
+Token: 6, Lexema: entrega, Línea: 10, Columna: 23
+Token: 9, Lexema: finregalo, Línea: 10, Columna: 37
+Token: 19, Lexema: _mibool_, Línea: 12, Columna: 5
+Token: 6, Lexema: entrega, Línea: 12, Columna: 15
+Token: 7, Lexema: abreregalo, Línea: 12, Columna: 25
+Token: 50, Lexema: 3.7, Línea: 12, Columna: 37
+Token: 23, Lexema: nochebuena, Línea: 12, Columna: 41
+Token: 19, Lexema: _fl1_, Línea: 12, Columna: 52
+Token: 26, Lexema: quien, Línea: 13, Columna: 1
+Token: 8, Lexema: cierraregalo, Línea: 13, Columna: 8
+Token: 29, Lexema: snowball, Línea: 13, Columna: 22
+Token: 48, Lexema: 56, Línea: 13, Columna: 31
+Token: 35, Lexema: melchor, Línea: 13, Columna: 34
+Token: 9, Lexema: finregalo, Línea: 13, Columna: 49
+Token: 41, Lexema: duende, Línea: 15, Columna: 5
+Token: 7, Lexema: abreregalo, Línea: 15, Columna: 13
+Token: 19, Lexema: _i_, Línea: 15, Columna: 25
+Token: 6, Lexema: entrega, Línea: 15, Columna: 30
+Token: 48, Lexema: 10, Línea: 15, Columna: 39
+Token: 13, Lexema: ,, Línea: 15, Columna: 42
+Token: 19, Lexema: _i_, Línea: 15, Columna: 44
+Token: 29, Lexema: snowball, Línea: 15, Columna: 48
+Token: 48, Lexema: 30, Línea: 15, Columna: 57
+Token: 23, Lexema: nochebuena, Línea: 15, Columna: 60
+Token: 48, Lexema: 2, Línea: 15, Columna: 71
+Token: 13, Lexema: ,, Línea: 15, Columna: 73
+Token: 19, Lexema: _i_, Línea: 15, Columna: 75
+Token: 26, Lexema: quien, Línea: 16, Columna: 1
+Token: 8, Lexema: cierraregalo, Línea: 16, Columna: 8
+Token: 2, Lexema: abrecuento, Línea: 17, Columna: 6
+Token: 40, Lexema: envuelve, Línea: 18, Columna: 9
+Token: 7, Lexema: abreregalo, Línea: 18, Columna: 18
+Token: 19, Lexema: _var2_, Línea: 18, Columna: 29
+Token: 31, Lexema: minstix, Línea: 18, Columna: 36
+Token: 50, Lexema: 12.2, Línea: 18, Columna: 44
+Token: 36, Lexema: gaspar, Línea: 18, Columna: 49
+Token: 7, Lexema: abreregalo, Línea: 18, Columna: 57
+Token: 48, Lexema: 34, Línea: 18, Columna: 68
+Token: 20, Lexema: navidad, Línea: 18, Columna: 71
+Token: 48, Lexema: 33, Línea: 18, Columna: 79
+Token: 8, Lexema: cierraregalo, Línea: 19, Columna: 1
+Token: 31, Lexema: minstix, Línea: 19, Columna: 14
+Token: 48, Lexema: 12, Línea: 19, Columna: 22
+Token: 8, Lexema: cierraregalo, Línea: 19, Columna: 25
+Token: 2, Lexema: abrecuento, Línea: 20, Columna: 10
+Token: 19, Lexema: _var_, Línea: 21, Columna: 13
+Token: 6, Lexema: entrega, Línea: 21, Columna: 20
+Token: 19, Lexema: _var_, Línea: 21, Columna: 29
+Token: 21, Lexema: intercambio, Línea: 21, Columna: 35
+Token: 48, Lexema: 1, Línea: 21, Columna: 47
+Token: 9, Lexema: finregalo, Línea: 21, Columna: 49
+Token: 46, Lexema: envia, Línea: 22, Columna: 13
+Token: 9, Lexema: finregalo, Línea: 22, Columna: 19
+Token: 3, Lexema: cierracuento, Línea: 23, Columna: 10
+Token: 38, Lexema: elfo, Línea: 25, Columna: 9
+Token: 7, Lexema: abreregalo, Línea: 25, Columna: 15
+Token: 19, Lexema: _var_, Línea: 25, Columna: 26
+Token: 33, Lexema: mary, Línea: 25, Columna: 32
+Token: 48, Lexema: 0, Línea: 25, Columna: 37
+Token: 8, Lexema: cierraregalo, Línea: 25, Columna: 39
+Token: 2, Lexema: abrecuento, Línea: 26, Columna: 10
+Token: 46, Lexema: envia, Línea: 27, Columna: 13
+Token: 9, Lexema: finregalo, Línea: 27, Columna: 19
+Token: 3, Lexema: cierracuento, Línea: 28, Columna: 10
+Token: 39, Lexema: hada, Línea: 29, Columna: 9
+Token: 2, Lexema: abrecuento, Línea: 30, Columna: 10
+Token: 46, Lexema: envia, Línea: 31, Columna: 13
+Token: 9, Lexema: finregalo, Línea: 31, Columna: 19
+Token: 3, Lexema: cierracuento, Línea: 32, Columna: 10
+Token: 42, Lexema: varios, Línea: 34, Columna: 9
+Token: 7, Lexema: abreregalo, Línea: 34, Columna: 16
+Token: 19, Lexema: _ch_, Línea: 34, Columna: 27
+Token: 8, Lexema: cierraregalo, Línea: 34, Columna: 32
+Token: 2, Lexema: abrecuento, Línea: 34, Columna: 47
+Token: 43, Lexema: historia, Línea: 35, Columna: 13
+Token: 48, Lexema: 1, Línea: 35, Columna: 22
+Token: 47, Lexema: sigue, Línea: 35, Columna: 24
+Token: 19, Lexema: _id_, Línea: 35, Columna: 30
+Token: 26, Lexema: quien, Línea: 35, Columna: 35
+Token: 9, Lexema: finregalo, Línea: 35, Columna: 42
+Token: 43, Lexema: historia, Línea: 36, Columna: 13
+Token: 48, Lexema: 2, Línea: 36, Columna: 22
+Token: 47, Lexema: sigue, Línea: 36, Columna: 24
+Token: 19, Lexema: _id_, Línea: 36, Columna: 30
+Token: 27, Lexema: grinch, Línea: 36, Columna: 35
+Token: 9, Lexema: finregalo, Línea: 36, Columna: 42
+Token: 46, Lexema: envia, Línea: 37, Columna: 13
+Token: 9, Lexema: finregalo, Línea: 37, Columna: 19
+Token: 44, Lexema: ultimo, Línea: 38, Columna: 13
+Token: 47, Lexema: sigue, Línea: 38, Columna: 20
+Token: 19, Lexema: _id_, Línea: 38, Columna: 26
+Token: 6, Lexema: entrega, Línea: 38, Columna: 31
+Token: 19, Lexema: _id_, Línea: 38, Columna: 39
+Token: 9, Lexema: finregalo, Línea: 38, Columna: 44
+Token: 3, Lexema: cierracuento, Línea: 39, Columna: 14
+Token: 3, Lexema: cierracuento, Línea: 41, Columna: 6
+Token: 46, Lexema: envia, Línea: 42, Columna: 5
+Token: 48, Lexema: 1, Línea: 42, Columna: 11
+Token: 9, Lexema: finregalo, Línea: 42, Columna: 13
+Token: 3, Lexema: cierracuento, Línea: 43, Columna: 2
+Token: 14, Lexema: rodolfo, Línea: 45, Columna: 1
+Token: 12, Lexema: _verano_, Línea: 45, Columna: 9
+Token: 7, Lexema: abreregalo, Línea: 45, Columna: 19
+Token: 8, Lexema: cierraregalo, Línea: 45, Columna: 32
+Token: 2, Lexema: abrecuento, Línea: 45, Columna: 47
+Token: 48, Lexema: 2, Línea: 50, Columna: 13
+Token: 11, Lexema: escucha, Línea: 51, Columna: 5
+Token: 7, Lexema: abreregalo, Línea: 51, Columna: 14
+Token: 19, Lexema: _s1_, Línea: 51, Columna: 26
+Token: 8, Lexema: cierraregalo, Línea: 51, Columna: 32
+Token: 9, Lexema: finregalo, Línea: 51, Columna: 47
+Token: 10, Lexema: narra, Línea: 52, Columna: 5
+Token: 7, Lexema: abreregalo, Línea: 52, Columna: 11
+Token: 19, Lexema: _b1_, Línea: 52, Columna: 23
+Token: 8, Lexema: cierraregalo, Línea: 52, Columna: 29
+Token: 9, Lexema: finregalo, Línea: 52, Columna: 44
+Token: 7, Lexema: abreregalo, Línea: 53, Columna: 13
+Token: 19, Lexema: _miFunc_, Línea: 53, Columna: 25
+Token: 7, Lexema: abreregalo, Línea: 53, Columna: 35
+Token: 8, Lexema: cierraregalo, Línea: 53, Columna: 48
+Token: 8, Lexema: cierraregalo, Línea: 53, Columna: 68
+Token: 9, Lexema: finregalo, Línea: 54, Columna: 3
+Token: 46, Lexema: envia, Línea: 55, Columna: 5
+Token: 19, Lexema: _bl1_, Línea: 55, Columna: 11
+Token: 9, Lexema: finregalo, Línea: 55, Columna: 17
+Token: 3, Lexema: cierracuento, Línea: 56, Columna: 2

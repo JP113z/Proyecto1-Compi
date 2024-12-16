@@ -71,144 +71,39 @@ public class MainJFlexCup {
      * Restricciones: El archivo fuente debe existir.
      */
     public void ejercicioLexerV2024(String rutaScanear) throws IOException {
-        Map<Integer, Map<String, Set<Integer>>> tokenMap = new HashMap<>(); // Map para tipo -> (lexema -> líneas)
-
         try (Reader reader = new BufferedReader(new FileReader(rutaScanear))) {
-            BasicLexerCupV lexer = new BasicLexerCupV(reader);
-            Symbol token;
+            BasicLexerCupV lexer = new BasicLexerCupV(reader); // Instancia del lexer
+            Symbol token; // Variable para almacenar el token
+            int i = 0; // Contador de lexemas encontrados
 
             System.out.println("Iniciando análisis léxico...");
-            generateFile("", false); // Limpiar el archivo de salida al inicio
+            generateFile("", false); // Limpia el archivo de salida
 
             while (true) {
-                try {
-                    token = lexer.next_token();
-                    if (token.sym == 0) break; // EOF (fin de archivo)
-
-                    String lexeme = lexer.yytext(); // Lexema del token
-                    int line = token.left + 1;     // Línea donde aparece el token (+1 por base 0)
-                    int tokenType = token.sym;     // Tipo de token (sym de CUP)
-
-                    // Guardar en el mapa: Tipo -> Lexema -> Líneas
-                    tokenMap.putIfAbsent(tokenType, new HashMap<>());
-                    tokenMap.get(tokenType).putIfAbsent(lexeme, new TreeSet<>()); // Las lineas se ordenan solas
-                    tokenMap.get(tokenType).get(lexeme).add(line);
-
-                } catch (Exception e) {
-                    System.err.println("Error léxico: " + e.getMessage());
+                token = lexer.next_token(); // Obtiene el siguiente token
+                if (token.sym == 0) { // Fin del archivo (EOF)
+                    System.out.println("Cantidad de lexemas encontrados: " + i);
+                    return;
                 }
+
+                // Información del token: tipo, lexema, línea y columna
+                String lexeme = lexer.yytext();
+                int line = token.left + 1; // Línea (ajustar base 0)
+                int column = token.right + 1; // Columna (ajustar base 0)
+
+                // Construir la salida para el token
+                String output = String.format(
+                        "Token: %d, Lexema: %s, Línea: %d, Columna: %d%n",
+                        token.sym, lexeme, line, column
+                );
+
+                // Imprimir y guardar en el archivo
+                System.out.print(output);
+                generateFile(output, true);
+                i++;
             }
-
-            // Generar salida con tokens y líneas de aparición
-            for (Map.Entry<Integer, Map<String, Set<Integer>>> entry : tokenMap.entrySet()) {
-                int tokenType = entry.getKey(); // Tipo de token
-                for (Map.Entry<String, Set<Integer>> lexemeEntry : entry.getValue().entrySet()) {
-                    String lexeme = lexemeEntry.getKey(); // Lexema del token
-                    Set<Integer> lines = lexemeEntry.getValue(); // Líneas de aparición
-
-                    String action = String.format(
-                            "Token: %s, Tipo: %s, Líneas de aparición: %s%n",
-                            lexeme,
-                            getTokenName(tokenType), // Obtener tipo del token
-                            lines.toString() // Convertir las líneas a string
-                    );
-
-                    System.out.print(action);
-                    generateFile(action, true); // Guardar en el archivo
-                }
-            }
-
-            System.out.println("Análisis léxico completado.");
         } catch (Exception e) {
             System.err.println("Error durante el análisis léxico: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Método: getTokenName
-     * Objetivo: Obtener la descripción del tipo de token a partir de su identificador `sym` declarado en el .jflex.
-     * Entradas:
-     *   - tokenSym: Identificador numerico del token.
-     * Salida: Nombre descriptivo del token.
-     * Restricciones: El token debe existir en la lista definida de `sym` dentro del archivo .jflex.
-     */
-    private String getTokenName(int tokenSym) {
-        switch (tokenSym) {
-            // Tipos de datos
-            case sym.INTEGER: return "Tipo de dato (entero)";
-            case sym.FLOAT: return "Tipo de dato (flotante)";
-            case sym.BOOL: return "Tipo de dato (booleano)";
-            case sym.CHAR: return "Tipo de dato (carácter)";
-            case sym.STRING: return "Tipo de dato (cadena)";
-
-            // Literales
-            case sym.L_INTEGER: return "Literal (entero)";
-            case sym.L_FLOAT: return "Literal (flotante)";
-            case sym.L_STRING: return "Literal (cadena)";
-
-            // Identificadores
-            case sym.IDENTIFICADOR: return "Identificador";
-
-            // Operadores aritméticos
-            case sym.SUMA: return "Operador aritmético (suma)";
-            case sym.RESTA: return "Operador aritmético (resta)";
-            case sym.DIVISION: return "Operador aritmético (división)";
-            case sym.MULTIPLICACION: return "Operador aritmético (multiplicación)";
-            case sym.MODULO: return "Operador aritmético (módulo)";
-            case sym.POTENCIA: return "Operador aritmético (potencia)";
-            case sym.INCREMENTO: return "Operador unario (incremento)";
-            case sym.DECREMENTO: return "Operador unario (decremento)";
-            case sym.NEGATIVO: return "Operador unario (negativo)";
-
-            // Operadores relacionales
-            case sym.MENOR: return "Operador relacional (menor)";
-            case sym.MENOR_IGUAL: return "Operador relacional (menor o igual)";
-            case sym.MAYOR: return "Operador relacional (mayor)";
-            case sym.MAYOR_IGUAL: return "Operador relacional (mayor o igual)";
-            case sym.IGUAL: return "Operador relacional (igual)";
-            case sym.DIFERENTE: return "Operador relacional (diferente)";
-
-            // Operadores lógicos
-            case sym.CONJUNCION: return "Operador lógico (conjunción)";
-            case sym.DISYUNCION: return "Operador lógico (disyunción)";
-            case sym.NEGACION: return "Operador lógico (negación)";
-
-            // Asignación
-            case sym.ASIGNA: return "Operador de asignación";
-
-            // Delimitadores y paréntesis
-            case sym.ABRECUENTO: return "Apertura de bloque (abrecuento)";
-            case sym.CIERRACUENTO: return "Cierre de bloque (cierracuento)";
-            case sym.ABREEMPAQUE: return "Apertura de arreglo (abreempaque)";
-            case sym.CIERREEMPAQUE: return "Cierre de arreglo (cierraempaque)";
-            case sym.PARENTESISAPERTURA: return "Paréntesis de apertura";
-            case sym.PARENTESISCIERRE: return "Paréntesis de cierre";
-            case sym.FIN_EXPRESION: return "Delimitador de fin de expresión";
-            case sym.COMA: return "Separador (coma)";
-
-            // Estructuras de control
-            case sym.IF: return "Estructura de control (if)";
-            case sym.ELSE: return "Estructura de control (else)";
-            case sym.WHILE: return "Estructura de control (while)";
-            case sym.FOR: return "Estructura de control (for)";
-            case sym.SWITCH: return "Estructura de control (switch)";
-            case sym.CASE: return "Estructura de control (case)";
-            case sym.DEFAULT: return "Estructura de control (default)";
-            case sym.BREAK: return "Control de flujo (break)";
-            case sym.RETURN: return "Control de flujo (return)";
-            case sym.DOS_PUNTOS: return "Delimitador (dos puntos)";
-
-            // Operaciones de entrada/salida
-            case sym.PRINT: return "Operación de salida (print)";
-            case sym.READ: return "Operación de entrada (read)";
-
-            // Token principal
-            case sym.MAIN: return "Procedimiento principal (_verano_)";
-
-            // Otros
-            case sym.EOF: return "Fin de archivo (EOF)";
-
-            default: return "Token desconocido";
         }
     }
 
