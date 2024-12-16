@@ -91,7 +91,7 @@ public class MainJFlexCup {
 
                     // Guardar en el mapa: Tipo -> Lexema -> Líneas
                     tokenMap.putIfAbsent(tokenType, new HashMap<>());
-                    tokenMap.get(tokenType).putIfAbsent(lexeme, new HashSet<>());
+                    tokenMap.get(tokenType).putIfAbsent(lexeme, new TreeSet<>()); // Las lineas se ordenan solas
                     tokenMap.get(tokenType).get(lexeme).add(line);
 
                 } catch (Exception e) {

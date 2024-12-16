@@ -163,11 +163,10 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 
 /* Identificadores y validación de errores (siempre debe ser tipo _x_) */
 <YYINITIAL> {
-    /* Identificadores válidos */
     "_" [a-zA-Z0-9]+ "_" {
         return symbol(sym.IDENTIFICADOR);
     }
-    /* Identificadores inválidos */
+
     {IdentificadorInicioInv} {
         System.err.println("Error léxico: Identificador debe iniciar con '_': '" + yytext() + "' en línea "
             + (yyline + 1) + ", columna " + (yycolumn + 1));
@@ -180,7 +179,28 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
         System.err.println("Error léxico: Identificador mal formado (caracteres no válidos o espacios): '" + yytext() +
             "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
     }
+
+    [a-zA-Z_][a-zA-Z0-9_]* {
+        System.err.println("Error léxico: Palabra no permitida '" + yytext() + "' en línea "
+            + (yyline + 1) + ", columna " + (yycolumn + 1));
+    }
+
+    "_" [^a-zA-Z0-9_]+ "_" {
+        System.err.println("Error léxico: Identificador mal formado '" + yytext() +
+            "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+    }
+
+    [^ \t\r\n]+ {
+        System.err.println("Error léxico: Secuencia no válida '" + yytext() +
+            "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+    }
+
+    [^] {
+        System.err.println("Error léxico: Token no reconocido '" + yytext() +
+            "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+    }
 }
+
 
 
 
