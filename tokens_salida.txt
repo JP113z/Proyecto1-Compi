@@ -9,6 +9,7 @@ Token: finregalo, Tipo: Delimitador de fin de expresión, Líneas de aparición:
 Token: narra, Tipo: Operación de salida (print), Líneas de aparición: [52]
 Token: escucha, Tipo: Operación de entrada (read), Líneas de aparición: [51]
 Token: _verano_, Tipo: Procedimiento principal (_verano_), Líneas de aparición: [45]
+Token: ,, Tipo: Token desconocido, Líneas de aparición: [3, 53, 7, 15]
 Token: rodolfo, Tipo: Tipo de dato (entero), Líneas de aparición: [45]
 Token: cometa, Tipo: Tipo de dato (cadena), Líneas de aparición: [5]
 Token: cupido, Tipo: Tipo de dato (carácter), Líneas de aparición: [3, 4, 7]
