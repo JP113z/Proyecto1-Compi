@@ -8,57 +8,58 @@ package ParserLexer;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int L_FLOAT = 50;
-  public static final int L_STRING = 49;
+  public static final int L_FLOAT = 51;
+  public static final int L_STRING = 50;
   public static final int PARENTESISCIERRE = 8;
-  public static final int CHAR = 16;
+  public static final int CHAR = 17;
   public static final int FIN_EXPRESION = 9;
-  public static final int CASE = 43;
-  public static final int DIFERENTE = 34;
+  public static final int CASE = 44;
+  public static final int DIFERENTE = 35;
   public static final int CIERRACUENTO = 3;
-  public static final int RESTA = 21;
-  public static final int INTEGER = 14;
-  public static final int DOS_PUNTOS = 47;
-  public static final int FOR = 41;
-  public static final int NEGATIVO = 28;
+  public static final int RESTA = 22;
+  public static final int INTEGER = 15;
+  public static final int DOS_PUNTOS = 48;
+  public static final int FOR = 42;
+  public static final int NEGATIVO = 29;
   public static final int ABREEMPAQUE = 4;
-  public static final int IDENTIFICADOR = 19;
-  public static final int IGUAL = 33;
-  public static final int BOOL = 18;
-  public static final int INCREMENTO = 26;
+  public static final int IDENTIFICADOR = 20;
+  public static final int IGUAL = 34;
+  public static final int L_CHAR = 14;
+  public static final int BOOL = 19;
+  public static final int INCREMENTO = 27;
   public static final int ASIGNA = 6;
-  public static final int SUMA = 20;
-  public static final int IF = 38;
+  public static final int SUMA = 21;
+  public static final int IF = 39;
   public static final int MAIN = 12;
   public static final int EOF = 0;
-  public static final int RETURN = 46;
-  public static final int DECREMENTO = 27;
+  public static final int RETURN = 47;
+  public static final int DECREMENTO = 28;
   public static final int error = 1;
   public static final int COMA = 13;
-  public static final int NEGACION = 37;
-  public static final int MODULO = 24;
+  public static final int NEGACION = 38;
+  public static final int MODULO = 25;
   public static final int ABRECUENTO = 2;
-  public static final int MENOR = 29;
-  public static final int BREAK = 45;
+  public static final int MENOR = 30;
+  public static final int BREAK = 46;
   public static final int PARENTESISAPERTURA = 7;
   public static final int CIERREEMPAQUE = 5;
-  public static final int SWITCH = 42;
-  public static final int MAYOR = 31;
-  public static final int POTENCIA = 25;
-  public static final int ELSE = 39;
+  public static final int SWITCH = 43;
+  public static final int MAYOR = 32;
+  public static final int POTENCIA = 26;
+  public static final int ELSE = 40;
   public static final int READ = 11;
-  public static final int WHILE = 40;
-  public static final int DEFAULT = 44;
-  public static final int MAYOR_IGUAL = 32;
-  public static final int FLOAT = 17;
-  public static final int CONJUNCION = 35;
-  public static final int STRING = 15;
-  public static final int DISYUNCION = 36;
-  public static final int MENOR_IGUAL = 30;
-  public static final int DIVISION = 22;
+  public static final int WHILE = 41;
+  public static final int DEFAULT = 45;
+  public static final int MAYOR_IGUAL = 33;
+  public static final int FLOAT = 18;
+  public static final int CONJUNCION = 36;
+  public static final int STRING = 16;
+  public static final int DISYUNCION = 37;
+  public static final int MENOR_IGUAL = 31;
+  public static final int DIVISION = 23;
   public static final int PRINT = 10;
-  public static final int L_INTEGER = 48;
-  public static final int MULTIPLICACION = 23;
+  public static final int L_INTEGER = 49;
+  public static final int MULTIPLICACION = 24;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -74,6 +75,7 @@ public class sym {
   "READ",
   "MAIN",
   "COMA",
+  "L_CHAR",
   "INTEGER",
   "STRING",
   "CHAR",

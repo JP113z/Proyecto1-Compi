@@ -9,6 +9,14 @@ import java_cup.runtime.*;
  * Lexer base tomado de la página de Cup que requiere sym para utilizarse como Lexer.
  * Este lexer es utilizado por por el parser generado por BasicLexerCup (parser.java que se genera).
  */
+
+
+/**
+  * Este video se tomo como ejemplo para comprender el funcionamiento que debe cumplir el scanner
+  * sin embargo se uso la estructura del ejemplo del profesor como base para el desarrollo
+  * video: https://www.youtube.com/watch?v=5mIRrn2yEe8&t=393s
+  */
+
 %%
 %class BasicLexerCupV
 %public
@@ -55,6 +63,12 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 %state STRING
 
 %%
+
+/* Tipo de dato char solo reconoce un caractarer dentro del char (se asume así por el anexo del enunciado del proyecto)*/
+<YYINITIAL>\'([^\\'\n\\r]|\\[bfnrt\'\\])\' {
+    return symbol(sym.L_CHAR, yytext().charAt(1));
+}
+
 
 /* Procedimiento main */
 <YYINITIAL>"_verano_" { return symbol(sym.MAIN); }
