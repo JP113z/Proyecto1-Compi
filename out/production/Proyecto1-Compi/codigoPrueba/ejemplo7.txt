@@ -1,0 +1,17 @@
+# Comentarios y declaraciones  
+\_ Este es un comentario válido _/  
+rodolfo _valor_ entrega 100 finregalo  
+
+# Identificadores mal formados
+trueno _invalido entrega true finregalo  # Error: identificador no termina con "_"  
+bromista invalido_ entrega 3.5 finregalo  # Error: identificador no inicia con "_"
+
+# Operaciones
+valor entrega valor navidad 50 finregalo  
+
+# Función de salida y error  
+narra abreregalo "El valor es: " cierraregalo finregalo  
+narra abreregalo valor cierraregalo finregalo  
+
+# Caracter inválido
+valor entrega @ finregalo  # Error: caracter no reconocido

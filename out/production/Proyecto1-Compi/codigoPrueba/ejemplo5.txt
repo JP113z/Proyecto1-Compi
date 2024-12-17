@@ -1,0 +1,11 @@
+# Función con parámetros
+bromista _funcion1_ abreregalo rodolfo _a_ , rodolfo _b_ cierraregalo
+    abrecuento  
+        envia abreregalo _a_ navidad _b_ cierraregalo finregalo  
+    cierracuento  
+
+# Arreglos
+cupido _letras_ abreempaque 5 cierraempaque entrega abrecuento 'a' , 'b' , 'c' , 'd' , 'e' cierracuento finregalo
+
+# Llamado a función
+bromista _resultado_ entrega _funcion1_ abreregalo 10 , 20 cierraregalo finregalo

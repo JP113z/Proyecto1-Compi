@@ -1,0 +1,23 @@
+# Declaración de variables
+rodolfo _x_ entrega 20 finregalo  
+bromista _y_ entrega 2.5 finregalo  
+
+# Expresiones aritméticas y lógicas
+trueno _resultado_ entrega abreregalo _x_ nochebuena 2 cierraregalo minstix 10 melchor true finregalo  
+
+# Uso de operadores unarios
+_x_ entrega _x_ quien finregalo  
+_y_ entrega _y_ grinch finregalo  
+
+# Errores de identificadores
+rodolfo _incorrect entrega 10 finregalo  
+bromista incorrect_ entrega 3.14 finregalo  
+
+# Caracter no reconocido
+rodolfo _x_ entrega @ finregalo  
+
+# Identificador mal formado
+cupido _caracter entrega 'x' finregalo  
+
+# Comentario mal cerrado
+\_ Esto es un comentario sin cierre  
