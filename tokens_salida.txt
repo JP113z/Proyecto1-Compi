@@ -1,22 +1,23 @@
 Token: 15, Lexema: rodolfo, Línea: 3, Columna: 1
 Token: 20, Lexema: _valor_, Línea: 3, Columna: 9
 Token: 6, Lexema: entrega, Línea: 3, Columna: 17
-Token: 49, Lexema: 100, Línea: 3, Columna: 25
+Token: 51, Lexema: 100, Línea: 3, Columna: 25
 Token: 9, Lexema: finregalo, Línea: 3, Columna: 29
 Token: 19, Lexema: trueno , Línea: 6, Columna: 1
 Token: 6, Lexema: entrega, Línea: 6, Columna: 18
+Token: 21, Lexema: true, Línea: 6, Columna: 26
 Token: 9, Lexema: finregalo, Línea: 6, Columna: 31
 Token: 18, Lexema: bromista , Línea: 7, Columna: 1
 Token: 6, Lexema: entrega, Línea: 7, Columna: 20
-Token: 51, Lexema: 3.5, Línea: 7, Columna: 28
+Token: 53, Lexema: 3.5, Línea: 7, Columna: 28
 Token: 9, Lexema: finregalo, Línea: 7, Columna: 32
 Token: 6, Lexema: entrega, Línea: 10, Columna: 7
-Token: 21, Lexema: navidad, Línea: 10, Columna: 21
-Token: 49, Lexema: 50, Línea: 10, Columna: 29
+Token: 23, Lexema: navidad, Línea: 10, Columna: 21
+Token: 51, Lexema: 50, Línea: 10, Columna: 29
 Token: 9, Lexema: finregalo, Línea: 10, Columna: 32
 Token: 10, Lexema: narra, Línea: 13, Columna: 1
 Token: 7, Lexema: abreregalo, Línea: 13, Columna: 7
-Token: 50, Lexema: "El valor es: ", Línea: 13, Columna: 18
+Token: 52, Lexema: "El valor es: ", Línea: 13, Columna: 18
 Token: 8, Lexema: cierraregalo, Línea: 13, Columna: 34
 Token: 9, Lexema: finregalo, Línea: 13, Columna: 47
 Token: 10, Lexema: narra, Línea: 14, Columna: 1

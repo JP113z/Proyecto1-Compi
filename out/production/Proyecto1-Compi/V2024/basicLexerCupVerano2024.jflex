@@ -75,6 +75,14 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 }
 
 
+/* Identificadores validos */
+<YYINITIAL> {
+    "_" [a-zA-Z0-9]+ "_" {
+        return symbol(sym.IDENTIFICADOR);
+    }
+
+}
+
 
 /* Procedimiento main */
 <YYINITIAL>"_verano_" { return symbol(sym.MAIN); }
@@ -94,7 +102,10 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 <YYINITIAL>"trueno " { return symbol(sym.BOOL); }
 <YYINITIAL>"cupido" { return symbol(sym.CHAR); }
 <YYINITIAL>"cometa" { return symbol(sym.STRING); }
-<<EOF>> { return symbol(sym.EOF); }
+//<<EOF>> { return symbol(sym.EOF); }
+
+<YYINITIAL>"true" { return symbol(sym.TRUE); }
+<YYINITIAL>"false" { return symbol(sym.FALSE); }
 
 /* Operador de asignación */
 <YYINITIAL>"entrega" { return symbol(sym.ASIGNA); }
@@ -160,8 +171,6 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 
 
 <YYINITIAL> {
-    "\"" { string.setLength(0); yybegin(STRING); }
-
     /* operators */
     "navidad" { return symbol(sym.SUMA); }
     "intercambio" { return symbol(sym.RESTA); }
@@ -170,74 +179,51 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
     "magos" { return symbol(sym.MODULO); }
     "adviento" { return symbol(sym.POTENCIA); }
 
-
     /* whitespace que representa los espacios en blanco */
     {WhiteSpace} { /* ignore */ }
 }
 
 <YYINITIAL> {
     /* Comentarios de una sola línea */
-    "#" {InputCharacter}* { /* Ignore single-line comments */ }
+    "#" {InputCharacter}* { /* Ignore  */ }
 
     /* Comentarios de múltiples líneas */
-    "\\_" ([^\\_])* "_/" { /* Ignore multi-line comments */ }
+    "\\_" ([^\\_])* "_/" { /* Ignore */ }
 }
 
-/* Identificadores y validación de errores (siempre debe ser tipo _x_) */
-<YYINITIAL> {
-    "_" [a-zA-Z0-9]+ "_" {
-        return symbol(sym.IDENTIFICADOR);
-    }
-
-    {IdentificadorInicioInv} {
-        System.err.println("Error léxico: Identificador debe iniciar con '_': '" + yytext() + "' en línea "
-            + (yyline + 1) + ", columna " + (yycolumn + 1));
-    }
-    {IdentificadorFinInv} {
-        System.err.println("Error léxico: Identificador debe terminar con '_': '" + yytext() + "' en línea "
-            + (yyline + 1) + ", columna " + (yycolumn + 1));
-    }
-    {IdentificadorInv} {
-        System.err.println("Error léxico: Identificador mal formado (caracteres no válidos o espacios): '" + yytext() +
-            "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
-    }
-
-    [a-zA-Z_][a-zA-Z0-9_]* {
-        System.err.println("Error léxico: Palabra no permitida '" + yytext() + "' en línea "
-            + (yyline + 1) + ", columna " + (yycolumn + 1));
-    }
-
-    "_" [^a-zA-Z0-9_]+ "_" {
-        System.err.println("Error léxico: Identificador mal formado '" + yytext() +
-            "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
-    }
-
-    [^ \t\r\n]+ {
-        System.err.println("Error léxico: Secuencia no válida '" + yytext() +
-            "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
-    }
-
-    [^] {
-        System.err.println("Error léxico: Token no reconocido '" + yytext() +
-            "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
-    }
-}
-
-
-
-
-<STRING> {
-    "\"" { yybegin(YYINITIAL); return symbol(sym.L_STRING, string.toString()); }
-    [^\n\r\"\\]+ { string.append(yytext()); }
-    "\\t" { string.append('\t'); }
-    "\\n" { string.append('\n'); }
-    "\\r" { string.append('\r'); }
-    "\\\"" { string.append('\"'); }
-    "\\\\" { string.append('\\'); }
-}
 // Recuperación de errores el [^] es el que captura cualquier cosa no definida en la gramatica
-<YYINITIAL>[^] {
-    System.err.println("Error léxico: Token no reconocido '" + yytext() +
-        "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+//Se manejan los errores por identificadores mal formados como casos especificos para dar un mensaje de error más especifico
+<YYINITIAL>{
+    {IdentificadorInicioInv} {
+            System.err.println("Error léxico: Identificador debe iniciar con '_': '" + yytext() + "' en línea "
+                + (yyline + 1) + ", columna " + (yycolumn + 1));
+        }
+        {IdentificadorFinInv} {
+            System.err.println("Error léxico: Identificador debe terminar con '_': '" + yytext() + "' en línea "
+                + (yyline + 1) + ", columna " + (yycolumn + 1));
+        }
+        {IdentificadorInv} {
+            System.err.println("Error léxico: Identificador mal formado (caracteres no válidos o espacios): '" + yytext() +
+                "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+        }
 
+        [a-zA-Z_][a-zA-Z0-9_]* {
+            System.err.println("Error léxico: Palabra no permitida '" + yytext() + "' en línea "
+                + (yyline + 1) + ", columna " + (yycolumn + 1));
+        }
+
+        "_" [^a-zA-Z0-9_]+ "_" {
+            System.err.println("Error léxico: Identificador mal formado '" + yytext() +
+                "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+        }
+
+        [^ \t\r\n]+ {
+            System.err.println("Error léxico: Secuencia no válida '" + yytext() +
+                "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+        }
+        /* El atrapa cualquier caracter no permitido*/
+        [^] {
+            System.err.println("Error léxico: Token no reconocido '" + yytext() +
+                "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
+        }
 }

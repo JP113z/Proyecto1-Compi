@@ -27,12 +27,12 @@ scan with {: return lex.next_token(); :};
 /* Terminales (tokens retornados por el scanner). */
 terminal ABRECUENTO, CIERRACUENTO,  ABREEMPAQUE, CIERREEMPAQUE, ASIGNA, PARENTESISAPERTURA, PARENTESISCIERRE, FIN_EXPRESION,
         PRINT, READ, MAIN, COMA, L_CHAR;
-terminal INTEGER, STRING, CHAR, FLOAT,BOOL, IDENTIFICADOR; /*  tipos de datos e identificador */
+terminal INTEGER, STRING, CHAR, FLOAT,BOOL, IDENTIFICADOR, TRUE, FALSE; /*  tipos de datos e identificador  estos representan la palabra reservada*/
 terminal  SUMA,RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DECREMENTO, NEGATIVO; /*  expresiones aritméticas y operadores unarios */
 terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE; /* expresiones relacionales*/
 terminal CONJUNCION, DISYUNCION, NEGACION; /* expresiones lógicas*/
 terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS; /*estructuras de control*/
-terminal  L_INTEGER, L_STRING, L_FLOAT;
+terminal  L_INTEGER, L_STRING, L_FLOAT; /*estos representan los tipos de datos en si es decir L_FLOAT es 16.3 por ejemplo y L_STRING es el que permite algo como "hola"*/
 
 // no terminales
 non terminal programa, programaAux ;
