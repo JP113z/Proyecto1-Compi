@@ -102,7 +102,6 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 <YYINITIAL>"trueno " { return symbol(sym.BOOL); }
 <YYINITIAL>"cupido" { return symbol(sym.CHAR); }
 <YYINITIAL>"cometa" { return symbol(sym.STRING); }
-//<<EOF>> { return symbol(sym.EOF); }
 
 <YYINITIAL>"true" { return symbol(sym.TRUE); }
 <YYINITIAL>"false" { return symbol(sym.FALSE); }
@@ -227,3 +226,6 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
                 "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
         }
 }
+
+
+ <<EOF>> { return symbol(sym.EOF); }
