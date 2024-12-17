@@ -1,3 +1,4 @@
+Token: 50, Lexema: "holi", Línea: 2, Columna: 1
 Token: 18, Lexema: bromista , Línea: 3, Columna: 1
 Token: 20, Lexema: _func1_, Línea: 3, Columna: 10
 Token: 7, Lexema: abreregalo, Línea: 3, Columna: 18
@@ -16,7 +17,7 @@ Token: 9, Lexema: finregalo, Línea: 4, Columna: 34
 Token: 16, Lexema: cometa, Línea: 5, Columna: 6
 Token: 20, Lexema: _str1_, Línea: 5, Columna: 13
 Token: 6, Lexema: entrega, Línea: 5, Columna: 20
-Token: 8, Lexema: cierraregalo, Línea: 5, Columna: 47
+Token: 50, Lexema: "Hola $%&/gaspar$& cierraregalo  mundo", Línea: 5, Columna: 28
 Token: 9, Lexema: finregalo, Línea: 5, Columna: 68
 Token: 18, Lexema: bromista , Línea: 6, Columna: 6
 Token: 20, Lexema: _fl1_, Línea: 6, Columna: 15

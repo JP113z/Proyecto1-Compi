@@ -69,6 +69,12 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
     return symbol(sym.L_CHAR, yytext().charAt(1));
 }
 
+/* Tipo de dato string */
+<YYINITIAL>\"([^\"\\]|\\[bfnrt\"\\])*\" {
+    return symbol(sym.L_STRING, yytext().substring(1, yytext().length() - 1));
+}
+
+
 
 /* Procedimiento main */
 <YYINITIAL>"_verano_" { return symbol(sym.MAIN); }
