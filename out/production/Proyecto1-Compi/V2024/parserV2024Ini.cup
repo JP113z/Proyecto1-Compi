@@ -25,20 +25,41 @@ init with {: :};
 scan with {: return lex.next_token(); :};
 
 /* Terminales (tokens retornados por el scanner). */
-terminal ABRECUENTO, CIERRACUENTO,  ABREEMPAQUE, CIERREEMPAQUE, ASIGNA, PARENTESISAPERTURA, PARENTESISCIERRE, FIN_EXPRESION,
-        PRINT, READ, MAIN, COMA, L_CHAR;
+terminal corcheteIzquierdo, corcheteDerecho,  ABREEMPAQUE, CIERREEMPAQUE, ASIGNA, PARENTESISAPERTURA, PARENTESISCIERRE, FIN_EXPRESION,
+        PRINT, READ, MAIN, COMA;
 terminal INTEGER, STRING, CHAR, FLOAT,BOOL, IDENTIFICADOR, TRUE, FALSE; /*  tipos de datos e identificador  estos representan la palabra reservada*/
 terminal  SUMA,RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DECREMENTO, NEGATIVO; /*  expresiones aritméticas y operadores unarios */
 terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE; /* expresiones relacionales*/
 terminal CONJUNCION, DISYUNCION, NEGACION; /* expresiones lógicas*/
 terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS; /*estructuras de control*/
-terminal  L_INTEGER, L_STRING, L_FLOAT; /*estos representan los tipos de datos en si es decir L_FLOAT es 16.3 por ejemplo y L_STRING es el que permite algo como "hola"*/
+terminal  L_INTEGER, L_STRING, L_FLOAT, L_CHAR; /*estos representan los tipos de datos en si es decir L_FLOAT es 16.3 por ejemplo y L_STRING es el que permite algo como "hola"*/
 
 // no terminales
-non terminal programa, programaAux ;
+non terminal inicio, tipos, expresionRelacional, asignarTipo,  operadorRelacional, literales, bool, operadorLogico, negacion,
+creacion,creacionAsignacion, sentencias, sentencia;
 
 //produccion de inicio
-start with programa;
+start with inicio;
 
-programa ::= programaAux ;
-programa ::= INTEGER ;
+inicio ::= MAIN;
+
+tipos::= L_INTEGER | L_STRING |  L_FLOAT | L_CHAR | bool;
+bool ::= TRUE | FALSE;
+literales::= INTEGER | STRING | CHAR | FLOAT | BOOL;
+
+expresionRelacional::= asignarTipo  operadorRelacional literales;
+expresionLogica ::= asignarTipo  operadorLogico literales;
+expresionLogica ::= asignarTipo  operadorLogico literales | negacion literales;
+
+
+asignarTipo::= tipos IDENTIFICADOR;
+
+operadorRelacional::= MENOR | MENOR_IGUAL | MAYOR | MAYOR_IGUAL | IGUAL | DIFERENTE;
+operadorLogico::= CONJUNCION | DISYUNCION;
+negacion::= NEGACION;
+
+creacion::= asignarTipo FIN_EXPRESION;
+creacionAsignacion::= asignarTipo ASIGNA literales FIN_EXPRESION;
+
+sentencias::= sentencia | sentencias sentencia;
+sentencia::= creacion | creacionAsignacion;

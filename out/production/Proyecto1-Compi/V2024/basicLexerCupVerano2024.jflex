@@ -64,6 +64,11 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 
 %%
 
+/* Procedimiento main */
+<YYINITIAL>"_verano_" { return symbol(sym.MAIN); }
+
+
+
 /* Tipo de dato char solo reconoce un caractarer dentro del char (se asume así por el anexo del enunciado del proyecto)*/
 <YYINITIAL>\'([^\\'\n\\r]|\\[bfnrt\'\\])\' {
     return symbol(sym.L_CHAR, yytext().charAt(1));
@@ -76,21 +81,15 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 
 
 /* Identificadores validos */
-<YYINITIAL> {
-    "_" [a-zA-Z0-9]+ "_" {
-        return symbol(sym.IDENTIFICADOR);
-    }
-
+<YYINITIAL>{Identifier} {
+    return symbol(sym.IDENTIFICADOR);
 }
 
 
-/* Procedimiento main */
-<YYINITIAL>"_verano_" { return symbol(sym.MAIN); }
-
 
 /* Apertura de bloques de código */
-<YYINITIAL>"abrecuento" { return symbol(sym.ABRECUENTO); }
-<YYINITIAL>"cierracuento" { return symbol(sym.CIERRACUENTO); }
+<YYINITIAL>"abrecuento" { return symbol(sym.corcheteIzquierdo); }
+<YYINITIAL>"cierracuento" { return symbol(sym.corcheteDerecho); }
 
 /* Apertura y cierre de arreglos */
 <YYINITIAL>"abreempaque" { return symbol(sym.ABREEMPAQUE); }
@@ -211,10 +210,6 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
                 + (yyline + 1) + ", columna " + (yycolumn + 1));
         }
 
-        "_" [^a-zA-Z0-9_]+ "_" {
-            System.err.println("Error léxico: Identificador mal formado '" + yytext() +
-                "' en línea " + (yyline + 1) + ", columna " + (yycolumn + 1));
-        }
 
         [^ \t\r\n]+ {
             System.err.println("Error léxico: Secuencia no válida '" + yytext() +
