@@ -92,8 +92,8 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 <YYINITIAL>"cierracuento" { return symbol(sym.corcheteDerecho); }
 
 /* Apertura y cierre de arreglos */
-<YYINITIAL>"abreempaque" { return symbol(sym.ABREEMPAQUE); }
-<YYINITIAL>"cierraempaque" { return symbol(sym.CIERREEMPAQUE); }
+<YYINITIAL>"abreempaque" { return symbol(sym.CORCHETEAPERTURA); }
+<YYINITIAL>"cierraempaque" { return symbol(sym.CORCHETECIERRE); }
 
 /* Tipos de datos */
 <YYINITIAL>"rodolfo" { return symbol(sym.INTEGER); }
@@ -101,6 +101,8 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 <YYINITIAL>"trueno " { return symbol(sym.BOOL); }
 <YYINITIAL>"cupido" { return symbol(sym.CHAR); }
 <YYINITIAL>"cometa" { return symbol(sym.STRING); }
+
+<YYINITIAL>".." { return symbol(sym.PUNTOS); }
 
 <YYINITIAL>"true" { return symbol(sym.TRUE); }
 <YYINITIAL>"false" { return symbol(sym.FALSE); }

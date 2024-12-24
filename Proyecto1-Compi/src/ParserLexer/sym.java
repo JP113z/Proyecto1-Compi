@@ -8,8 +8,8 @@ package ParserLexer;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int L_FLOAT = 52;
-  public static final int L_STRING = 51;
+  public static final int L_FLOAT = 53;
+  public static final int L_STRING = 52;
   public static final int PARENTESISCIERRE = 8;
   public static final int CHAR = 16;
   public static final int FIN_EXPRESION = 9;
@@ -20,10 +20,9 @@ public class sym {
   public static final int DOS_PUNTOS = 49;
   public static final int FOR = 43;
   public static final int NEGATIVO = 30;
-  public static final int ABREEMPAQUE = 4;
   public static final int IDENTIFICADOR = 19;
   public static final int IGUAL = 35;
-  public static final int L_CHAR = 53;
+  public static final int L_CHAR = 54;
   public static final int BOOL = 18;
   public static final int INCREMENTO = 28;
   public static final int ASIGNA = 6;
@@ -42,12 +41,13 @@ public class sym {
   public static final int MENOR = 31;
   public static final int BREAK = 47;
   public static final int PARENTESISAPERTURA = 7;
-  public static final int CIERREEMPAQUE = 5;
   public static final int corcheteIzquierdo = 2;
   public static final int SWITCH = 44;
   public static final int MAYOR = 33;
+  public static final int PUNTOS = 50;
   public static final int POTENCIA = 27;
   public static final int ELSE = 41;
+  public static final int CORCHETECIERRE = 5;
   public static final int READ = 11;
   public static final int WHILE = 42;
   public static final int DEFAULT = 46;
@@ -55,20 +55,21 @@ public class sym {
   public static final int FLOAT = 17;
   public static final int CONJUNCION = 37;
   public static final int STRING = 15;
+  public static final int CORCHETEAPERTURA = 4;
   public static final int DISYUNCION = 38;
   public static final int MENOR_IGUAL = 32;
   public static final int FALSE = 21;
   public static final int DIVISION = 24;
   public static final int PRINT = 10;
-  public static final int L_INTEGER = 50;
+  public static final int L_INTEGER = 51;
   public static final int MULTIPLICACION = 25;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
   "corcheteIzquierdo",
   "corcheteDerecho",
-  "ABREEMPAQUE",
-  "CIERREEMPAQUE",
+  "CORCHETEAPERTURA",
+  "CORCHETECIERRE",
   "ASIGNA",
   "PARENTESISAPERTURA",
   "PARENTESISCIERRE",
@@ -113,6 +114,7 @@ public class sym {
   "BREAK",
   "RETURN",
   "DOS_PUNTOS",
+  "PUNTOS",
   "L_INTEGER",
   "L_STRING",
   "L_FLOAT",
