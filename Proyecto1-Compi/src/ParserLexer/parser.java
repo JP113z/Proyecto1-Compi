@@ -31,41 +31,46 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\161\000\002\002\004\000\002\002\003\000\002\003" +
+    "\000\201\000\002\002\004\000\002\002\003\000\002\002" +
     "\003\000\002\003\003\000\002\003\003\000\002\003\003" +
-    "\000\002\003\003\000\002\010\003\000\002\010\003\000" +
-    "\002\007\003\000\002\007\003\000\002\007\003\000\002" +
-    "\007\003\000\002\007\003\000\002\004\005\000\002\063" +
-    "\005\000\002\063\005\000\002\063\004\000\002\005\004" +
-    "\000\002\006\003\000\002\006\003\000\002\006\003\000" +
-    "\002\006\003\000\002\006\003\000\002\006\003\000\002" +
-    "\011\003\000\002\011\003\000\002\012\003\000\002\013" +
-    "\004\000\002\014\006\000\002\015\003\000\002\015\004" +
-    "\000\002\016\003\000\002\016\003\000\002\017\003\000" +
-    "\002\017\004\000\002\020\003\000\002\020\003\000\002" +
-    "\062\004\000\002\021\006\000\002\021\006\000\002\025" +
-    "\004\000\002\025\005\000\002\023\003\000\002\023\005" +
-    "\000\002\024\003\000\002\004\005\000\002\063\005\000" +
-    "\002\026\003\000\002\026\003\000\002\027\007\000\002" +
-    "\030\006\000\002\031\003\000\002\031\004\000\002\032" +
-    "\003\000\002\034\004\000\002\034\005\000\002\033\003" +
-    "\000\002\033\005\000\002\064\003\000\002\064\003\000" +
-    "\002\004\005\000\002\063\005\000\002\036\005\000\002" +
-    "\037\003\000\002\040\003\000\002\040\003\000\002\040" +
-    "\003\000\002\040\003\000\002\040\003\000\002\040\003" +
-    "\000\002\041\005\000\002\042\003\000\002\042\003\000" +
-    "\002\043\004\000\002\044\005\000\002\045\005\000\002" +
-    "\045\003\000\002\045\003\000\002\045\003\000\002\045" +
-    "\005\000\002\045\005\000\002\045\003\000\002\045\004" +
-    "\000\002\045\003\000\002\046\003\000\002\046\003\000" +
-    "\002\047\003\000\002\047\004\000\002\050\003\000\002" +
+    "\000\002\003\003\000\002\003\003\000\002\010\003\000" +
+    "\002\010\003\000\002\007\003\000\002\007\003\000\002" +
+    "\007\003\000\002\007\003\000\002\007\003\000\002\004" +
+    "\005\000\002\004\003\000\002\063\005\000\002\063\005" +
+    "\000\002\063\004\000\002\063\003\000\002\005\004\000" +
+    "\002\005\003\000\002\006\003\000\002\006\003\000\002" +
+    "\006\003\000\002\006\003\000\002\006\003\000\002\006" +
+    "\003\000\002\011\003\000\002\011\003\000\002\012\003" +
+    "\000\002\013\004\000\002\013\003\000\002\014\006\000" +
+    "\002\014\003\000\002\015\003\000\002\015\004\000\002" +
+    "\015\003\000\002\016\003\000\002\016\003\000\002\016" +
+    "\003\000\002\017\003\000\002\017\004\000\002\017\003" +
+    "\000\002\020\004\000\002\020\003\000\002\062\004\000" +
+    "\002\062\003\000\002\021\006\000\002\021\003\000\002" +
+    "\021\006\000\002\025\004\000\002\025\005\000\002\023" +
+    "\003\000\002\023\005\000\002\024\003\000\002\004\005" +
+    "\000\002\063\005\000\002\026\003\000\002\026\003\000" +
+    "\002\027\007\000\002\030\006\000\002\031\003\000\002" +
+    "\031\004\000\002\032\003\000\002\034\004\000\002\034" +
+    "\005\000\002\033\003\000\002\033\005\000\002\064\003" +
+    "\000\002\064\003\000\002\004\005\000\002\063\005\000" +
+    "\002\036\005\000\002\037\003\000\002\040\003\000\002" +
+    "\040\003\000\002\040\003\000\002\040\003\000\002\040" +
+    "\003\000\002\040\003\000\002\041\005\000\002\042\003" +
+    "\000\002\042\003\000\002\043\004\000\002\044\005\000" +
+    "\002\045\005\000\002\045\003\000\002\045\003\000\002" +
+    "\045\003\000\002\045\005\000\002\045\005\000\002\045" +
+    "\003\000\002\045\004\000\002\045\003\000\002\046\003" +
+    "\000\002\046\003\000\002\047\003\000\002\047\004\000" +
+    "\002\047\003\000\002\050\003\000\002\050\003\000\002" +
     "\050\003\000\002\050\003\000\002\050\003\000\002\050" +
-    "\003\000\002\050\004\000\002\051\005\000\002\051\005" +
-    "\000\002\051\005\000\002\051\007\000\002\052\011\000" +
-    "\002\053\005\000\002\053\006\000\002\054\011\000\002" +
-    "\055\003\000\002\055\004\000\002\056\006\000\002\056" +
-    "\005\000\002\022\005\000\002\022\004\000\002\057\004" +
-    "\000\002\060\006\000\002\060\006\000\002\061\006" });
+    "\004\000\002\050\003\000\002\051\007\000\002\051\011" +
+    "\000\002\051\003\000\002\052\011\000\002\053\005\000" +
+    "\002\053\006\000\002\054\011\000\002\055\003\000\002" +
+    "\055\004\000\002\056\006\000\002\056\005\000\002\022" +
+    "\005\000\002\022\004\000\002\022\003\000\002\057\004" +
+    "\000\002\057\003\000\002\060\006\000\002\060\006\000" +
+    "\002\060\003\000\002\061\006\000\002\061\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -73,9 +78,9 @@ public class parser extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\004\000\004\016\004\001\002\000\004\002\000\001" +
-    "\002\000\004\002\006\001\002\000\004\002\001\001\002" +
-    "" });
+    "\000\005\000\006\003\004\016\005\001\002\000\004\002" +
+    "\uffff\001\002\000\004\002\000\001\002\000\004\002\007" +
+    "\001\002\000\004\002\001\001\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -83,8 +88,8 @@ public class parser extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\004\000\004\002\004\001\001\000\002\001\001\000" +
-    "\002\001\001\000\002\001\001" });
+    "\000\005\000\004\002\005\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -145,13 +150,37 @@ public class parser extends java_cup.runtime.lr_parser {
         this.symbolFactory = new DefaultSymbolFactory();
     }
 
+    @Override
+    public void report_error(String message, Object info) {
+        if (info instanceof Symbol) {
+            Symbol sym = (Symbol) info;
+            System.err.println("Error de análisis: " + message + " en línea " + (sym.left + 1) + ", columna " + (sym.right + 1));
+        } else {
+            System.err.println("Error de análisis: " + message + " (posición desconocida)");
+        }
+    }
+
+    @Override
+    public void report_fatal_error(String message, Object info) throws Exception {
+        report_error(message, info);
+        throw new Exception("Error fatal: " + message);
+    }
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$parser$actions {
 
- 
+
+     // Método para reportar errores
+     void reportError(String message, Symbol sym) {
+         System.err.println("Error: " + message + " en línea " + (sym.left + 1) + ", columna " + (sym.right + 1));
+     }
+
+     void reportGenericError(String message) {
+         System.err.println("Error: " + message);
+     }
+
   private final parser parser;
 
   /** Constructor */
@@ -197,7 +226,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // tipos ::= L_INTEGER 
+          case 2: // inicio ::= error 
+            {
+              Object RESULT =null;
+		
+             reportError("Se esperaba MAIN al inicio del programa", parser.getSymbolFactory().newSymbol("error", 0));
+         
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 3: // tipos ::= L_INTEGER 
             {
               Object RESULT =null;
 
@@ -206,7 +246,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // tipos ::= L_STRING 
+          case 4: // tipos ::= L_STRING 
             {
               Object RESULT =null;
 
@@ -215,7 +255,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // tipos ::= L_FLOAT 
+          case 5: // tipos ::= L_FLOAT 
             {
               Object RESULT =null;
 
@@ -224,7 +264,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // tipos ::= L_CHAR 
+          case 6: // tipos ::= L_CHAR 
             {
               Object RESULT =null;
 
@@ -233,7 +273,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // tipos ::= bool 
+          case 7: // tipos ::= bool 
             {
               Object RESULT =null;
 
@@ -242,7 +282,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // bool ::= TRUE 
+          case 8: // bool ::= TRUE 
             {
               Object RESULT =null;
 
@@ -251,7 +291,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // bool ::= FALSE 
+          case 9: // bool ::= FALSE 
             {
               Object RESULT =null;
 
@@ -260,7 +300,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // literales ::= INTEGER 
+          case 10: // literales ::= INTEGER 
             {
               Object RESULT =null;
 
@@ -269,7 +309,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // literales ::= STRING 
+          case 11: // literales ::= STRING 
             {
               Object RESULT =null;
 
@@ -278,7 +318,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // literales ::= CHAR 
+          case 12: // literales ::= CHAR 
             {
               Object RESULT =null;
 
@@ -287,7 +327,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // literales ::= FLOAT 
+          case 13: // literales ::= FLOAT 
             {
               Object RESULT =null;
 
@@ -296,7 +336,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // literales ::= BOOL 
+          case 14: // literales ::= BOOL 
             {
               Object RESULT =null;
 
@@ -305,7 +345,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // expresionRelacional ::= asignarTipo operadorRelacional literales 
+          case 15: // expresionRelacional ::= asignarTipo operadorRelacional literales 
             {
               Object RESULT =null;
 
@@ -314,7 +354,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 15: // expresionLogica ::= asignarTipo operadorLogico literales 
+          case 16: // expresionRelacional ::= error 
+            {
+              Object RESULT =null;
+		
+                          reportError("Expresión relacional inválida", parser.getSymbolFactory().newSymbol("error", 0));
+                      
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionRelacional",2, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 17: // expresionLogica ::= asignarTipo operadorLogico literales 
             {
               Object RESULT =null;
 
@@ -323,7 +374,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 16: // expresionLogica ::= asignarTipo operadorLogico literales 
+          case 18: // expresionLogica ::= asignarTipo operadorLogico literales 
             {
               Object RESULT =null;
 
@@ -332,7 +383,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 17: // expresionLogica ::= negacion literales 
+          case 19: // expresionLogica ::= negacion literales 
             {
               Object RESULT =null;
 
@@ -341,7 +392,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 18: // asignarTipo ::= tipos IDENTIFICADOR 
+          case 20: // expresionLogica ::= error 
+            {
+              Object RESULT =null;
+		
+                      reportError("Expresión lógica inválida", parser.getSymbolFactory().newSymbol("error", 0));
+                  
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("expresionLogica",49, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 21: // asignarTipo ::= tipos IDENTIFICADOR 
             {
               Object RESULT =null;
 
@@ -350,7 +412,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 19: // operadorRelacional ::= MENOR 
+          case 22: // asignarTipo ::= error 
+            {
+              Object RESULT =null;
+		
+                  reportError("Asignación de tipo inválida", parser.getSymbolFactory().newSymbol("error", 0));
+              
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("asignarTipo",3, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 23: // operadorRelacional ::= MENOR 
             {
               Object RESULT =null;
 
@@ -359,7 +432,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 20: // operadorRelacional ::= MENOR_IGUAL 
+          case 24: // operadorRelacional ::= MENOR_IGUAL 
             {
               Object RESULT =null;
 
@@ -368,7 +441,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 21: // operadorRelacional ::= MAYOR 
+          case 25: // operadorRelacional ::= MAYOR 
             {
               Object RESULT =null;
 
@@ -377,7 +450,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 22: // operadorRelacional ::= MAYOR_IGUAL 
+          case 26: // operadorRelacional ::= MAYOR_IGUAL 
             {
               Object RESULT =null;
 
@@ -386,7 +459,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 23: // operadorRelacional ::= IGUAL 
+          case 27: // operadorRelacional ::= IGUAL 
             {
               Object RESULT =null;
 
@@ -395,7 +468,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 24: // operadorRelacional ::= DIFERENTE 
+          case 28: // operadorRelacional ::= DIFERENTE 
             {
               Object RESULT =null;
 
@@ -404,7 +477,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 25: // operadorLogico ::= CONJUNCION 
+          case 29: // operadorLogico ::= CONJUNCION 
             {
               Object RESULT =null;
 
@@ -413,7 +486,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 26: // operadorLogico ::= DISYUNCION 
+          case 30: // operadorLogico ::= DISYUNCION 
             {
               Object RESULT =null;
 
@@ -422,7 +495,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 27: // negacion ::= NEGACION 
+          case 31: // negacion ::= NEGACION 
             {
               Object RESULT =null;
 
@@ -431,7 +504,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 28: // creacion ::= asignarTipo FIN_EXPRESION 
+          case 32: // creacion ::= asignarTipo FIN_EXPRESION 
             {
               Object RESULT =null;
 
@@ -440,7 +513,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 29: // creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION 
+          case 33: // creacion ::= error 
+            {
+              Object RESULT =null;
+		
+               reportError("Creación inválida", parser.getSymbolFactory().newSymbol("error", 0));
+           
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("creacion",9, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 34: // creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION 
             {
               Object RESULT =null;
 
@@ -449,7 +533,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 30: // sentencias ::= sentencia 
+          case 35: // creacionAsignacion ::= error 
+            {
+              Object RESULT =null;
+		
+                         reportError("Asignación inválida", parser.getSymbolFactory().newSymbol("error", 0));
+                     
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("creacionAsignacion",10, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 36: // sentencias ::= sentencia 
             {
               Object RESULT =null;
 
@@ -458,7 +553,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 31: // sentencias ::= sentencias sentencia 
+          case 37: // sentencias ::= sentencias sentencia 
             {
               Object RESULT =null;
 
@@ -467,7 +562,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 32: // sentencia ::= creacion 
+          case 38: // sentencias ::= error 
+            {
+              Object RESULT =null;
+		
+                 reportGenericError("Error en las sentencias");
+             
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("sentencias",11, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 39: // sentencia ::= creacion 
             {
               Object RESULT =null;
 
@@ -476,7 +582,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 33: // sentencia ::= creacionAsignacion 
+          case 40: // sentencia ::= creacionAsignacion 
             {
               Object RESULT =null;
 
@@ -485,7 +591,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 34: // funciones ::= funcion 
+          case 41: // sentencia ::= error 
+            {
+              Object RESULT =null;
+		
+                reportGenericError("Error en una sentencia específica");
+            
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("sentencia",12, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 42: // funciones ::= funcion 
             {
               Object RESULT =null;
 
@@ -494,7 +611,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 35: // funciones ::= funciones funcion 
+          case 43: // funciones ::= funciones funcion 
             {
               Object RESULT =null;
 
@@ -503,25 +620,38 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 36: // funcion ::= encabezadoFuncion 
+          case 44: // funciones ::= error 
+            {
+              Object RESULT =null;
+		
+                reportGenericError("Error en las funciones");
+            
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("funciones",13, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 45: // funcion ::= encabezadoFuncion bloque 
             {
               Object RESULT =null;
 
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("funcion",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 46: // funcion ::= error 
+            {
+              Object RESULT =null;
+		
+              reportGenericError("Error en la definición de función");
+          
               CUP$parser$result = parser.getSymbolFactory().newSymbol("funcion",14, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 37: // funcion ::= bloque 
-            {
-              Object RESULT =null;
-
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("funcion",14, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
-            }
-          return CUP$parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 38: // encabezadoFuncion ::= asignarTipo parametros 
+          case 47: // encabezadoFuncion ::= asignarTipo parametros 
             {
               Object RESULT =null;
 
@@ -530,7 +660,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 39: // bloque ::= corcheteIzquierdo sentencias return_estructura corcheteDerecho 
+          case 48: // encabezadoFuncion ::= error 
+            {
+              Object RESULT =null;
+		
+                        reportError("Encabezado de función inválido", parser.getSymbolFactory().newSymbol("error", 0));
+                    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("encabezadoFuncion",48, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 49: // bloque ::= corcheteIzquierdo sentencias return_estructura corcheteDerecho 
             {
               Object RESULT =null;
 
@@ -539,7 +680,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 40: // bloque ::= corcheteIzquierdo sentencia_lista return_estructura corcheteDerecho 
+          case 50: // bloque ::= error 
+            {
+              Object RESULT =null;
+		
+             reportGenericError("Bloque inválido");
+         
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("bloque",15, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 51: // bloque ::= corcheteIzquierdo sentencia_lista return_estructura corcheteDerecho 
             {
               Object RESULT =null;
 
@@ -548,7 +700,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 41: // parametros ::= PARENTESISAPERTURA PARENTESISCIERRE 
+          case 52: // parametros ::= PARENTESISAPERTURA PARENTESISCIERRE 
             {
               Object RESULT =null;
 
@@ -557,7 +709,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 42: // parametros ::= PARENTESISAPERTURA parametroAux PARENTESISCIERRE 
+          case 53: // parametros ::= PARENTESISAPERTURA parametroAux PARENTESISCIERRE 
             {
               Object RESULT =null;
 
@@ -566,7 +718,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 43: // parametroAux ::= parametro 
+          case 54: // parametroAux ::= parametro 
             {
               Object RESULT =null;
 
@@ -575,7 +727,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 44: // parametroAux ::= parametroAux COMA parametro 
+          case 55: // parametroAux ::= parametroAux COMA parametro 
             {
               Object RESULT =null;
 
@@ -584,7 +736,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 45: // parametro ::= asignarTipo 
+          case 56: // parametro ::= asignarTipo 
             {
               Object RESULT =null;
 
@@ -593,7 +745,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 46: // expresionRelacional ::= crearArreglos operadorRelacional arreglos 
+          case 57: // expresionRelacional ::= crearArreglos operadorRelacional arreglos 
             {
               Object RESULT =null;
 
@@ -602,7 +754,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 47: // expresionLogica ::= crearArreglos operadorLogico arreglos 
+          case 58: // expresionLogica ::= crearArreglos operadorLogico arreglos 
             {
               Object RESULT =null;
 
@@ -611,7 +763,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 48: // tipoArreglo ::= L_INTEGER 
+          case 59: // tipoArreglo ::= L_INTEGER 
             {
               Object RESULT =null;
 
@@ -620,7 +772,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 49: // tipoArreglo ::= L_CHAR 
+          case 60: // tipoArreglo ::= L_CHAR 
             {
               Object RESULT =null;
 
@@ -629,7 +781,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 50: // crearArreglos ::= tipoArreglo IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE 
+          case 61: // crearArreglos ::= tipoArreglo IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE 
             {
               Object RESULT =null;
 
@@ -638,7 +790,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 51: // modificarArreglos ::= IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE 
+          case 62: // modificarArreglos ::= IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE 
             {
               Object RESULT =null;
 
@@ -647,7 +799,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 52: // arreglos ::= arreglo 
+          case 63: // arreglos ::= arreglo 
             {
               Object RESULT =null;
 
@@ -656,7 +808,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 53: // arreglos ::= arreglos arreglo 
+          case 64: // arreglos ::= arreglos arreglo 
             {
               Object RESULT =null;
 
@@ -665,7 +817,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 54: // arreglo ::= parametrosArreglo 
+          case 65: // arreglo ::= parametrosArreglo 
             {
               Object RESULT =null;
 
@@ -674,7 +826,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 55: // parametrosArreglo ::= corcheteIzquierdo corcheteDerecho 
+          case 66: // parametrosArreglo ::= corcheteIzquierdo corcheteDerecho 
             {
               Object RESULT =null;
 
@@ -683,7 +835,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 56: // parametrosArreglo ::= corcheteIzquierdo parametrosArregloAux corcheteDerecho 
+          case 67: // parametrosArreglo ::= corcheteIzquierdo parametrosArregloAux corcheteDerecho 
             {
               Object RESULT =null;
 
@@ -692,7 +844,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 57: // parametrosArregloAux ::= parametroArreglos 
+          case 68: // parametrosArregloAux ::= parametroArreglos 
             {
               Object RESULT =null;
 
@@ -701,7 +853,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 58: // parametrosArregloAux ::= parametrosArregloAux COMA parametroArreglos 
+          case 69: // parametrosArregloAux ::= parametrosArregloAux COMA parametroArreglos 
             {
               Object RESULT =null;
 
@@ -710,7 +862,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 59: // parametroArreglos ::= CHAR 
+          case 70: // parametroArreglos ::= CHAR 
             {
               Object RESULT =null;
 
@@ -719,7 +871,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 60: // parametroArreglos ::= INTEGER 
+          case 71: // parametroArreglos ::= INTEGER 
             {
               Object RESULT =null;
 
@@ -728,7 +880,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 61: // expresionRelacional ::= asignarTipo operadorRelacional variable 
+          case 72: // expresionRelacional ::= asignarTipo operadorRelacional variable 
             {
               Object RESULT =null;
 
@@ -737,7 +889,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 62: // expresionLogica ::= asignarTipo operadorLogico variable 
+          case 73: // expresionLogica ::= asignarTipo operadorLogico variable 
             {
               Object RESULT =null;
 
@@ -746,7 +898,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 63: // asignaVariable ::= variable ASIGNA literales 
+          case 74: // asignaVariable ::= variable ASIGNA literales 
             {
               Object RESULT =null;
 
@@ -755,7 +907,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 64: // variable ::= IDENTIFICADOR 
+          case 75: // variable ::= IDENTIFICADOR 
             {
               Object RESULT =null;
 
@@ -764,7 +916,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 65: // operandoBinaria ::= SUMA 
+          case 76: // operandoBinaria ::= SUMA 
             {
               Object RESULT =null;
 
@@ -773,7 +925,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 66: // operandoBinaria ::= RESTA 
+          case 77: // operandoBinaria ::= RESTA 
             {
               Object RESULT =null;
 
@@ -782,7 +934,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 67: // operandoBinaria ::= DIVISION 
+          case 78: // operandoBinaria ::= DIVISION 
             {
               Object RESULT =null;
 
@@ -791,7 +943,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 68: // operandoBinaria ::= MULTIPLICACION 
+          case 79: // operandoBinaria ::= MULTIPLICACION 
             {
               Object RESULT =null;
 
@@ -800,7 +952,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 69: // operandoBinaria ::= MODULO 
+          case 80: // operandoBinaria ::= MODULO 
             {
               Object RESULT =null;
 
@@ -809,7 +961,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 70: // operandoBinaria ::= POTENCIA 
+          case 81: // operandoBinaria ::= POTENCIA 
             {
               Object RESULT =null;
 
@@ -818,7 +970,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 71: // expresionBinaria ::= expresion operandoBinaria expresion 
+          case 82: // expresionBinaria ::= expresion operandoBinaria expresion 
             {
               Object RESULT =null;
 
@@ -827,7 +979,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 72: // operandoUnario ::= INCREMENTO 
+          case 83: // operandoUnario ::= INCREMENTO 
             {
               Object RESULT =null;
 
@@ -836,7 +988,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 73: // operandoUnario ::= DECREMENTO 
+          case 84: // operandoUnario ::= DECREMENTO 
             {
               Object RESULT =null;
 
@@ -845,7 +997,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 74: // expresionUnario ::= expresion operandoUnario 
+          case 85: // expresionUnario ::= expresion operandoUnario 
             {
               Object RESULT =null;
 
@@ -854,7 +1006,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 75: // expresionRelacionalMat ::= expresion operadorRelacional expresion 
+          case 86: // expresionRelacionalMat ::= expresion operadorRelacional expresion 
             {
               Object RESULT =null;
 
@@ -863,7 +1015,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 76: // expresiones ::= PARENTESISAPERTURA expresiones PARENTESISCIERRE 
+          case 87: // expresiones ::= PARENTESISAPERTURA expresiones PARENTESISCIERRE 
             {
               Object RESULT =null;
 
@@ -872,7 +1024,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 77: // expresiones ::= expresionBinaria 
+          case 88: // expresiones ::= expresionBinaria 
             {
               Object RESULT =null;
 
@@ -881,7 +1033,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 78: // expresiones ::= expresionUnario 
+          case 89: // expresiones ::= expresionUnario 
             {
               Object RESULT =null;
 
@@ -890,7 +1042,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 79: // expresiones ::= expresionRelacionalMat 
+          case 90: // expresiones ::= expresionRelacionalMat 
             {
               Object RESULT =null;
 
@@ -899,7 +1051,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 80: // expresiones ::= PARENTESISAPERTURA expresionBinaria PARENTESISCIERRE 
+          case 91: // expresiones ::= PARENTESISAPERTURA expresionBinaria PARENTESISCIERRE 
             {
               Object RESULT =null;
 
@@ -908,7 +1060,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 81: // expresiones ::= PARENTESISAPERTURA expresionRelacionalMat PARENTESISCIERRE 
+          case 92: // expresiones ::= PARENTESISAPERTURA expresionRelacionalMat PARENTESISCIERRE 
             {
               Object RESULT =null;
 
@@ -917,7 +1069,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 82: // expresiones ::= expresion 
+          case 93: // expresiones ::= expresion 
             {
               Object RESULT =null;
 
@@ -926,7 +1078,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 83: // expresiones ::= expresiones expresion 
+          case 94: // expresiones ::= expresiones expresion 
             {
               Object RESULT =null;
 
@@ -935,7 +1087,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 84: // expresiones ::= operandoBinaria 
+          case 95: // expresiones ::= operandoBinaria 
             {
               Object RESULT =null;
 
@@ -944,7 +1096,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 85: // expresion ::= INTEGER 
+          case 96: // expresion ::= INTEGER 
             {
               Object RESULT =null;
 
@@ -953,7 +1105,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 86: // expresion ::= FLOAT 
+          case 97: // expresion ::= FLOAT 
             {
               Object RESULT =null;
 
@@ -962,7 +1114,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 87: // sentencia_lista ::= sentenciaEstructura 
+          case 98: // sentencia_lista ::= sentenciaEstructura 
             {
               Object RESULT =null;
 
@@ -971,7 +1123,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 88: // sentencia_lista ::= sentencia_lista sentencia 
+          case 99: // sentencia_lista ::= sentencia_lista sentencia 
             {
               Object RESULT =null;
 
@@ -980,7 +1132,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 89: // sentenciaEstructura ::= if_estructura 
+          case 100: // sentencia_lista ::= error 
+            {
+              Object RESULT =null;
+		
+                      reportError("Error en lista de sentencias", parser.getSymbolFactory().newSymbol("error", 0));
+                  
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("sentencia_lista",37, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 101: // sentenciaEstructura ::= if_estructura 
             {
               Object RESULT =null;
 
@@ -989,7 +1152,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 90: // sentenciaEstructura ::= for_estructura 
+          case 102: // sentenciaEstructura ::= for_estructura 
             {
               Object RESULT =null;
 
@@ -998,7 +1161,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 91: // sentenciaEstructura ::= switch_estructura 
+          case 103: // sentenciaEstructura ::= switch_estructura 
             {
               Object RESULT =null;
 
@@ -1007,7 +1170,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 92: // sentenciaEstructura ::= return_estructura 
+          case 104: // sentenciaEstructura ::= return_estructura 
             {
               Object RESULT =null;
 
@@ -1016,7 +1179,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 93: // sentenciaEstructura ::= break_estructura 
+          case 105: // sentenciaEstructura ::= break_estructura 
             {
               Object RESULT =null;
 
@@ -1025,7 +1188,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 94: // sentenciaEstructura ::= expresion FIN_EXPRESION 
+          case 106: // sentenciaEstructura ::= expresion FIN_EXPRESION 
             {
               Object RESULT =null;
 
@@ -1034,34 +1197,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 95: // if_estructura ::= IF PARENTESISAPERTURA operadorLogico 
+          case 107: // sentenciaEstructura ::= error 
             {
               Object RESULT =null;
-
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("if_estructura",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+		
+                          reportError("Error en sentencia de estructura", parser.getSymbolFactory().newSymbol("error", 0));
+                      
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("sentenciaEstructura",38, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 96: // if_estructura ::= NEGACION PARENTESISCIERRE sentenciaEstructura 
-            {
-              Object RESULT =null;
-
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("if_estructura",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
-            }
-          return CUP$parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 97: // if_estructura ::= IF PARENTESISAPERTURA operadorLogico 
-            {
-              Object RESULT =null;
-
-              CUP$parser$result = parser.getSymbolFactory().newSymbol("if_estructura",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
-            }
-          return CUP$parser$result;
-
-          /*. . . . . . . . . . . . . . . . . . . .*/
-          case 98: // if_estructura ::= NEGACION PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura 
+          case 108: // if_estructura ::= IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura 
             {
               Object RESULT =null;
 
@@ -1070,7 +1217,27 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 99: // for_estructura ::= FOR PARENTESISAPERTURA IDENTIFICADOR DOS_PUNTOS rango PARENTESISCIERRE sentencia 
+          case 109: // if_estructura ::= IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura 
+            {
+              Object RESULT =null;
+
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("if_estructura",39, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-6)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 110: // if_estructura ::= error 
+            {
+              Object RESULT =null;
+		
+                    reportError("Error en estructura IF", parser.getSymbolFactory().newSymbol("error", 0));
+                
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("if_estructura",39, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 111: // for_estructura ::= FOR PARENTESISAPERTURA IDENTIFICADOR DOS_PUNTOS rango PARENTESISCIERRE sentencia 
             {
               Object RESULT =null;
 
@@ -1079,7 +1246,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 100: // rango ::= expresion PUNTOS expresion 
+          case 112: // rango ::= expresion PUNTOS expresion 
             {
               Object RESULT =null;
 
@@ -1088,7 +1255,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 101: // rango ::= expresion PUNTOS expresion PUNTOS 
+          case 113: // rango ::= expresion PUNTOS expresion PUNTOS 
             {
               Object RESULT =null;
 
@@ -1097,7 +1264,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 102: // switch_estructura ::= SWITCH PARENTESISAPERTURA expresion PARENTESISCIERRE corcheteIzquierdo casos_switch corcheteDerecho 
+          case 114: // switch_estructura ::= SWITCH PARENTESISAPERTURA expresion PARENTESISCIERRE corcheteIzquierdo casos_switch corcheteDerecho 
             {
               Object RESULT =null;
 
@@ -1106,7 +1273,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 103: // casos_switch ::= caso_switch 
+          case 115: // casos_switch ::= caso_switch 
             {
               Object RESULT =null;
 
@@ -1115,7 +1282,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 104: // casos_switch ::= casos_switch caso_switch 
+          case 116: // casos_switch ::= casos_switch caso_switch 
             {
               Object RESULT =null;
 
@@ -1124,7 +1291,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 105: // caso_switch ::= CASE expresion DOS_PUNTOS sentencia_lista 
+          case 117: // caso_switch ::= CASE expresion DOS_PUNTOS sentencia_lista 
             {
               Object RESULT =null;
 
@@ -1133,7 +1300,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 106: // caso_switch ::= DEFAULT DOS_PUNTOS sentencia_lista 
+          case 118: // caso_switch ::= DEFAULT DOS_PUNTOS sentencia_lista 
             {
               Object RESULT =null;
 
@@ -1142,7 +1309,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 107: // return_estructura ::= RETURN expresion FIN_EXPRESION 
+          case 119: // return_estructura ::= RETURN expresion FIN_EXPRESION 
             {
               Object RESULT =null;
 
@@ -1151,7 +1318,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 108: // return_estructura ::= RETURN FIN_EXPRESION 
+          case 120: // return_estructura ::= RETURN FIN_EXPRESION 
             {
               Object RESULT =null;
 
@@ -1160,7 +1327,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 109: // break_estructura ::= BREAK FIN_EXPRESION 
+          case 121: // return_estructura ::= error 
+            {
+              Object RESULT =null;
+		
+                        reportError("Estructura de retorno inválida", parser.getSymbolFactory().newSymbol("error", 0));
+                    
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("return_estructura",16, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 122: // break_estructura ::= BREAK FIN_EXPRESION 
             {
               Object RESULT =null;
 
@@ -1169,7 +1347,18 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 110: // print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE 
+          case 123: // break_estructura ::= error 
+            {
+              Object RESULT =null;
+		
+                       reportError("Estructura de break inválida", parser.getSymbolFactory().newSymbol("error", 0));
+                   
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("break_estructura",45, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 124: // print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE 
             {
               Object RESULT =null;
 
@@ -1178,7 +1367,7 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 111: // print ::= PRINT PARENTESISAPERTURA variable PARENTESISCIERRE 
+          case 125: // print ::= PRINT PARENTESISAPERTURA variable PARENTESISCIERRE 
             {
               Object RESULT =null;
 
@@ -1187,11 +1376,33 @@ class CUP$parser$actions {
           return CUP$parser$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 112: // read ::= READ PARENTESISAPERTURA expresion PARENTESISCIERRE 
+          case 126: // print ::= error 
+            {
+              Object RESULT =null;
+		
+            reportGenericError("Error en print");
+        
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("print",46, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 127: // read ::= READ PARENTESISAPERTURA expresion PARENTESISCIERRE 
             {
               Object RESULT =null;
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("read",47, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
+            }
+          return CUP$parser$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 128: // read ::= error 
+            {
+              Object RESULT =null;
+		
+           reportGenericError("Error en read");
+       
+              CUP$parser$result = parser.getSymbolFactory().newSymbol("read",47, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
 
