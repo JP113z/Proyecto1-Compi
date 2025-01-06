@@ -11,64 +11,65 @@ public class sym {
   public static final int L_FLOAT = 53;
   public static final int L_STRING = 52;
   public static final int PARENTESISCIERRE = 8;
-  public static final int CHAR = 17;
+  public static final int CHAR = 16;
   public static final int FIN_EXPRESION = 9;
-  public static final int CASE = 46;
-  public static final int DIFERENTE = 37;
-  public static final int CIERRACUENTO = 3;
-  public static final int RESTA = 24;
-  public static final int INTEGER = 15;
-  public static final int DOS_PUNTOS = 50;
-  public static final int FOR = 44;
-  public static final int NEGATIVO = 31;
-  public static final int ABREEMPAQUE = 4;
-  public static final int IDENTIFICADOR = 20;
-  public static final int IGUAL = 36;
-  public static final int L_CHAR = 14;
-  public static final int BOOL = 19;
-  public static final int INCREMENTO = 29;
+  public static final int CASE = 45;
+  public static final int DIFERENTE = 36;
+  public static final int RESTA = 23;
+  public static final int INTEGER = 14;
+  public static final int DOS_PUNTOS = 49;
+  public static final int FOR = 43;
+  public static final int NEGATIVO = 30;
+  public static final int IDENTIFICADOR = 19;
+  public static final int IGUAL = 35;
+  public static final int L_CHAR = 54;
+  public static final int BOOL = 18;
+  public static final int INCREMENTO = 28;
   public static final int ASIGNA = 6;
-  public static final int SUMA = 23;
-  public static final int IF = 41;
+  public static final int SUMA = 22;
+  public static final int IF = 40;
   public static final int MAIN = 12;
+  public static final int corcheteDerecho = 3;
   public static final int EOF = 0;
-  public static final int RETURN = 49;
-  public static final int TRUE = 21;
-  public static final int DECREMENTO = 30;
+  public static final int RETURN = 48;
+  public static final int TRUE = 20;
+  public static final int DECREMENTO = 29;
   public static final int error = 1;
   public static final int COMA = 13;
-  public static final int NEGACION = 40;
-  public static final int MODULO = 27;
-  public static final int ABRECUENTO = 2;
-  public static final int MENOR = 32;
-  public static final int BREAK = 48;
+  public static final int NEGACION = 39;
+  public static final int MODULO = 26;
+  public static final int MENOR = 31;
+  public static final int BREAK = 47;
   public static final int PARENTESISAPERTURA = 7;
-  public static final int CIERREEMPAQUE = 5;
-  public static final int SWITCH = 45;
-  public static final int MAYOR = 34;
-  public static final int POTENCIA = 28;
-  public static final int ELSE = 42;
+  public static final int corcheteIzquierdo = 2;
+  public static final int SWITCH = 44;
+  public static final int MAYOR = 33;
+  public static final int PUNTOS = 50;
+  public static final int POTENCIA = 27;
+  public static final int ELSE = 41;
+  public static final int CORCHETECIERRE = 5;
   public static final int READ = 11;
-  public static final int WHILE = 43;
-  public static final int DEFAULT = 47;
-  public static final int MAYOR_IGUAL = 35;
-  public static final int FLOAT = 18;
-  public static final int CONJUNCION = 38;
-  public static final int STRING = 16;
-  public static final int DISYUNCION = 39;
-  public static final int MENOR_IGUAL = 33;
-  public static final int FALSE = 22;
-  public static final int DIVISION = 25;
+  public static final int WHILE = 42;
+  public static final int DEFAULT = 46;
+  public static final int MAYOR_IGUAL = 34;
+  public static final int FLOAT = 17;
+  public static final int CONJUNCION = 37;
+  public static final int STRING = 15;
+  public static final int CORCHETEAPERTURA = 4;
+  public static final int DISYUNCION = 38;
+  public static final int MENOR_IGUAL = 32;
+  public static final int FALSE = 21;
+  public static final int DIVISION = 24;
   public static final int PRINT = 10;
   public static final int L_INTEGER = 51;
-  public static final int MULTIPLICACION = 26;
+  public static final int MULTIPLICACION = 25;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
-  "ABRECUENTO",
-  "CIERRACUENTO",
-  "ABREEMPAQUE",
-  "CIERREEMPAQUE",
+  "corcheteIzquierdo",
+  "corcheteDerecho",
+  "CORCHETEAPERTURA",
+  "CORCHETECIERRE",
   "ASIGNA",
   "PARENTESISAPERTURA",
   "PARENTESISCIERRE",
@@ -77,7 +78,6 @@ public class sym {
   "READ",
   "MAIN",
   "COMA",
-  "L_CHAR",
   "INTEGER",
   "STRING",
   "CHAR",
@@ -114,9 +114,11 @@ public class sym {
   "BREAK",
   "RETURN",
   "DOS_PUNTOS",
+  "PUNTOS",
   "L_INTEGER",
   "L_STRING",
-  "L_FLOAT"
+  "L_FLOAT",
+  "L_CHAR"
   };
 }
 
