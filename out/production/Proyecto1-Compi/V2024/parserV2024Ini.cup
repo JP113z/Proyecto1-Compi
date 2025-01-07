@@ -1,156 +1,164 @@
 package ParserLexer;
 import java_cup.runtime.*;
 
-
-//utiliza class BasicLexerCupV que genera el lexer.jflex, pequeños cambios de lo tomado de la página de cup
-//cambios en parser code, init with y scan with {:
-
-action code {: :}; //Por ahora se queda vacio
+action code {: :};
 
 parser code {:
-    // Connect this parser to a scanner!
     BasicLexerCupV lex;
 
     @SuppressWarnings("deprecation")
-    public parser(BasicLexerCupV lex){
-        this.lex=lex;
+    public parser(BasicLexerCupV lex) {
+        this.lex = lex;
         this.symbolFactory = new DefaultSymbolFactory();
     }
-
 :}
 
 init with {: :};
 
-/* define how to connect to the scanner! */
 scan with {: return lex.next_token(); :};
 
-/* Terminales (tokens retornados por el scanner). */
-terminal corcheteIzquierdo, corcheteDerecho,  CORCHETEAPERTURA, CORCHETECIERRE, ASIGNA, PARENTESISAPERTURA, PARENTESISCIERRE, FIN_EXPRESION,
+/* Terminales */
+terminal corcheteIzquierdo, corcheteDerecho, CORCHETEAPERTURA, CORCHETECIERRE, ASIGNA, PARENTESISAPERTURA, PARENTESISCIERRE, FIN_EXPRESION,
         PRINT, READ, MAIN, COMA;
-terminal INTEGER, STRING, CHAR, FLOAT,BOOL, IDENTIFICADOR, TRUE, FALSE; /*  tipos de datos e identificador  estos representan la palabra reservada*/
-terminal  SUMA,RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DECREMENTO, NEGATIVO; /*  expresiones aritméticas y operadores unarios */
-terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE; /* expresiones relacionales*/
-terminal CONJUNCION, DISYUNCION, NEGACION; /* expresiones lógicas*/
-terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS,PUNTOS; /*estructuras de control*/
-terminal  L_INTEGER, L_STRING, L_FLOAT, L_CHAR; /*estos representan los tipos de datos en si es decir L_FLOAT es 16.3 por ejemplo y L_STRING es el que permite algo como "hola"*/
+terminal INTEGER, STRING, CHAR, FLOAT, BOOL, IDENTIFICADOR, TRUE, FALSE;
+terminal SUMA, RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DECREMENTO, NEGATIVO;
+terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE;
+terminal CONJUNCION, DISYUNCION, NEGACION;
+terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS, PUNTOS;
+terminal L_INTEGER, L_STRING, L_FLOAT, L_CHAR;
 
-// no terminales
-non terminal inicio, tipos, expresionRelacional, asignarTipo,  operadorRelacional, literales, bool, operadorLogico, negacion,
-creacion,creacionAsignacion, sentencias, sentencia, funciones, funcion, bloque, return_estructura,
-parametroAux, parametro, parametros, tipoArreglo,crearArreglos,modificarArreglos, arreglos, arreglo,
-parametrosArregloAux, parametrosArreglo, parametrosArreglos, asignaVariable, variable,operandoBinaria,expresionBinaria,
-operandoUnario,expresionUnario,expresionRelacionalMat,expresiones,expresion,sentencia_lista,sentenciaEstructura,if_estructura,
-for_estructura,rango, switch_estructura,casos_switch,caso_switch, break_estructura, print, read,encabezadoFuncion,expresionLogica,
-parametroArreglos;
+/* No terminales */
+non terminal inicio, tipos, expresionRelacional, asignarTipo, operadorRelacional, literales, bool, operadorLogico, negacion,
+creacion, creacionAsignacion, sentencias, sentencia, funciones, funcion, bloque, return_estructura,
+parametroAux, parametros, tipoArreglo, crearArreglos, modificarArreglos, arreglos, arreglo,
+parametrosArregloAux, parametrosArreglo, asignaVariable, variable, operandoBinaria, expresionBinaria,
+operandoUnario, expresionUnario, expresionRelacionalMat, expresiones, expresion, sentencia_lista, sentenciaEstructura, if_estructura,
+for_estructura, rango, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion, expresionLogica,
+while_estructura;
 
-//produccion de inicio
+/* Precedencia */
+precedence left ELSE;
+precedence left MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
+precedence left IGUAL, DIFERENTE;
+precedence left CONJUNCION, DISYUNCION;
+
+/* Producción inicial */
 start with inicio;
 
-inicio ::= MAIN;
+inicio ::= MAIN sentencias
+         | funciones; // Incorporamos funciones en el flujo principal
 
-tipos::= L_INTEGER | L_STRING |  L_FLOAT | L_CHAR | bool;
+/* Definiciones */
+tipos ::= L_INTEGER | L_STRING | L_FLOAT | L_CHAR | bool;
 bool ::= TRUE | FALSE;
-literales::= INTEGER | STRING | CHAR | FLOAT | BOOL;
+literales ::= INTEGER | STRING | CHAR | FLOAT | BOOL;
 
-expresionRelacional::= asignarTipo  operadorRelacional literales;
-expresionLogica ::= asignarTipo  operadorLogico literales;
-expresionLogica ::= asignarTipo  operadorLogico literales | negacion literales;
+expresionRelacional ::= asignarTipo operadorRelacional literales;
+expresionLogica ::= asignarTipo operadorLogico literales | negacion literales;
+
+asignarTipo ::= tipos IDENTIFICADOR;
+
+operadorRelacional ::= MENOR | MENOR_IGUAL | MAYOR | MAYOR_IGUAL | IGUAL | DIFERENTE;
+operadorLogico ::= CONJUNCION | DISYUNCION;
+negacion ::= NEGACION;
+
+creacion ::= asignarTipo FIN_EXPRESION;
+creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION;
+
+sentencias ::= sentencia | sentencias sentencia;
+sentencia ::= asignaVariable
+            | creacion
+            | creacionAsignacion
+            | print
+            | read
+            | break_estructura
+            | return_estructura
+            | switch_estructura;
+
+funciones ::= funcion
+           | funciones funcion; // Permite múltiples funciones en cascada
+
+funcion ::= encabezadoFuncion bloque;
+
+encabezadoFuncion ::= asignarTipo parametros;
+
+bloque ::= corcheteIzquierdo sentencias corcheteDerecho;
+
+parametros ::= PARENTESISAPERTURA PARENTESISCIERRE
+             | PARENTESISAPERTURA parametroAux PARENTESISCIERRE;
+parametroAux ::= asignarTipo | parametroAux COMA asignarTipo;
+
+expresionRelacional ::= crearArreglos operadorRelacional arreglos;
+expresionLogica ::= crearArreglos operadorLogico arreglos;
+
+tipoArreglo ::= L_CHAR CORCHETEAPERTURA CORCHETECIERRE
+              | L_INTEGER CORCHETEAPERTURA CORCHETECIERRE;
+
+crearArreglos ::= tipoArreglo IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
+modificarArreglos ::= IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
+
+arreglos ::= arreglo | arreglos arreglo;
+arreglo ::= parametrosArreglo;
+
+parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
+                    | corcheteIzquierdo parametrosArregloAux corcheteDerecho;
+parametrosArregloAux ::= asignarTipo | parametrosArregloAux COMA asignarTipo;
+
+expresionRelacional ::= asignarTipo operadorRelacional variable;
+expresionLogica ::= asignarTipo operadorLogico variable;
+
+asignaVariable ::= variable ASIGNA literales | modificarArreglos ASIGNA literales;
+
+variable ::= IDENTIFICADOR;
+
+operandoBinaria ::= SUMA | RESTA | DIVISION | MULTIPLICACION | MODULO | POTENCIA;
+expresionBinaria ::= expresion operandoBinaria expresion;
+
+operandoUnario ::= INCREMENTO | DECREMENTO;
+expresionUnario ::= expresion operandoUnario | NEGATIVO expresion;
+
+expresionRelacionalMat ::= expresion operadorRelacional expresion;
+
+expresiones ::= expresionRelacional
+              | expresion
+              | operandoBinaria expresion
+              | expresionBinaria
+              | expresionUnario
+              | expresionRelacionalMat
+              | PARENTESISAPERTURA expresiones PARENTESISCIERRE;
 
 
-asignarTipo::= tipos IDENTIFICADOR;
+expresion ::= INTEGER | FLOAT;
 
-operadorRelacional::= MENOR | MENOR_IGUAL | MAYOR | MAYOR_IGUAL | IGUAL | DIFERENTE;
-operadorLogico::= CONJUNCION | DISYUNCION;
-negacion::= NEGACION;
-
-creacion::= asignarTipo FIN_EXPRESION;
-creacionAsignacion::= asignarTipo ASIGNA literales FIN_EXPRESION;
-
-sentencias::= sentencia | sentencias sentencia;
-sentencia::= creacion | creacionAsignacion;
-
-funciones::= funcion | funciones funcion;
-funcion ::=  encabezadoFuncion | bloque;
-
-encabezadoFuncion::= asignarTipo parametros;
-bloque ::= corcheteIzquierdo sentencias return_estructura corcheteDerecho;
-bloque ::= corcheteIzquierdo sentencia_lista return_estructura corcheteDerecho;
-
-
-parametros ::= PARENTESISAPERTURA  PARENTESISCIERRE;
-parametros ::= PARENTESISAPERTURA parametroAux PARENTESISCIERRE;
-parametroAux ::= parametro | parametroAux COMA parametro;
-parametro ::= asignarTipo;
-
-expresionRelacional ::= crearArreglos  operadorRelacional arreglos;
-expresionLogica ::= crearArreglos  operadorLogico arreglos;
-
-tipoArreglo::= L_INTEGER | L_CHAR;
-crearArreglos::= tipoArreglo IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
-modificarArreglos::= IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
-
-arreglos::= arreglo | arreglos arreglo;
-arreglo::= parametrosArreglo;
-
-parametrosArreglo::= corcheteIzquierdo  corcheteDerecho;
-parametrosArreglo::=corcheteIzquierdo parametrosArregloAux  corcheteDerecho;
-parametrosArregloAux::= parametroArreglos | parametrosArregloAux COMA parametroArreglos;
-parametroArreglos::= CHAR | INTEGER;
-
-expresionRelacional ::= asignarTipo  operadorRelacional variable;
-expresionLogica ::= asignarTipo  operadorLogico variable;
-
-asignaVariable::= variable ASIGNA literales;
-variable::= IDENTIFICADOR;
-
-operandoBinaria::= SUMA|RESTA| DIVISION| MULTIPLICACION| MODULO| POTENCIA;
-expresionBinaria::= expresion operandoBinaria expresion;
-
-operandoUnario::= INCREMENTO| DECREMENTO;
-expresionUnario::= expresion operandoUnario;
-
-expresionRelacionalMat::= expresion operadorRelacional expresion;
-
-
-expresiones ::= PARENTESISAPERTURA expresiones PARENTESISCIERRE | expresionBinaria | expresionUnario | expresionRelacionalMat;
-expresiones::= PARENTESISAPERTURA expresionBinaria PARENTESISCIERRE |  PARENTESISAPERTURA expresionRelacionalMat PARENTESISCIERRE;
-expresiones::= expresion | expresiones expresion | operandoBinaria;
-expresion::= INTEGER | FLOAT;
-
-
-sentencia_lista ::=sentenciaEstructura | sentencia_lista sentencia;
+sentencia_lista ::= sentenciaEstructura | sentencia_lista sentenciaEstructura;
 
 sentenciaEstructura ::= if_estructura
-            | for_estructura
-            | switch_estructura
-            | return_estructura
-            | break_estructura
-            | expresion FIN_EXPRESION ;
+                      | for_estructura
+                      | while_estructura
+                      | switch_estructura
+                      | return_estructura
+                      | break_estructura
+                      | expresiones FIN_EXPRESION;
 
-if_estructura ::= IF PARENTESISAPERTURA operadorLogico | NEGACION PARENTESISCIERRE sentenciaEstructura
-                | IF PARENTESISAPERTURA operadorLogico | NEGACION PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
+if_estructura ::= IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura
+                | IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
 
 for_estructura ::= FOR PARENTESISAPERTURA IDENTIFICADOR DOS_PUNTOS rango PARENTESISCIERRE sentencia;
+while_estructura ::= WHILE PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura;
 
 rango ::= expresion PUNTOS expresion
         | expresion PUNTOS expresion PUNTOS;
 
-
-switch_estructura::= SWITCH PARENTESISAPERTURA expresion PARENTESISCIERRE corcheteIzquierdo casos_switch corcheteDerecho;
-
-casos_switch ::= caso_switch
-               | casos_switch caso_switch;
-
+switch_estructura ::= SWITCH PARENTESISAPERTURA expresion PARENTESISCIERRE corcheteIzquierdo casos_switch corcheteDerecho;
+casos_switch ::= caso_switch | casos_switch caso_switch;
 caso_switch ::= CASE expresion DOS_PUNTOS sentencia_lista
               | DEFAULT DOS_PUNTOS sentencia_lista;
 
+return_estructura ::= RETURN expresion FIN_EXPRESION
+                    | RETURN FIN_EXPRESION;
+break_estructura ::= BREAK FIN_EXPRESION;
 
+print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE
+        | PRINT PARENTESISAPERTURA variable PARENTESISCIERRE;
 
-return_estructura ::= RETURN expresion FIN_EXPRESION;
-return_estructura ::= RETURN FIN_EXPRESION;
-break_estructura ::=BREAK FIN_EXPRESION;
-
-
-print::=PRINT PARENTESISAPERTURA literales PARENTESISCIERRE | PRINT PARENTESISAPERTURA variable PARENTESISCIERRE;
-
-read::= READ PARENTESISAPERTURA expresion PARENTESISCIERRE;
+read ::= READ PARENTESISAPERTURA expresion PARENTESISCIERRE;
