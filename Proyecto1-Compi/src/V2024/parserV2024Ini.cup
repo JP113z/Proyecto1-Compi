@@ -46,7 +46,7 @@ precedence left CONJUNCION, DISYUNCION;
 start with inicio;
 
 inicio ::= MAIN sentencias
-         | funciones; // Incorporamos funciones en el flujo principal
+         | funciones; 
 
 /* Definiciones */
 tipos ::= L_INTEGER | L_STRING | L_FLOAT | L_CHAR | bool;
@@ -76,7 +76,7 @@ sentencia ::= asignaVariable
             | switch_estructura;
 
 funciones ::= funcion
-           | funciones funcion; // Permite múltiples funciones en cascada
+           | funciones funcion;
 
 funcion ::= encabezadoFuncion bloque;
 
