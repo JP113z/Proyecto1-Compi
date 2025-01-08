@@ -1,7 +1,6 @@
 package Main;
 
 import ParserLexer.BasicLexerCupV;
-import ParserLexer.parser;
 import java_cup.runtime.Symbol;
 import jflex.exceptions.SilentExit;
 
@@ -107,32 +106,21 @@ public class MainJFlexCup {
         }
     }
 
-    public void pruebaParser(String rutaScanear) throws IOException {
-        try (Reader reader = new BufferedReader(new FileReader(rutaScanear))) {
-            BasicLexerCupV lexer = new BasicLexerCupV(reader);
-            parser parser = new parser(lexer);
+    public void pruebaParser(String rutaParsear) throws Exception {
+        // Crear el lector para leer el archivo
+        Reader reader = new BufferedReader(new FileReader(rutaParsear));
+        reader.read();
 
-            System.out.println("=== Iniciando análisis sintáctico ===");
+        // Crear el lexer
+        BasicLexerCupV myLexer = new BasicLexerCupV(reader);
 
-            try {
-                Symbol result = parser.parse();
-                if (!parser.hasErrors()) {
-                    System.out.println("=== Análisis sintáctico completado exitosamente ===");
-                }
-            } catch (Exception e) {
-                if (e.getCause() != null) {
-                    System.err.println("Error sintáctico: " + e.getCause().getMessage());
-                } else {
-                    System.err.println("Error sintáctico: " + e.getMessage());
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Error al leer el archivo: " + e.getMessage());
-            throw e;
-        } finally {
-            System.out.println("=== Fin del análisis sintáctico ===");
-        }
+        // Crear el parser utilizando el lexer
+        ParserLexer.parser myParser = new ParserLexer.parser(myLexer);
+
+        // Ejecutar el parser
+        myParser.parse(); // También puedes habilitar debug_parse si es necesario
     }
+
 
     /**
      * Método: generateFile

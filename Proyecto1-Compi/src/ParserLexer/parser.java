@@ -619,94 +619,11 @@ public class parser extends java_cup.runtime.lr_parser {
         this.symbolFactory = new DefaultSymbolFactory();
     }
 
-    public boolean hasErrors() {
-        return action_obj.hasErrors;
-    }
-
-    public void report_error(String message, Object info) {
-        if (info instanceof Symbol) {
-            Symbol s = (Symbol) info;
-            String tokenValue = s.value == null ? "EOF" : s.value.toString();
-            action_obj.reportError(message, tokenValue, s.left + 1, s.right + 1);
-        } else {
-            System.err.println("Error sintáctico: " + message);
-        }
-    }
-
-    public void report_fatal_error(String message, Object info) {
-        report_error("Error irrecuperable - " + message, info);
-    }
-
-    public void report_expected_token_ids() {
-    }
-
 
 /** Cup generated class to encapsulate user supplied action code.*/
 @SuppressWarnings({"rawtypes", "unchecked", "unused"})
 class CUP$parser$actions {
 
-
-    private static boolean hasErrors = false;
-
-    // Método helper para obtener el valor del token de forma segura
-    public static String getTokenValue(Symbol token) {
-        if (token == null) return "EOF";
-        return token.value == null ? "EOF" : token.value.toString();
-    }
-
-    // Método helper para obtener la línea de forma segura
-    public static int getLine(Symbol token) {
-        if (token == null) return 0;
-        return token.left + 1;
-    }
-
-    // Método helper para obtener la columna de forma segura
-    public static int getColumn(Symbol token) {
-        if (token == null) return 0;
-        return token.right + 1;
-    }
-
-    // Método para errores sintácticos recuperables
-    public void syntax_error(Symbol cur_token) {
-        hasErrors = true;
-        reportError("Token inesperado", getTokenValue(cur_token), getLine(cur_token), getColumn(cur_token));
-    }
-
-    // Método para errores sintácticos irrecuperables
-    public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
-        hasErrors = true;
-        reportError("Error sintáctico irrecuperable", getTokenValue(cur_token), getLine(cur_token), getColumn(cur_token));
-        throw new Exception("Error sintáctico irrecuperable");
-    }
-
-    // Método helper para reportar errores con formato consistente
-    public static void reportError(String mensaje, String token, int linea, int columna) {
-        System.err.println("Error sintáctico: " + mensaje + " '" + token +
-            "' en línea " + linea + ", columna " + columna);
-    }
-
-    // Método helper para reportar errores de producción
-    public static void reportProductionError(String mensaje, parser parser) {
-        Symbol token = null;
-        try {
-            token = parser.lex.next_token();
-        } catch (Exception e) {
-            // Si hay un error al obtener el siguiente token, usamos valores por defecto
-        }
-        reportError(mensaje, getTokenValue(token), getLine(token), getColumn(token));
-    }
-
-    void syntax_error(Symbol cur_token) {
-        String tokenName = cur_token.value == null ? "EOF" : cur_token.value.toString();
-        System.err.println("Error sintáctico inesperado en línea " + (cur_token.left + 1) + ", columna " + (cur_token.right + 1) +
-            ". Token inesperado: '" + tokenName + "'.");
-    }
-
-    void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
-        String tokenName = cur_token.value == null ? "EOF" : cur_token.value.toString();
-        throw new Exception("Error crítico de análisis sintáctico en línea " + (cur_token.left + 1) + ", columna " + (cur_token.right + 1) +
-            ". Token inesperado: '" + tokenName + "'.");
-    }
 
   private final parser parser;
 
