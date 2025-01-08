@@ -75,15 +75,16 @@ expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.prin
 asignarTipo ::= tipos IDENTIFICADOR:idVar {: System.out.println("Asignación: " + idVar.toString()); :}
               | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
 
-operadorRelacional ::= MENOR {:RESULT="snowball";:}
-                       | MENOR_IGUAL {:RESULT="evergreen";:}
-                       | MAYOR {:RESULT="minstix";:}
-                       | MAYOR_IGUAL {:RESULT="upatree";:}
-                       | IGUAL {:RESULT="mary";:}
-                       | DIFERENTE {:RESULT="openslae";:};
+operadorRelacional ::= MENOR
+                     | MENOR_IGUAL
+                     | MAYOR
+                     | MAYOR_IGUAL
+                     | IGUAL
+                     | DIFERENTE;
 
-operadorLogico ::= CONJUNCION {:RESULT="melchor";:}
-                   | DISYUNCION {:RESULT="gaspar";:};
+operadorLogico ::= CONJUNCION
+                 | DISYUNCION;
+
 
 negacion ::= NEGACION {:RESULT="baltazar";:};
 

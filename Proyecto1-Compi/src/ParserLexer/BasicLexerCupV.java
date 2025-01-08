@@ -1213,7 +1213,7 @@ private Symbol symbol(int type, Object value) {
           // fall through
           case 73: break;
           case 14:
-            { return symbol(0, yytext());
+            { return symbol(sym.IDENTIFICADOR, yytext());
             }
           // fall through
           case 74: break;

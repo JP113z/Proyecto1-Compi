@@ -902,7 +902,7 @@ class CUP$parser$actions {
           case 22: // operadorRelacional ::= MENOR 
             {
               Object RESULT =null;
-		RESULT="snowball";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("operadorRelacional",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -911,7 +911,7 @@ class CUP$parser$actions {
           case 23: // operadorRelacional ::= MENOR_IGUAL 
             {
               Object RESULT =null;
-		RESULT="evergreen";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("operadorRelacional",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -920,7 +920,7 @@ class CUP$parser$actions {
           case 24: // operadorRelacional ::= MAYOR 
             {
               Object RESULT =null;
-		RESULT="minstix";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("operadorRelacional",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -929,7 +929,7 @@ class CUP$parser$actions {
           case 25: // operadorRelacional ::= MAYOR_IGUAL 
             {
               Object RESULT =null;
-		RESULT="upatree";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("operadorRelacional",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -938,7 +938,7 @@ class CUP$parser$actions {
           case 26: // operadorRelacional ::= IGUAL 
             {
               Object RESULT =null;
-		RESULT="mary";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("operadorRelacional",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -947,7 +947,7 @@ class CUP$parser$actions {
           case 27: // operadorRelacional ::= DIFERENTE 
             {
               Object RESULT =null;
-		RESULT="openslae";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("operadorRelacional",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -956,7 +956,7 @@ class CUP$parser$actions {
           case 28: // operadorLogico ::= CONJUNCION 
             {
               Object RESULT =null;
-		RESULT="melchor";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("operadorLogico",7, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -965,7 +965,7 @@ class CUP$parser$actions {
           case 29: // operadorLogico ::= DISYUNCION 
             {
               Object RESULT =null;
-		RESULT="gaspar";
+
               CUP$parser$result = parser.getSymbolFactory().newSymbol("operadorLogico",7, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
