@@ -1,7 +1,7 @@
 package Main;
 
 import ParserLexer.BasicLexerCupV;
-import java_cup.parser;
+import ParserLexer.parser;
 import java_cup.runtime.Symbol;
 import jflex.exceptions.SilentExit;
 
@@ -107,6 +107,33 @@ public class MainJFlexCup {
         }
     }
 
+    public void pruebaParser(String rutaScanear) throws IOException {
+        try (Reader reader = new BufferedReader(new FileReader(rutaScanear))) {
+            BasicLexerCupV lexer = new BasicLexerCupV(reader);
+            parser parser = new parser(lexer);
+
+            System.out.println("=== Iniciando análisis sintáctico ===");
+
+            try {
+                Symbol result = parser.parse();
+                if (!parser.hasErrors()) {
+                    System.out.println("=== Análisis sintáctico completado exitosamente ===");
+                }
+            } catch (Exception e) {
+                if (e.getCause() != null) {
+                    System.err.println("Error sintáctico: " + e.getCause().getMessage());
+                } else {
+                    System.err.println("Error sintáctico: " + e.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo: " + e.getMessage());
+            throw e;
+        } finally {
+            System.out.println("=== Fin del análisis sintáctico ===");
+        }
+    }
+
     /**
      * Método: generateFile
      * Objetivo: Escribe una linea de texto en un archivo de salida.
@@ -123,55 +150,6 @@ public class MainJFlexCup {
         } catch (IOException e) {
             System.err.println("Error escribiendo en el archivo: " + e.getMessage());
         }
-    }
-
-    public void pruebaParser(String rutaScanear) throws IOException {
-        try (Reader reader = new BufferedReader(new FileReader(rutaScanear))) {
-            BasicLexerCupV lexer = new BasicLexerCupV(reader);
-            parser parser = new parser(lexer);
-
-            System.out.println("\n=== Iniciando análisis sintáctico ===");
-
-            try {
-                // Reutilizamos el mismo lexer que ya está configurado para el parsing
-                Symbol result = parser.parse();
-
-                if (result != null) {
-                    System.out.println("Análisis sintáctico completado exitosamente.");
-                    System.out.println("Estructura del programa válida según la gramática.");
-                    if (result.value != null) {
-                        System.out.println("Valor resultante: " + result.value);
-                    }
-                } else {
-                    System.out.println("Advertencia: El análisis sintáctico no produjo resultados.");
-                }
-            } catch (Exception e) {
-                System.err.println("\nError durante el análisis sintáctico:");
-                System.err.println("- Tipo de error: " + e.getClass().getSimpleName());
-                System.err.println("- Mensaje: " + e.getMessage());
-
-                if (e.getCause() != null) {
-                    System.err.println("- Causa: " + e.getCause().getMessage());
-                }
-
-                System.err.println("\nDetalles técnicos del error:");
-                e.printStackTrace();
-            }
-        } finally {
-            System.out.println("\n=== Fin del análisis sintáctico ===");
-        }
-    }
-
-    /**
-     * Helper method to create a reader for a given file path.
-     * Mimics the logic used in `ejercicioLexerV2024`.
-     *
-     * @param rutaScanear The path to the file to read.
-     * @return A BufferedReader instance for the file.
-     * @throws IOException If the file cannot be read.
-     */
-    private Reader createReader(String rutaScanear) throws IOException {
-        return new BufferedReader(new FileReader(rutaScanear));
     }
 
 }

@@ -1,7 +1,69 @@
 package ParserLexer;
 import java_cup.runtime.*;
 
-action code {: :};
+action code {:
+    private static boolean hasErrors = false;
+
+    // Método helper para obtener el valor del token de forma segura
+    public static String getTokenValue(Symbol token) {
+        if (token == null) return "EOF";
+        return token.value == null ? "EOF" : token.value.toString();
+    }
+
+    // Método helper para obtener la línea de forma segura
+    public static int getLine(Symbol token) {
+        if (token == null) return 0;
+        return token.left + 1;
+    }
+
+    // Método helper para obtener la columna de forma segura
+    public static int getColumn(Symbol token) {
+        if (token == null) return 0;
+        return token.right + 1;
+    }
+
+    // Método para errores sintácticos recuperables
+    public void syntax_error(Symbol cur_token) {
+        hasErrors = true;
+        reportError("Token inesperado", getTokenValue(cur_token), getLine(cur_token), getColumn(cur_token));
+    }
+
+    // Método para errores sintácticos irrecuperables
+    public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
+        hasErrors = true;
+        reportError("Error sintáctico irrecuperable", getTokenValue(cur_token), getLine(cur_token), getColumn(cur_token));
+        throw new Exception("Error sintáctico irrecuperable");
+    }
+
+    // Método helper para reportar errores con formato consistente
+    public static void reportError(String mensaje, String token, int linea, int columna) {
+        System.err.println("Error sintáctico: " + mensaje + " '" + token +
+            "' en línea " + linea + ", columna " + columna);
+    }
+
+    // Método helper para reportar errores de producción
+    public static void reportProductionError(String mensaje, parser parser) {
+        Symbol token = null;
+        try {
+            token = parser.lex.next_token();
+        } catch (Exception e) {
+            // Si hay un error al obtener el siguiente token, usamos valores por defecto
+        }
+        reportError(mensaje, getTokenValue(token), getLine(token), getColumn(token));
+    }
+
+    void syntax_error(Symbol cur_token) {
+        String tokenName = cur_token.value == null ? "EOF" : cur_token.value.toString();
+        System.err.println("Error sintáctico inesperado en línea " + (cur_token.left + 1) + ", columna " + (cur_token.right + 1) +
+            ". Token inesperado: '" + tokenName + "'.");
+    }
+
+    void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception {
+        String tokenName = cur_token.value == null ? "EOF" : cur_token.value.toString();
+        throw new Exception("Error crítico de análisis sintáctico en línea " + (cur_token.left + 1) + ", columna " + (cur_token.right + 1) +
+            ". Token inesperado: '" + tokenName + "'.");
+    }
+:};
 
 parser code {:
     BasicLexerCupV lex;
@@ -10,6 +72,27 @@ parser code {:
     public parser(BasicLexerCupV lex) {
         this.lex = lex;
         this.symbolFactory = new DefaultSymbolFactory();
+    }
+
+    public boolean hasErrors() {
+        return action_obj.hasErrors;
+    }
+
+    public void report_error(String message, Object info) {
+        if (info instanceof Symbol) {
+            Symbol s = (Symbol) info;
+            String tokenValue = s.value == null ? "EOF" : s.value.toString();
+            action_obj.reportError(message, tokenValue, s.left + 1, s.right + 1);
+        } else {
+            System.err.println("Error sintáctico: " + message);
+        }
+    }
+
+    public void report_fatal_error(String message, Object info) {
+        report_error("Error irrecuperable - " + message, info);
+    }
+
+    public void report_expected_token_ids() {
     }
 :}
 
@@ -46,26 +129,46 @@ precedence left CONJUNCION, DISYUNCION;
 start with inicio;
 
 inicio ::= MAIN sentencias
-         | funciones; 
+         | funciones;
 
 /* Definiciones */
 tipos ::= L_INTEGER | L_STRING | L_FLOAT | L_CHAR | bool;
+
 bool ::= TRUE | FALSE;
+
 literales ::= INTEGER | STRING | CHAR | FLOAT | BOOL;
 
-expresionRelacional ::= asignarTipo operadorRelacional literales;
-expresionLogica ::= asignarTipo operadorLogico literales | negacion literales;
+expresionRelacional ::= asignarTipo operadorRelacional literales
+                     | error {:
+                         parser.action_obj.reportProductionError("Expresión relacional inválida", parser);
+                     :};
 
-asignarTipo ::= tipos IDENTIFICADOR;
+expresionLogica ::= asignarTipo operadorLogico literales
+                  | negacion literales
+                  | error {:
+                      parser.action_obj.reportProductionError("Expresión lógica inválida", parser);
+                  :};
+
+asignarTipo ::= tipos IDENTIFICADOR
+              | tipos error {:
+                  parser.action_obj.reportProductionError("Falta identificador después del tipo", parser);
+              :};
 
 operadorRelacional ::= MENOR | MENOR_IGUAL | MAYOR | MAYOR_IGUAL | IGUAL | DIFERENTE;
+
 operadorLogico ::= CONJUNCION | DISYUNCION;
+
 negacion ::= NEGACION;
 
-creacion ::= asignarTipo FIN_EXPRESION;
+creacion ::= asignarTipo FIN_EXPRESION
+           | asignarTipo error {:
+               parser.action_obj.reportProductionError("Falta punto y coma al final de la declaración", parser);
+           :};
+
 creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION;
 
 sentencias ::= sentencia | sentencias sentencia;
+
 sentencia ::= asignaVariable
             | creacion
             | creacionAsignacion
@@ -76,45 +179,76 @@ sentencia ::= asignaVariable
             | switch_estructura;
 
 funciones ::= funcion
-           | funciones funcion;
+           | funciones funcion
+           | error {:
+               parser.action_obj.reportProductionError("Definición de función inválida", parser);
+           :};
 
-funcion ::= encabezadoFuncion bloque;
+funcion ::= encabezadoFuncion bloque
+          | encabezadoFuncion error {:
+              parser.action_obj.reportProductionError("Falta bloque de código", parser);
+          :};
 
-encabezadoFuncion ::= asignarTipo parametros;
+encabezadoFuncion ::= asignarTipo parametros
+                    | encabezadoFuncion error {:
+                        parser.action_obj.reportProductionError("Encabezado de función inválido", parser);
+                    :};
 
-bloque ::= corcheteIzquierdo sentencias corcheteDerecho;
+bloque ::= corcheteIzquierdo sentencias corcheteDerecho
+         | corcheteIzquierdo error {:
+             parser.action_obj.reportProductionError("Bloque de código incompleto", parser);
+         :};
 
 parametros ::= PARENTESISAPERTURA PARENTESISCIERRE
-             | PARENTESISAPERTURA parametroAux PARENTESISCIERRE;
-parametroAux ::= asignarTipo | parametroAux COMA asignarTipo;
+             | PARENTESISAPERTURA parametroAux PARENTESISCIERRE
+             | error {:
+                 parser.action_obj.reportProductionError("Definición de parámetros inválida", parser);
+             :};
+
+parametroAux ::= asignarTipo
+               | parametroAux COMA asignarTipo
+               | error {:
+                   parser.action_obj.reportProductionError("Parámetros mal definidos", parser);
+               :};
 
 expresionRelacional ::= crearArreglos operadorRelacional arreglos;
+
 expresionLogica ::= crearArreglos operadorLogico arreglos;
 
 tipoArreglo ::= L_CHAR CORCHETEAPERTURA CORCHETECIERRE
               | L_INTEGER CORCHETEAPERTURA CORCHETECIERRE;
 
 crearArreglos ::= tipoArreglo IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
+
 modificarArreglos ::= IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
 
-arreglos ::= arreglo | arreglos arreglo;
+arreglos ::= arreglo | arreglos arreglo
+           | error {:
+               parser.action_obj.reportProductionError("Definición de arreglos inválida", parser);
+           :};
+
 arreglo ::= parametrosArreglo;
 
 parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
                     | corcheteIzquierdo parametrosArregloAux corcheteDerecho;
-parametrosArregloAux ::= asignarTipo | parametrosArregloAux COMA asignarTipo;
 
-expresionRelacional ::= asignarTipo operadorRelacional variable;
-expresionLogica ::= asignarTipo operadorLogico variable;
+parametrosArregloAux ::= asignarTipo
+                       | parametrosArregloAux COMA asignarTipo;
 
-asignaVariable ::= variable ASIGNA literales | modificarArreglos ASIGNA literales;
+asignaVariable ::= variable ASIGNA literales
+                 | modificarArreglos ASIGNA literales
+                 | variable error {:
+                     parser.action_obj.reportProductionError("Asignación de variable mal formada", parser);
+                 :};
 
 variable ::= IDENTIFICADOR;
 
 operandoBinaria ::= SUMA | RESTA | DIVISION | MULTIPLICACION | MODULO | POTENCIA;
+
 expresionBinaria ::= expresion operandoBinaria expresion;
 
 operandoUnario ::= INCREMENTO | DECREMENTO;
+
 expresionUnario ::= expresion operandoUnario | NEGATIVO expresion;
 
 expresionRelacionalMat ::= expresion operadorRelacional expresion;
@@ -126,7 +260,6 @@ expresiones ::= expresionRelacional
               | expresionUnario
               | expresionRelacionalMat
               | PARENTESISAPERTURA expresiones PARENTESISCIERRE;
-
 
 expresion ::= INTEGER | FLOAT;
 
@@ -144,21 +277,31 @@ if_estructura ::= IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenci
                 | IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
 
 for_estructura ::= FOR PARENTESISAPERTURA IDENTIFICADOR DOS_PUNTOS rango PARENTESISCIERRE sentencia;
+
 while_estructura ::= WHILE PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura;
 
 rango ::= expresion PUNTOS expresion
-        | expresion PUNTOS expresion PUNTOS;
+        | expresion PUNTOS expresion PUNTOS
+        | error {:
+            parser.action_obj.reportProductionError("Rango inválido", parser);
+        :};
 
 switch_estructura ::= SWITCH PARENTESISAPERTURA expresion PARENTESISCIERRE corcheteIzquierdo casos_switch corcheteDerecho;
+
 casos_switch ::= caso_switch | casos_switch caso_switch;
+
 caso_switch ::= CASE expresion DOS_PUNTOS sentencia_lista
               | DEFAULT DOS_PUNTOS sentencia_lista;
 
 return_estructura ::= RETURN expresion FIN_EXPRESION
                     | RETURN FIN_EXPRESION;
+
 break_estructura ::= BREAK FIN_EXPRESION;
 
 print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE
         | PRINT PARENTESISAPERTURA variable PARENTESISCIERRE;
 
 read ::= READ PARENTESISAPERTURA expresion PARENTESISCIERRE;
+
+
+
