@@ -58,33 +58,34 @@ tipos ::= L_INTEGER:iVar {: System.out.println("tipo: " + iVar.toString()); :}
 bool ::= TRUE {:RESULT="true";:}
         | FALSE{:RESULT="false";:};
 
-literales ::= INTEGER {:RESULT="rodolfo";:}
-            | STRING {:RESULT="cometa";:}
-            | CHAR {:RESULT="cupido";:}
-            | FLOAT {:RESULT="bromista";:}
-            | BOOL {:RESULT="trueno";:};
+literales ::= INTEGER:i {:RESULT="rodolfo";:}
+            | STRING:s {:RESULT="cometa";:}
+            | CHAR:c {:RESULT="cupido";:}
+            | FLOAT:f {:RESULT="bromista";:}
+            | BOOL:b {:RESULT="trueno";:};
 
-expresionRelacional ::= asignarTipo operadorRelacional literales
-                     | error {:
-                         parser.action_obj.reportProductionError("Expresión relacional inválida", parser);
-                     :};
 
-expresionLogica ::= asignarTipo operadorLogico literales
-                  | negacion literales
-                  | error {:
-                      parser.action_obj.reportProductionError("Expresión lógica inválida", parser);
-                  :};
+expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :}
+                     | error {: System.err.println("Error: Expresión relacional inválida"); :};
 
-asignarTipo ::= tipos IDENTIFICADOR
-              | tipos error {:
-                  parser.action_obj.reportProductionError("Falta identificador después del tipo", parser);
-              :};
+expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.println("Expresión lógica: " + op + " " + l); :}
+                  | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
+                  | error {: System.err.println("Error: Expresión lógica inválida"); :};
 
-operadorRelacional ::= MENOR | MENOR_IGUAL | MAYOR | MAYOR_IGUAL | IGUAL | DIFERENTE;
+asignarTipo ::= tipos IDENTIFICADOR:idVar {: System.out.println("Asignación: " + idVar.toString()); :}
+              | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
 
-operadorLogico ::= CONJUNCION | DISYUNCION;
+operadorRelacional ::= MENOR {:RESULT="snowball";:}
+                       | MENOR_IGUAL {:RESULT="evergreen";:}
+                       | MAYOR {:RESULT="minstix";:}
+                       | MAYOR_IGUAL {:RESULT="upatree";:}
+                       | IGUAL {:RESULT="mary";:}
+                       | DIFERENTE {:RESULT="openslae";:};
 
-negacion ::= NEGACION;
+operadorLogico ::= CONJUNCION {:RESULT="melchor";:}
+                   | DISYUNCION {:RESULT="gaspar";:};
+
+negacion ::= NEGACION {:RESULT="baltazar";:};
 
 creacion ::= asignarTipo FIN_EXPRESION
            | asignarTipo error {:
@@ -167,15 +168,21 @@ asignaVariable ::= variable ASIGNA literales
                      parser.action_obj.reportProductionError("Asignación de variable mal formada", parser);
                  :};
 
-variable ::= IDENTIFICADOR;
+variable ::= IDENTIFICADOR:idVar;
 
-operandoBinaria ::= SUMA | RESTA | DIVISION | MULTIPLICACION | MODULO | POTENCIA;
+operandoBinaria ::= SUMA {:RESULT="navidad";:}
+                | RESTA {:RESULT="intercambio";:}
+                | DIVISION {:RESULT="reyes";:}
+                | MULTIPLICACION {:RESULT="nochebuena";:}
+                | MODULO {:RESULT="magos";:}
+                | POTENCIA {:RESULT="adviento";:};
 
 expresionBinaria ::= expresion operandoBinaria expresion;
 
-operandoUnario ::= INCREMENTO | DECREMENTO;
+operandoUnario ::= INCREMENTO {:RESULT="quien";:}
+                | DECREMENTO {:RESULT="grinch";:};
 
-expresionUnario ::= expresion operandoUnario | NEGATIVO expresion;
+expresionUnario ::= expresion operandoUnario | NEGATIVO {:RESULT="-";:} expresion;
 
 expresionRelacionalMat ::= expresion operadorRelacional expresion;
 
@@ -187,7 +194,8 @@ expresiones ::= expresionRelacional
               | expresionRelacionalMat
               | PARENTESISAPERTURA expresiones PARENTESISCIERRE;
 
-expresion ::= INTEGER | FLOAT;
+expresion ::= INTEGER {:RESULT="rodolfo";:}
+            | FLOAT {:RESULT="bromista";:};
 
 sentencia_lista ::= sentenciaEstructura | sentencia_lista sentenciaEstructura;
 
@@ -228,6 +236,3 @@ print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE
         | PRINT PARENTESISAPERTURA variable PARENTESISCIERRE;
 
 read ::= READ PARENTESISAPERTURA expresion PARENTESISCIERRE;
-
-
-

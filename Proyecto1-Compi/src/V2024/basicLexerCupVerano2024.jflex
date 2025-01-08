@@ -95,8 +95,8 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 
 /* Tipos de datos */
 <YYINITIAL>"rodolfo" { return symbol(sym.INTEGER); }
-<YYINITIAL>"bromista " { return symbol(sym.FLOAT); }
-<YYINITIAL>"trueno " { return symbol(sym.BOOL); }
+<YYINITIAL>"bromista" { return symbol(sym.FLOAT); }
+<YYINITIAL>"trueno" { return symbol(sym.BOOL); }
 <YYINITIAL>"cupido" { return symbol(sym.CHAR); }
 <YYINITIAL>"cometa" { return symbol(sym.STRING); }
 
