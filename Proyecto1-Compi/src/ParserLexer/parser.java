@@ -682,7 +682,10 @@ class CUP$parser$actions {
           case 3: // tipos ::= L_INTEGER 
             {
               Object RESULT =null;
-
+		int iVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int iVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object iVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		 System.out.println("tipo: " + iVar.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -691,7 +694,10 @@ class CUP$parser$actions {
           case 4: // tipos ::= L_STRING 
             {
               Object RESULT =null;
-
+		int sVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int sVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object sVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		 System.out.println("tipo: " + sVar.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -700,7 +706,10 @@ class CUP$parser$actions {
           case 5: // tipos ::= L_FLOAT 
             {
               Object RESULT =null;
-
+		int fVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int fVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object fVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		 System.out.println("tipo: " + fVar.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -709,7 +718,10 @@ class CUP$parser$actions {
           case 6: // tipos ::= L_CHAR 
             {
               Object RESULT =null;
-
+		int cVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int cVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object cVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		 System.out.println("tipo: " + cVar.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -718,7 +730,10 @@ class CUP$parser$actions {
           case 7: // tipos ::= bool 
             {
               Object RESULT =null;
-
+		int bVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int bVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object bVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		 System.out.println("tipo: " + bVar.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -727,7 +742,7 @@ class CUP$parser$actions {
           case 8: // bool ::= TRUE 
             {
               Object RESULT =null;
-
+		RESULT="true";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("bool",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -736,7 +751,7 @@ class CUP$parser$actions {
           case 9: // bool ::= FALSE 
             {
               Object RESULT =null;
-
+		RESULT="false";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("bool",6, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -745,7 +760,7 @@ class CUP$parser$actions {
           case 10: // literales ::= INTEGER 
             {
               Object RESULT =null;
-
+		RESULT="rodolfo";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -754,7 +769,7 @@ class CUP$parser$actions {
           case 11: // literales ::= STRING 
             {
               Object RESULT =null;
-
+		RESULT="cometa";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -763,7 +778,7 @@ class CUP$parser$actions {
           case 12: // literales ::= CHAR 
             {
               Object RESULT =null;
-
+		RESULT="cupido";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -772,7 +787,7 @@ class CUP$parser$actions {
           case 13: // literales ::= FLOAT 
             {
               Object RESULT =null;
-
+		RESULT="bromista";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -781,7 +796,7 @@ class CUP$parser$actions {
           case 14: // literales ::= BOOL 
             {
               Object RESULT =null;
-
+		RESULT="trueno";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

@@ -49,11 +49,20 @@ inicio ::= MAIN sentencias
          | funciones;
 
 /* Definiciones */
-tipos ::= L_INTEGER | L_STRING | L_FLOAT | L_CHAR | bool;
+tipos ::= L_INTEGER:iVar {: System.out.println("tipo: " + iVar.toString()); :}
+        | L_STRING:sVar {: System.out.println("tipo: " + sVar.toString()); :}
+        | L_FLOAT:fVar {: System.out.println("tipo: " + fVar.toString()); :}
+        | L_CHAR:cVar {: System.out.println("tipo: " + cVar.toString()); :}
+        | bool:bVar{: System.out.println("tipo: " + bVar.toString()); :};
 
-bool ::= TRUE | FALSE;
+bool ::= TRUE {:RESULT="true";:}
+        | FALSE{:RESULT="false";:};
 
-literales ::= INTEGER | STRING | CHAR | FLOAT | BOOL;
+literales ::= INTEGER {:RESULT="rodolfo";:}
+            | STRING {:RESULT="cometa";:}
+            | CHAR {:RESULT="cupido";:}
+            | FLOAT {:RESULT="bromista";:}
+            | BOOL {:RESULT="trueno";:};
 
 expresionRelacional ::= asignarTipo operadorRelacional literales
                      | error {:
