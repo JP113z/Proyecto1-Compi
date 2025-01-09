@@ -65,14 +65,14 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 %%
 
 /* Procedimiento main */
-<YYINITIAL>"_verano_" { return symbol(sym.MAIN); }
+<YYINITIAL>"_verano_" { return symbol(sym.MAIN, "_verano_"); }
 
 /* Tipos de datos */
-<YYINITIAL>"rodolfo" { return symbol(sym.INTEGER); }
-<YYINITIAL>"bromista " { return symbol(sym.FLOAT); }
-<YYINITIAL>"trueno " { return symbol(sym.BOOL); }
-<YYINITIAL>"cupido" { return symbol(sym.CHAR); }
-<YYINITIAL>"cometa" { return symbol(sym.STRING); }
+<YYINITIAL>"rodolfo" { return symbol(sym.INTEGER, "rodolfo"); }
+<YYINITIAL>"cometa" { return symbol(sym.STRING, "cometa"); }
+<YYINITIAL>"bromista" { return symbol(sym.FLOAT, "bromista"); }
+<YYINITIAL>"trueno" { return symbol(sym.BOOL, "trueno"); }
+<YYINITIAL>"cupido" { return symbol(sym.CHAR, "cupido"); }
 
 
 /* Tipo de dato char solo reconoce un caractarer dentro del char (se asume así por el anexo del enunciado del proyecto)*/
@@ -87,12 +87,12 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 
 
 /* Apertura de bloques de código */
-<YYINITIAL>"abrecuento" { return symbol(sym.corcheteIzquierdo); }
-<YYINITIAL>"cierracuento" { return symbol(sym.corcheteDerecho); }
+<YYINITIAL>"abrecuento" { return symbol(sym.corcheteIzquierdo, "abrecuento"); }
+<YYINITIAL>"cierracuento" { return symbol(sym.corcheteDerecho, "cierracuento"); }
 
 /* Apertura y cierre de arreglos */
-<YYINITIAL>"abreempaque" { return symbol(sym.CORCHETEAPERTURA); }
-<YYINITIAL>"cierraempaque" { return symbol(sym.CORCHETECIERRE); }
+<YYINITIAL>"abreempaque" { return symbol(sym.CORCHETEAPERTURA, "abreempaque"); }
+<YYINITIAL>"cierraempaque" { return symbol(sym.CORCHETECIERRE, "cierraempaque"); }
 
 
 /* Identificadores válidos */
@@ -100,59 +100,59 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
     return symbol(sym.IDENTIFICADOR, yytext());
 }
 
-<YYINITIAL>".." { return symbol(sym.PUNTOS); }
+<YYINITIAL>".." { return symbol(sym.PUNTOS, ".."); }
 
-<YYINITIAL>"true" { return symbol(sym.TRUE); }
-<YYINITIAL>"false" { return symbol(sym.FALSE); }
+<YYINITIAL>"true" { return symbol(sym.TRUE, "true"); }
+<YYINITIAL>"false" { return symbol(sym.FALSE, "false"); }
 
 /* Operador de asignación */
-<YYINITIAL>"entrega" { return symbol(sym.ASIGNA); }
+<YYINITIAL>"entrega" { return symbol(sym.ASIGNA, "entrega"); }
 
 /* Paréntesis para  operadores y operandos */
-<YYINITIAL>"abreregalo" { return symbol(sym.PARENTESISAPERTURA); }
-<YYINITIAL>"cierraregalo" { return symbol(sym.PARENTESISCIERRE); }
+<YYINITIAL>"abreregalo" { return symbol(sym.PARENTESISAPERTURA, "abreregalo"); }
+<YYINITIAL>"cierraregalo" { return symbol(sym.PARENTESISCIERRE, "cierraregalo"); }
 
 /* Separador */
-<YYINITIAL>"," { return symbol(sym.COMA); }
+<YYINITIAL>"," { return symbol(sym.COMA, ","); }
 
 /* Operadores unarios */
-<YYINITIAL>"quien" { return symbol(sym.INCREMENTO); }
-<YYINITIAL>"grinch" { return symbol(sym.DECREMENTO); }
-<YYINITIAL>"-" { return symbol(sym.NEGATIVO); }
+<YYINITIAL>"quien" { return symbol(sym.INCREMENTO, "quien"); }
+<YYINITIAL>"grinch" { return symbol(sym.DECREMENTO, "grinch"); }
+<YYINITIAL>"-" { return symbol(sym.NEGATIVO, "-"); }
 
 
 /* Operadores relacionales */
-<YYINITIAL>"snowball" { return symbol(sym.MENOR); }
-<YYINITIAL>"evergreen" { return symbol(sym.MENOR_IGUAL); }
-<YYINITIAL>"minstix" { return symbol(sym.MAYOR); }
-<YYINITIAL>"upatree" { return symbol(sym.MAYOR_IGUAL); }
-<YYINITIAL>"mary" { return symbol(sym.IGUAL); }
-<YYINITIAL>"openslae" { return symbol(sym.DIFERENTE); }
+<YYINITIAL>"snowball" { return symbol(sym.MENOR, "snowball"); }
+<YYINITIAL>"evergreen" { return symbol(sym.MENOR_IGUAL, "evergreen"); }
+<YYINITIAL>"minstix" { return symbol(sym.MAYOR, "minstix"); }
+<YYINITIAL>"upatree" { return symbol(sym.MAYOR_IGUAL, "upatree"); }
+<YYINITIAL>"mary" { return symbol(sym.IGUAL, "mary"); }
+<YYINITIAL>"openslae" { return symbol(sym.DIFERENTE,"openslae"); }
 
 /* Operadores lógicos */
-<YYINITIAL>"melchor" { return symbol(sym.CONJUNCION); }
-<YYINITIAL>"gaspar" { return symbol(sym.DISYUNCION); }
-<YYINITIAL>"baltazar" { return symbol(sym.NEGACION); }
+<YYINITIAL>"melchor" { return symbol(sym.CONJUNCION, "melchor"); }
+<YYINITIAL>"gaspar" { return symbol(sym.DISYUNCION, "gaspar"); }
+<YYINITIAL>"baltazar" { return symbol(sym.NEGACION, "baltazar"); }
 
 /* Delimitador de final de expresión */
-<YYINITIAL>"finregalo" { return symbol(sym.FIN_EXPRESION); }
+<YYINITIAL>"finregalo" { return symbol(sym.FIN_EXPRESION, "finregalo"); }
 
 
 /* Estructuras de control */
-<YYINITIAL>"elfo" { return symbol(sym.IF); }
-<YYINITIAL>"hada" { return symbol(sym.ELSE); }
-<YYINITIAL>"envuelve" { return symbol(sym.WHILE); }
-<YYINITIAL>"duende" { return symbol(sym.FOR); }
-<YYINITIAL>"varios" { return symbol(sym.SWITCH); }
-<YYINITIAL>"historia" { return symbol(sym.CASE); }
-<YYINITIAL>"ultimo" { return symbol(sym.DEFAULT); }
-<YYINITIAL>"corta" { return symbol(sym.BREAK); }
-<YYINITIAL>"envia" { return symbol(sym.RETURN); }
-<YYINITIAL>"sigue" { return symbol(sym.DOS_PUNTOS); }
+<YYINITIAL>"elfo" { return symbol(sym.IF, "elfo"); }
+<YYINITIAL>"hada" { return symbol(sym.ELSE, "hada"); }
+<YYINITIAL>"envuelve" { return symbol(sym.WHILE, "envuelve"); }
+<YYINITIAL>"duende" { return symbol(sym.FOR, "duende"); }
+<YYINITIAL>"varios" { return symbol(sym.SWITCH, "varios"); }
+<YYINITIAL>"historia" { return symbol(sym.CASE, "historia"); }
+<YYINITIAL>"ultimo" { return symbol(sym.DEFAULT, "ultimo"); }
+<YYINITIAL>"corta" { return symbol(sym.BREAK, "corta"); }
+<YYINITIAL>"envia" { return symbol(sym.RETURN, "envia"); }
+<YYINITIAL>"sigue" { return symbol(sym.DOS_PUNTOS, "sigue"); }
 
 /* Operaciones de entrada/salida */
-<YYINITIAL>"narra" { return symbol(sym.PRINT); }
-<YYINITIAL>"escucha" { return symbol(sym.READ); }
+<YYINITIAL>"narra" { return symbol(sym.PRINT, "narra"); }
+<YYINITIAL>"escucha" { return symbol(sym.READ, "escucha"); }
 
 /* literales */
     <YYINITIAL>{DecIntegerLiteral} {
@@ -170,12 +170,12 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 
 <YYINITIAL> {
     /* operators */
-    "navidad" { return symbol(sym.SUMA); }
-    "intercambio" { return symbol(sym.RESTA); }
-    "reyes" { return symbol(sym.DIVISION); }
-    "nochebuena" { return symbol(sym.MULTIPLICACION); }
-    "magos" { return symbol(sym.MODULO); }
-    "adviento" { return symbol(sym.POTENCIA); }
+    "navidad" { return symbol(sym.SUMA, "navidad"); }
+    "intercambio" { return symbol(sym.RESTA, "intercambio"); }
+    "reyes" { return symbol(sym.DIVISION, "reyes"); }
+    "nochebuena" { return symbol(sym.MULTIPLICACION, "nochebuena"); }
+    "magos" { return symbol(sym.MODULO, "magos"); }
+    "adviento" { return symbol(sym.POTENCIA, "adviento"); }
 
     /* whitespace que representa los espacios en blanco */
     {WhiteSpace} { /* ignore */ }

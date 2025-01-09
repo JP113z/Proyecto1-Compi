@@ -53,11 +53,31 @@ inicio ::= MAIN sentencias
          | error {: System.err.println("Error en la estructura inicial."); :};
 
 /* Definiciones */
-tipos ::=INTEGER:i {:RESULT="rodolfo";:}
-        | STRING:s {:RESULT="cometa";:}
-        | CHAR:c {:RESULT="cupido";:}
-        | FLOAT:f {:RESULT="bromista";:}
-        | BOOL:b {:RESULT="trueno";:};
+tipos ::= INTEGER:i
+          {:
+             System.out.println("Tipo: " + i);
+             RESULT="rodolfo";
+          :}
+        | STRING:s
+          {:
+             System.out.println("Tipo: " + s);
+             RESULT="cometa";
+          :}
+        | CHAR:c
+          {:
+             System.out.println("Tipo: " + c);
+             RESULT="cupido";
+          :}
+        | FLOAT:f
+          {:
+             System.out.println("Tipo: " + f);
+             RESULT="bromista";
+          :}
+        | BOOL:b
+          {:
+             System.out.println("Tipo: " + b);
+             RESULT = "trueno";
+          :};
 
 
 literales ::= L_INTEGER:iVar {: System.out.println("Tipo: " + iVar.toString()); :}
@@ -76,7 +96,7 @@ expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.prin
                   | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
                   | error {: System.err.println("Error: Expresión lógica inválida"); :};
 
-asignarTipo ::= tipos IDENTIFICADOR:idVar {: System.out.println("Asignación: " + idVar.toString()); :}
+asignarTipo ::= tipos IDENTIFICADOR:idVar {: System.out.println("Identificador: " + idVar.toString()); :}
               | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
 
 operadorRelacional ::= MENOR {:RESULT="snowball";:}
@@ -93,7 +113,11 @@ negacion ::= NEGACION {:RESULT="baltazar";:};
 
 creacion ::= asignarTipo FIN_EXPRESION;
 
-creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION;
+creacionAsignacion ::= asignarTipo ASIGNA:a
+                                                   {:
+                                                      System.out.println("Tipo: " + a);
+                                                      RESULT = "entrega";
+                                                   :} literales FIN_EXPRESION;
 
 sentencias ::= sentencia | sentencias sentencia;
 sentencia ::= asignaVariable
