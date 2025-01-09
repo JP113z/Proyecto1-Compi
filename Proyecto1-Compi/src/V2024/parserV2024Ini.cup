@@ -46,23 +46,49 @@ precedence left CONJUNCION, DISYUNCION;
 start with inicio;
 
 inicio ::= MAIN sentencias
-         | funciones; 
+         | funciones;
 
 /* Definiciones */
-tipos ::= L_INTEGER | L_STRING | L_FLOAT | L_CHAR | bool;
-bool ::= TRUE | FALSE;
-literales ::= INTEGER | STRING | CHAR | FLOAT | BOOL;
+tipos ::= L_INTEGER:iVar {: System.out.println("tipo: " + iVar.toString()); :}
+        | L_STRING:sVar {: System.out.println("tipo: " + sVar.toString()); :}
+        | L_FLOAT:fVar {: System.out.println("tipo: " + fVar.toString()); :}
+        | L_CHAR:cVar {: System.out.println("tipo: " + cVar.toString()); :}
+        | bool:bVar{: System.out.println("tipo: " + bVar.toString()); :};
 
-expresionRelacional ::= asignarTipo operadorRelacional literales;
-expresionLogica ::= asignarTipo operadorLogico literales | negacion literales;
+bool ::= TRUE {:RESULT="true";:}
+        | FALSE{:RESULT="false";:};
 
-asignarTipo ::= tipos IDENTIFICADOR;
+literales ::= INTEGER:i {:RESULT="rodolfo";:}
+            | STRING:s {:RESULT="cometa";:}
+            | CHAR:c {:RESULT="cupido";:}
+            | FLOAT:f {:RESULT="bromista";:}
+            | BOOL:b {:RESULT="trueno";:};
 
-operadorRelacional ::= MENOR | MENOR_IGUAL | MAYOR | MAYOR_IGUAL | IGUAL | DIFERENTE;
-operadorLogico ::= CONJUNCION | DISYUNCION;
-negacion ::= NEGACION;
+
+expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :}
+                     | error {: System.err.println("Error: Expresión relacional inválida"); :};
+
+expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.println("Expresión lógica: " + op + " " + l); :}
+                  | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
+                  | error {: System.err.println("Error: Expresión lógica inválida"); :};
+
+asignarTipo ::= tipos IDENTIFICADOR:idVar {: System.out.println("Asignación: " + idVar.toString()); :}
+              | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
+
+operadorRelacional ::= MENOR {:RESULT="snowball";:}
+                       | MENOR_IGUAL {:RESULT="evergreen";:}
+                       | MAYOR {:RESULT="minstix";:}
+                       | MAYOR_IGUAL {:RESULT="upatree";:}
+                       | IGUAL {:RESULT="mary";:}
+                       | DIFERENTE {:RESULT="openslae";:};
+
+operadorLogico ::= CONJUNCION {:RESULT="melchor";:}
+                   | DISYUNCION {:RESULT="gaspar";:};
+
+negacion ::= NEGACION {:RESULT="baltazar";:};
 
 creacion ::= asignarTipo FIN_EXPRESION;
+
 creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION;
 
 sentencias ::= sentencia | sentencias sentencia;
@@ -109,13 +135,19 @@ expresionLogica ::= asignarTipo operadorLogico variable;
 
 asignaVariable ::= variable ASIGNA literales | modificarArreglos ASIGNA literales;
 
-variable ::= IDENTIFICADOR;
+variable ::= IDENTIFICADOR:idVar {: System.out.println("Variable: " + idVar.toString()); :};
 
-operandoBinaria ::= SUMA | RESTA | DIVISION | MULTIPLICACION | MODULO | POTENCIA;
+operandoBinaria ::= SUMA {:RESULT="navidad";:}
+                | RESTA {:RESULT="intercambio";:}
+                | DIVISION {:RESULT="reyes";:}
+                | MULTIPLICACION {:RESULT="nochebuena";:}
+                | MODULO {:RESULT="magos";:}
+                | POTENCIA {:RESULT="adviento";:};
 expresionBinaria ::= expresion operandoBinaria expresion;
 
-operandoUnario ::= INCREMENTO | DECREMENTO;
-expresionUnario ::= expresion operandoUnario | NEGATIVO expresion;
+operandoUnario ::= INCREMENTO {:RESULT="quien";:}
+                | DECREMENTO {:RESULT="grinch";:};
+expresionUnario ::= expresion operandoUnario | NEGATIVO {:RESULT="-";:} expresion;
 
 expresionRelacionalMat ::= expresion operadorRelacional expresion;
 
@@ -128,7 +160,8 @@ expresiones ::= expresionRelacional
               | PARENTESISAPERTURA expresiones PARENTESISCIERRE;
 
 
-expresion ::= INTEGER | FLOAT;
+expresion ::= INTEGER {:RESULT="rodolfo";:}
+            | FLOAT {:RESULT="bromista";:};
 
 sentencia_lista ::= sentenciaEstructura | sentencia_lista sentenciaEstructura;
 
