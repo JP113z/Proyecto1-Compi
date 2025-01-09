@@ -1,5 +1,4 @@
 package Main;
-
 import ParserLexer.BasicLexerCupV;
 import java_cup.runtime.Symbol;
 import jflex.exceptions.SilentExit;
@@ -9,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.FileWriter;
+
 
 public class MainJFlexCup {
 
@@ -109,7 +109,6 @@ public class MainJFlexCup {
     public void pruebaParser(String rutaParsear) throws Exception {
         // Crear el lector para leer el archivo
         Reader reader = new BufferedReader(new FileReader(rutaParsear));
-        reader.read();
 
         // Crear el lexer
         BasicLexerCupV myLexer = new BasicLexerCupV(reader);
@@ -118,9 +117,10 @@ public class MainJFlexCup {
         ParserLexer.parser myParser = new ParserLexer.parser(myLexer);
 
         // Ejecutar el parser
-        myParser.parse(); // También puedes habilitar debug_parse si es necesario
-    }
+        myParser.parse();
 
+        myParser.imprimirTablaSimbolos();
+    }
 
     /**
      * Método: generateFile

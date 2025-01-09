@@ -1,7 +1,10 @@
 package ParserLexer;
 import java_cup.runtime.*;
+import java.util.ArrayList;
+import java.util.HashMap;
 
-action code {::};
+action code {:
+:};
 
 parser code {:
     BasicLexerCupV lex;
@@ -11,6 +14,43 @@ parser code {:
         this.lex = lex;
         this.symbolFactory = new DefaultSymbolFactory();
     }
+
+        HashMap<String, ArrayList<String>> listaTablasSimbolos = new HashMap<String, ArrayList<String>>();
+        String currentHash;
+
+        public void imprimirTablaSimbolos() {
+            for (String key : listaTablasSimbolos.keySet()) {
+                System.out.println("Tabla de símbolo: " + key);
+                System.out.println("Valores: ");
+                for (String item : listaTablasSimbolos.get(key)) {
+                    System.out.println(item);
+                }
+                System.out.println("");
+            }
+        }
+
+        // Método para agregar una nueva tabla de símbolos (función o main)
+        public void agregarTablaSimbolos(String tipoTabla, String nombre) {
+            System.out.println("/+++Nueva tabla símbolos función o main+++/ " + nombre);
+            String tipo;
+            if (tipoTabla.equals("main")) {
+                tipo = "tipo:main";
+            } else {
+                tipo = "tipo:funcion:" + nombre;
+            }
+
+            ArrayList<String> nuevaTabla = new ArrayList<>();
+            nuevaTabla.add(tipo);
+
+            currentHash = nombre; // Identifica la tabla actual
+            listaTablasSimbolos.put(currentHash, nuevaTabla);
+        }
+
+        // Método para agregar variables a la tabla actual
+        public void agregarVariable(String nombre, String tipo) {
+            System.out.println("PARSER: identificador (agregar o verificar) " + nombre);
+            listaTablasSimbolos.get(currentHash).add(nombre + ":" + tipo);
+        }
 :}
 
 init with {: :};
@@ -45,7 +85,7 @@ precedence left CONJUNCION, DISYUNCION;
 /* Producción inicial */
 start with inicio;
 
-inicio ::= MAIN sentencias
+inicio ::= MAIN sentencias {: agregarTablaSimbolos("main", "main"); :}
          | funciones;
 
 /* Definiciones */
@@ -65,35 +105,29 @@ literales ::= INTEGER:i {:RESULT="rodolfo";:}
             | BOOL:b {:RESULT="trueno";:};
 
 
-expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :}
-                     | error {: System.err.println("Error: Expresión relacional inválida"); :};
+expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :};
 
 expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.println("Expresión lógica: " + op + " " + l); :}
-                  | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
-                  | error {: System.err.println("Error: Expresión lógica inválida"); :};
+                  | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :};
 
-asignarTipo ::= tipos IDENTIFICADOR:idVar {: System.out.println("Asignación: " + idVar.toString()); :}
-              | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
+asignarTipo ::= tipos:t IDENTIFICADOR:idVar {: System.out.println("Asignación: " + idVar.toString()); :} {: agregarVariable(idVar.toString(), t.toString()); :};
 
-operadorRelacional ::= MENOR
-                     | MENOR_IGUAL
-                     | MAYOR
-                     | MAYOR_IGUAL
-                     | IGUAL
-                     | DIFERENTE;
+operadorRelacional ::= MENOR {: RESULT="snowball"; :}
+                    | MENOR_IGUAL {: RESULT="evergreen"; :}
+                    | MAYOR {: RESULT="minstix"; :}
+                    | MAYOR_IGUAL {: RESULT="upatree"; :}
+                    | IGUAL {: RESULT="mary"; :}
+                    | DIFERENTE {: RESULT="openslae"; :};
 
-operadorLogico ::= CONJUNCION
-                 | DISYUNCION;
+operadorLogico ::= CONJUNCION {: RESULT="melchor"; :}
+                | DISYUNCION {: RESULT="gaspar"; :};
 
 
 negacion ::= NEGACION {:RESULT="baltazar";:};
 
-creacion ::= asignarTipo FIN_EXPRESION
-           | asignarTipo error {:
-               parser.action_obj.reportProductionError("Falta punto y coma al final de la declaración", parser);
-           :};
+creacion ::= asignarTipo FIN_EXPRESION;
 
-creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION;
+creacionAsignacion ::= asignarTipo:t ASIGNA literales:l FIN_EXPRESION {: agregarVariable(((Symbol)t).value.toString(), ((Symbol)l).value.toString()); :};
 
 sentencias ::= sentencia | sentencias sentencia;
 
@@ -107,37 +141,19 @@ sentencia ::= asignaVariable
             | switch_estructura;
 
 funciones ::= funcion
-           | funciones funcion
-           | error {:
-               parser.action_obj.reportProductionError("Definición de función inválida", parser);
-           :};
+           | funciones funcion;
 
-funcion ::= encabezadoFuncion bloque
-          | encabezadoFuncion error {:
-              parser.action_obj.reportProductionError("Falta bloque de código", parser);
-          :};
+funcion ::= encabezadoFuncion bloque;
 
-encabezadoFuncion ::= asignarTipo parametros
-                    | encabezadoFuncion error {:
-                        parser.action_obj.reportProductionError("Encabezado de función inválido", parser);
-                    :};
+encabezadoFuncion ::= asignarTipo:t parametros {: agregarTablaSimbolos("funcion", ((Symbol)t).value.toString()); :};
 
-bloque ::= corcheteIzquierdo sentencias corcheteDerecho
-         | corcheteIzquierdo error {:
-             parser.action_obj.reportProductionError("Bloque de código incompleto", parser);
-         :};
+bloque ::= corcheteIzquierdo sentencias corcheteDerecho;
 
 parametros ::= PARENTESISAPERTURA PARENTESISCIERRE
-             | PARENTESISAPERTURA parametroAux PARENTESISCIERRE
-             | error {:
-                 parser.action_obj.reportProductionError("Definición de parámetros inválida", parser);
-             :};
+             | PARENTESISAPERTURA parametroAux PARENTESISCIERRE;
 
 parametroAux ::= asignarTipo
-               | parametroAux COMA asignarTipo
-               | error {:
-                   parser.action_obj.reportProductionError("Parámetros mal definidos", parser);
-               :};
+               | parametroAux COMA asignarTipo;
 
 expresionRelacional ::= crearArreglos operadorRelacional arreglos;
 
@@ -150,10 +166,7 @@ crearArreglos ::= tipoArreglo IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCH
 
 modificarArreglos ::= IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
 
-arreglos ::= arreglo | arreglos arreglo
-           | error {:
-               parser.action_obj.reportProductionError("Definición de arreglos inválida", parser);
-           :};
+arreglos ::= arreglo | arreglos arreglo;
 
 arreglo ::= parametrosArreglo;
 
@@ -163,13 +176,10 @@ parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
 parametrosArregloAux ::= asignarTipo
                        | parametrosArregloAux COMA asignarTipo;
 
-asignaVariable ::= variable ASIGNA literales
-                 | modificarArreglos ASIGNA literales
-                 | variable error {:
-                     parser.action_obj.reportProductionError("Asignación de variable mal formada", parser);
-                 :};
+asignaVariable ::= variable:id ASIGNA literales:l {: agregarVariable(id.toString(), l.toString()); :}
+                 | modificarArreglos:id  ASIGNA literales:l {: agregarVariable(id.toString(), l.toString()); :};
 
-variable ::= IDENTIFICADOR:idVar;
+variable ::= IDENTIFICADOR:id {: RESULT = id.toString(); :};
 
 operandoBinaria ::= SUMA {:RESULT="navidad";:}
                 | RESTA {:RESULT="intercambio";:}
@@ -216,10 +226,7 @@ for_estructura ::= FOR PARENTESISAPERTURA IDENTIFICADOR DOS_PUNTOS rango PARENTE
 while_estructura ::= WHILE PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura;
 
 rango ::= expresion PUNTOS expresion
-        | expresion PUNTOS expresion PUNTOS
-        | error {:
-            parser.action_obj.reportProductionError("Rango inválido", parser);
-        :};
+        | expresion PUNTOS expresion PUNTOS;
 
 switch_estructura ::= SWITCH PARENTESISAPERTURA expresion PARENTESISCIERRE corcheteIzquierdo casos_switch corcheteDerecho;
 
