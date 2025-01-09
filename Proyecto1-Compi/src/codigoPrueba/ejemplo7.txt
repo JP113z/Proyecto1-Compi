@@ -1,5 +1,4 @@
  _verano_
-abrecuento
     # Declaración de variables simples
     rodolfo _entero_ finregalo
     bromista _decimal_ finregalo

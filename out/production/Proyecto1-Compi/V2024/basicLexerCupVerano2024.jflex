@@ -158,7 +158,7 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
     <YYINITIAL>{DecIntegerLiteral} {
         try {
             if (yytext().contains(".")) {
-                return symbol(sym.L_FLOAT, Double.parseDouble(yytext())); // Si es decimal
+                return symbol(sym.L_FLOAT, Float.parseFloat(yytext())); // Si es decimal
             } else {
                 return symbol(sym.L_INTEGER, Integer.parseInt(yytext())); // Si es entero
             }

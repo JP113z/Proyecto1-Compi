@@ -8,61 +8,61 @@ package ParserLexer;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int L_FLOAT = 52;
-  public static final int L_STRING = 51;
+  public static final int L_FLOAT = 53;
+  public static final int L_STRING = 52;
   public static final int PARENTESISCIERRE = 8;
   public static final int CHAR = 16;
   public static final int FIN_EXPRESION = 9;
-  public static final int CASE = 44;
-  public static final int DIFERENTE = 35;
-  public static final int RESTA = 22;
+  public static final int CASE = 45;
+  public static final int DIFERENTE = 36;
+  public static final int RESTA = 23;
   public static final int INTEGER = 14;
-  public static final int DOS_PUNTOS = 48;
-  public static final int FOR = 42;
-  public static final int NEGATIVO = 29;
-  public static final int IDENTIFICADOR = 54;
-  public static final int IGUAL = 34;
-  public static final int L_CHAR = 53;
+  public static final int DOS_PUNTOS = 49;
+  public static final int FOR = 43;
+  public static final int NEGATIVO = 30;
+  public static final int IDENTIFICADOR = 19;
+  public static final int IGUAL = 35;
+  public static final int L_CHAR = 54;
   public static final int BOOL = 18;
-  public static final int INCREMENTO = 27;
+  public static final int INCREMENTO = 28;
   public static final int ASIGNA = 6;
-  public static final int SUMA = 21;
-  public static final int IF = 39;
+  public static final int SUMA = 22;
+  public static final int IF = 40;
   public static final int MAIN = 12;
   public static final int corcheteDerecho = 3;
   public static final int EOF = 0;
-  public static final int RETURN = 47;
-  public static final int TRUE = 19;
-  public static final int DECREMENTO = 28;
+  public static final int RETURN = 48;
+  public static final int TRUE = 20;
+  public static final int DECREMENTO = 29;
   public static final int error = 1;
   public static final int COMA = 13;
-  public static final int NEGACION = 38;
-  public static final int MODULO = 25;
-  public static final int MENOR = 30;
-  public static final int BREAK = 46;
+  public static final int NEGACION = 39;
+  public static final int MODULO = 26;
+  public static final int MENOR = 31;
+  public static final int BREAK = 47;
   public static final int PARENTESISAPERTURA = 7;
   public static final int corcheteIzquierdo = 2;
-  public static final int SWITCH = 43;
-  public static final int MAYOR = 32;
-  public static final int PUNTOS = 49;
-  public static final int POTENCIA = 26;
-  public static final int ELSE = 40;
+  public static final int SWITCH = 44;
+  public static final int MAYOR = 33;
+  public static final int PUNTOS = 50;
+  public static final int POTENCIA = 27;
+  public static final int ELSE = 41;
   public static final int CORCHETECIERRE = 5;
   public static final int READ = 11;
-  public static final int WHILE = 41;
-  public static final int DEFAULT = 45;
-  public static final int MAYOR_IGUAL = 33;
+  public static final int WHILE = 42;
+  public static final int DEFAULT = 46;
+  public static final int MAYOR_IGUAL = 34;
   public static final int FLOAT = 17;
-  public static final int CONJUNCION = 36;
+  public static final int CONJUNCION = 37;
   public static final int STRING = 15;
   public static final int CORCHETEAPERTURA = 4;
-  public static final int DISYUNCION = 37;
-  public static final int MENOR_IGUAL = 31;
-  public static final int FALSE = 20;
-  public static final int DIVISION = 23;
+  public static final int DISYUNCION = 38;
+  public static final int MENOR_IGUAL = 32;
+  public static final int FALSE = 21;
+  public static final int DIVISION = 24;
   public static final int PRINT = 10;
-  public static final int L_INTEGER = 50;
-  public static final int MULTIPLICACION = 24;
+  public static final int L_INTEGER = 51;
+  public static final int MULTIPLICACION = 25;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -83,6 +83,7 @@ public class sym {
   "CHAR",
   "FLOAT",
   "BOOL",
+  "IDENTIFICADOR",
   "TRUE",
   "FALSE",
   "SUMA",
@@ -117,8 +118,7 @@ public class sym {
   "L_INTEGER",
   "L_STRING",
   "L_FLOAT",
-  "L_CHAR",
-  "IDENTIFICADOR"
+  "L_CHAR"
   };
 }
 
