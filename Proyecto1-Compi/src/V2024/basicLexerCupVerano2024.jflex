@@ -74,6 +74,7 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 <YYINITIAL>"cupido" { return symbol(sym.CHAR); }
 <YYINITIAL>"cometa" { return symbol(sym.STRING); }
 
+
 /* Tipo de dato char solo reconoce un caractarer dentro del char (se asume así por el anexo del enunciado del proyecto)*/
 <YYINITIAL>\'([^\\'\n\\r]|\\[bfnrt\'\\])\' {
     return symbol(sym.L_CHAR, yytext().charAt(1));

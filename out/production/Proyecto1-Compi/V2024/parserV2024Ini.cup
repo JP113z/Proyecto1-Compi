@@ -25,7 +25,10 @@ terminal SUMA, RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DE
 terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE;
 terminal CONJUNCION, DISYUNCION, NEGACION;
 terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS, PUNTOS;
-terminal L_INTEGER, L_STRING, L_FLOAT, L_CHAR;
+terminal Integer L_INTEGER;
+terminal String L_STRING;
+terminal Float L_FLOAT;
+terminal Character L_CHAR;
 
 /* No terminales */
 non terminal inicio, tipos, expresionRelacional, asignarTipo, operadorRelacional, literales, bool, operadorLogico, negacion,
@@ -57,10 +60,10 @@ tipos ::=INTEGER:i {:RESULT="rodolfo";:}
         | BOOL:b {:RESULT="trueno";:};
 
 
-literales ::= L_INTEGER:iVar {: System.out.println("Tipo: " + iVar.value.toString()); :}
-              | L_STRING:sVar {: System.out.println("Tipo: " + sVar.value.toString()); :}
-              | L_FLOAT:fVar {: System.out.println("Tipo: " + fVar.value.toString()); :}
-              | L_CHAR:cVar {: System.out.println("Tipo: " + cVar.value.toString()); :}
+literales ::= L_INTEGER:iVar {: System.out.println("Tipo: " + iVar.toString()); :}
+              | L_STRING:sVar {: System.out.println("Tipo: " + sVar.toString()); :}
+              | L_FLOAT:fVar {: System.out.println("Tipo: " + fVar.toString()); :}
+              | L_CHAR:cVar {: System.out.println("Tipo: " + cVar.toString()); :}
               | bool;
 
 bool ::= TRUE {:RESULT="true";:}
