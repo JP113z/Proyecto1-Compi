@@ -1,5 +1,5 @@
 # esto es un comentario de una linea
-
+_verano_
 abrecuento
             _varvalido_  entrega  _varnocalido intercambio 1 finregalo @semantico
             envia finregalo @error

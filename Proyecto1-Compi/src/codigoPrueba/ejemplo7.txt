@@ -1,17 +1,60 @@
-# Comentarios y declaraciones  
-\_ Este es un comentario válido _/  
-rodolfo _valor_ entrega 100 finregalo  
+ _verano_
+abrecuento
+    # Declaración de variables simples
+    rodolfo _entero_ finregalo
+    bromista _decimal_ finregalo
+    trueno _booleano_ finregalo
+    cupido _caracter_ finregalo
+    cometa _texto_ finregalo
 
-# Identificadores mal formados
-trueno _invalido entrega true finregalo  # Error: identificador no termina con "_"  
-bromista invalido_ entrega 3.5 finregalo  # Error: identificador no inicia con "_"
+    # Asignación de variables
+    rodolfo _numero_ entrega 42 finregalo
+    bromista _precio_ entrega 3.14 finregalo
+    trueno _activo_ entrega true finregalo
+    cupido _letra_ entrega 'A' finregalo
+    cometa _mensaje_ entrega "Hola Mundo" finregalo
 
-# Operaciones
-valor entrega valor navidad 50 finregalo  
+    # Operaciones aritméticas
+    rodolfo _suma_ entrega 10 navidad 5 finregalo
+    bromista _mult_ entrega 2.5 nochebuena 3.0 finregalo
 
-# Función de salida y error  
-narra abreregalo "El valor es: " cierraregalo finregalo  
-narra abreregalo valor cierraregalo finregalo  
+    # Estructuras de control
+    elfo abreregalo _activo_ mary true cierraregalo
+    abrecuento
+        narra abreregalo "Condición verdadera" cierraregalo finregalo
+    cierracuento
+    
+    # Bucle while
+    rodolfo _contador_ entrega 0 finregalo
+    envuelve abreregalo _contador_ snowball 5 cierraregalo
+    abrecuento
+        narra abreregalo _contador_ cierraregalo finregalo
+        _contador_ entrega _contador_ navidad 1 finregalo
+    cierracuento
 
-# Caracter inválido
-valor entrega @ finregalo  # Error: caracter no reconocido
+    # Bucle for con rango
+    duende abreregalo _i_ sigue 1 .. 5 cierraregalo
+    abrecuento
+        narra abreregalo _i_ cierraregalo finregalo
+    cierracuento
+
+    # Switch case
+    varios abreregalo _numero_ cierraregalo
+    abrecuento
+        historia 1 sigue
+            narra abreregalo "Uno" cierraregalo finregalo
+            corta finregalo
+        historia 2 sigue
+            narra abreregalo "Dos" cierraregalo finregalo
+            corta finregalo
+        ultimo sigue
+            narra abreregalo "Otro número" cierraregalo finregalo
+    cierracuento
+
+    # Operadores lógicos
+    trueno _resultado_ entrega _activo_ melchor true finregalo
+    
+    # Entrada de datos
+    escucha abreregalo _numero_ cierraregalo finregalo
+
+cierracuento
