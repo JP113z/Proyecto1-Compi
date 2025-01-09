@@ -82,10 +82,8 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 
 /* Identificadores validos */
 <YYINITIAL>{Identifier} {
-    return symbol(sym.IDENTIFICADOR);
+    return symbol(sym.IDENTIFICADOR, yytext());
 }
-
-
 
 /* Apertura de bloques de código */
 <YYINITIAL>"abrecuento" { return symbol(sym.corcheteIzquierdo); }

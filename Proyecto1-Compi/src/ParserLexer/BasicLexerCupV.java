@@ -1216,7 +1216,7 @@ private Symbol symbol(int type, Object value) {
           // fall through
           case 73: break;
           case 14:
-            { return symbol(sym.IDENTIFICADOR);
+            { return symbol(sym.IDENTIFICADOR, yytext());
             }
           // fall through
           case 74: break;
