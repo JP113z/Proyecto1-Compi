@@ -1,7 +1,5 @@
 package ParserLexer;
 import java_cup.runtime.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 action code {: :};
 
@@ -12,49 +10,7 @@ parser code {:
     public parser(BasicLexerCupV lex) {
         this.lex = lex;
         this.symbolFactory = new DefaultSymbolFactory();
-        this.currentHash = null;
     }
-
-        HashMap<String, ArrayList<String>> listaTablasSimbolos = new HashMap<String, ArrayList<String>>();
-        String currentHash;
-        public void imprimirTablaSimbolos() {
-            for (String key : listaTablasSimbolos.keySet()) {
-                System.out.println("Tabla de símbolo: " + key);
-                System.out.println("Valores: ");
-                for (String item : listaTablasSimbolos.get(key)) {
-                    System.out.println(item);
-                }
-                System.out.println("");
-            }
-        }
-        // Método para agregar una nueva tabla de símbolos (función o main)
-        public void agregarTablaSimbolos(String tipoTabla, String nombre) {
-            System.out.println("/+++Nueva tabla símbolos función o main+++/ " + nombre);
-            String tipo;
-            if (tipoTabla.equals("main")) {
-                tipo = "tipo:main";
-            } else {
-                tipo = "tipo:funcion:" + nombre;
-            }
-            ArrayList<String> nuevaTabla = new ArrayList<>();
-            nuevaTabla.add(tipo);
-            currentHash = nombre;
-            listaTablasSimbolos.put(currentHash, nuevaTabla);
-        }
-
-        public void agregarVariable(String nombre, String tipo) {
-            System.out.println("PARSER: identificador (agregar o verificar) " + nombre);
-            if (currentHash == null) {
-                System.err.println("Error: No hay una tabla de símbolos activa");
-                return;
-            }
-            ArrayList<String> tabla = listaTablasSimbolos.get(currentHash);
-            if (tabla == null) {
-                System.err.println("Error: La tabla de símbolos '" + currentHash + "' no existe");
-                return;
-            }
-            tabla.add(nombre + ":" + tipo);
-        }
 :}
 
 init with {: :};
@@ -64,7 +20,7 @@ scan with {: return lex.next_token(); :};
 /* Terminales */
 terminal corcheteIzquierdo, corcheteDerecho, CORCHETEAPERTURA, CORCHETECIERRE, ASIGNA, PARENTESISAPERTURA, PARENTESISCIERRE, FIN_EXPRESION,
         PRINT, READ, MAIN, COMA;
-terminal INTEGER, STRING, CHAR, FLOAT, BOOL, TRUE, FALSE;
+terminal INTEGER, STRING, CHAR, FLOAT, BOOL, IDENTIFICADOR, TRUE, FALSE;
 terminal SUMA, RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DECREMENTO, NEGATIVO;
 terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE;
 terminal CONJUNCION, DISYUNCION, NEGACION;
@@ -73,7 +29,6 @@ terminal Integer L_INTEGER;
 terminal String L_STRING;
 terminal Float L_FLOAT;
 terminal Character L_CHAR;
-terminal String IDENTIFICADOR;
 
 /* No terminales */
 non terminal inicio, tipos, expresionRelacional, asignarTipo, operadorRelacional, literales, bool, operadorLogico, negacion,
@@ -93,19 +48,36 @@ precedence left CONJUNCION, DISYUNCION;
 /* Producción inicial */
 start with inicio;
 
-inicio ::= MAIN
-    {: parser.agregarTablaSimbolos("main", "_verano_"); :}
-    sentencias
-    {: parser.imprimirTablaSimbolos(); :}
+inicio ::= MAIN sentencias
          | funciones
          | error {: System.err.println("Error en la estructura inicial."); :};
 
 /* Definiciones */
-tipos ::=INTEGER:i {:RESULT="rodolfo";:}
-        | STRING:s {:RESULT="cometa";:}
-        | CHAR:c {:RESULT="cupido";:}
-        | FLOAT:f {:RESULT="bromista";:}
-        | BOOL:b {:RESULT="trueno";:};
+tipos ::= INTEGER:i
+          {:
+             System.out.println("Tipo: " + i);
+             RESULT="rodolfo";
+          :}
+        | STRING:s
+          {:
+             System.out.println("Tipo: " + s);
+             RESULT="cometa";
+          :}
+        | CHAR:c
+          {:
+             System.out.println("Tipo: " + c);
+             RESULT="cupido";
+          :}
+        | FLOAT:f
+          {:
+             System.out.println("Tipo: " + f);
+             RESULT="bromista";
+          :}
+        | BOOL:b
+          {:
+             System.out.println("Tipo: " + b);
+             RESULT = "trueno";
+          :};
 
 
 literales ::= L_INTEGER:iVar {: System.out.println("Tipo: " + iVar.toString()); :}
@@ -124,12 +96,8 @@ expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.prin
                   | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
                   | error {: System.err.println("Error: Expresión lógica inválida"); :};
 
-asignarTipo ::= tipos:t IDENTIFICADOR:idVar
-    {:
-        parser.agregarVariable(idVar.toString(), t.toString());
-        System.out.println("Asignación: " + idVar.toString());
-    :}
-    | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
+asignarTipo ::= tipos IDENTIFICADOR:idVar {: System.out.println("Identificador: " + idVar.toString()); :}
+              | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
 
 operadorRelacional ::= MENOR {:RESULT="snowball";:}
                        | MENOR_IGUAL {:RESULT="evergreen";:}
@@ -145,7 +113,11 @@ negacion ::= NEGACION {:RESULT="baltazar";:};
 
 creacion ::= asignarTipo FIN_EXPRESION;
 
-creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION;
+creacionAsignacion ::= asignarTipo ASIGNA:a
+                                                   {:
+                                                      System.out.println("Tipo: " + a);
+                                                      RESULT = "entrega";
+                                                   :} literales FIN_EXPRESION;
 
 sentencias ::= sentencia | sentencias sentencia;
 sentencia ::= asignaVariable
@@ -160,25 +132,15 @@ sentencia ::= asignaVariable
 funciones ::= funcion
            | funciones funcion;
 
-funcion ::= encabezadoFuncion:e
-    {: parser.agregarTablaSimbolos("funcion", e.toString()); :}
-    bloque;
+funcion ::= encabezadoFuncion bloque;
 
-encabezadoFuncion ::= tipos:t IDENTIFICADOR:id parametros
-    {:
-        RESULT = id.toString();
-    :};
+encabezadoFuncion ::= asignarTipo parametros;
 
 bloque ::= corcheteIzquierdo sentencias corcheteDerecho;
 
 parametros ::= PARENTESISAPERTURA PARENTESISCIERRE
              | PARENTESISAPERTURA parametroAux PARENTESISCIERRE;
-
-parametroAux ::= asignarTipo:a
-    {:
-        RESULT = a;
-    :}
-    | parametroAux COMA asignarTipo;
+parametroAux ::= asignarTipo | parametroAux COMA asignarTipo;
 
 expresionRelacional ::= crearArreglos operadorRelacional arreglos;
 expresionLogica ::= crearArreglos operadorLogico arreglos;
@@ -186,12 +148,7 @@ expresionLogica ::= crearArreglos operadorLogico arreglos;
 tipoArreglo ::= L_CHAR CORCHETEAPERTURA CORCHETECIERRE
               | L_INTEGER CORCHETEAPERTURA CORCHETECIERRE;
 
-crearArreglos ::= tipoArreglo:t IDENTIFICADOR:id
-    {:
-        parser.agregarVariable(id.toString(), t.toString() + "[]");
-    :}
-    CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
-
+crearArreglos ::= tipoArreglo IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
 modificarArreglos ::= IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
 
 arreglos ::= arreglo | arreglos arreglo;
@@ -253,12 +210,7 @@ while_estructura ::= WHILE PARENTESISAPERTURA expresionLogica PARENTESISCIERRE s
 rango ::= expresion PUNTOS expresion
         | expresion PUNTOS expresion PUNTOS;
 
-switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-    {:
-        parser.agregarVariable("switch_" + v.toString(), "switch");
-    :}
-    corcheteIzquierdo casos_switch corcheteDerecho;
-
+switch_estructura ::= SWITCH PARENTESISAPERTURA expresion PARENTESISCIERRE corcheteIzquierdo casos_switch corcheteDerecho;
 casos_switch ::= caso_switch | casos_switch caso_switch;
 caso_switch ::= CASE expresion DOS_PUNTOS sentencia_lista
               | DEFAULT DOS_PUNTOS sentencia_lista;
