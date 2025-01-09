@@ -1,5 +1,7 @@
 package Main;
+
 import ParserLexer.BasicLexerCupV;
+import ParserLexer.sym;
 import java_cup.runtime.Symbol;
 import jflex.exceptions.SilentExit;
 
@@ -8,7 +10,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.FileWriter;
-
+import java.util.*;
 
 public class MainJFlexCup {
 
@@ -81,7 +83,6 @@ public class MainJFlexCup {
                 token = lexer.next_token(); // Obtiene el siguiente token
                 if (token.sym == 0) { // Fin del archivo (EOF)
                     System.out.println("Cantidad de lexemas encontrados: " + i);
-                    reader.close();
                     return;
                 }
 
@@ -106,22 +107,6 @@ public class MainJFlexCup {
         }
     }
 
-    public void pruebaParser(String rutaParsear) throws Exception {
-        // Crear el lector para leer el archivo
-        Reader reader = new BufferedReader(new FileReader(rutaParsear));
-        reader.read();
-        // Crear el lexer
-        BasicLexerCupV myLexer = new BasicLexerCupV(reader);
-
-        // Crear el parser utilizando el lexer
-        ParserLexer.parser myParser = new ParserLexer.parser(myLexer);
-
-        // Ejecutar el parser
-        myParser.parse();
-
-        myParser.imprimirTablaSimbolos();
-    }
-
     /**
      * Método: generateFile
      * Objetivo: Escribe una linea de texto en un archivo de salida.
@@ -139,6 +124,5 @@ public class MainJFlexCup {
             System.err.println("Error escribiendo en el archivo: " + e.getMessage());
         }
     }
-
 }
 

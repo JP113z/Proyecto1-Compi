@@ -85,8 +85,6 @@ public class App {
 
         // Probar el lexer con un archivo de entrada
         mainTool.ejercicioLexerV2024(inputPath);
-
-        mainTool.pruebaParser(inputPath);
     }
 
     /**
@@ -137,7 +135,6 @@ public class App {
             GenerarLexerParser();
 
             PruebasLexerParser(rutaArchivo);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
