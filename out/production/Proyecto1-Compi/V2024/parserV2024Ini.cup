@@ -46,24 +46,25 @@ precedence left CONJUNCION, DISYUNCION;
 start with inicio;
 
 inicio ::= MAIN sentencias
-         | funciones;
+         | funciones
+         | error {: System.err.println("Error en la estructura inicial."); :};
 
 /* Definiciones */
-tipos ::= L_INTEGER:iVar {: System.out.println("Tipo: " + iVar.value.toString()); :}
-        | L_STRING:sVar {: System.out.println("Tipo: " + sVar.value.toString()); :}
-        | L_FLOAT:fVar {: System.out.println("Tipo: " + fVar.value.toString()); :}
-        | L_CHAR:cVar {: System.out.println("Tipo: " + cVar.value.toString()); :}
-        | bool:bVar {: System.out.println("Tipo: " + bVar.value.toString()); :};
+tipos ::=INTEGER:i {:RESULT="rodolfo";:}
+        | STRING:s {:RESULT="cometa";:}
+        | CHAR:c {:RESULT="cupido";:}
+        | FLOAT:f {:RESULT="bromista";:}
+        | BOOL:b {:RESULT="trueno";:};
+
+
+literales ::= L_INTEGER:iVar {: System.out.println("Tipo: " + iVar.value.toString()); :}
+              | L_STRING:sVar {: System.out.println("Tipo: " + sVar.value.toString()); :}
+              | L_FLOAT:fVar {: System.out.println("Tipo: " + fVar.value.toString()); :}
+              | L_CHAR:cVar {: System.out.println("Tipo: " + cVar.value.toString()); :}
+              | bool;
 
 bool ::= TRUE {:RESULT="true";:}
         | FALSE{:RESULT="false";:};
-
-literales ::= INTEGER:i {:RESULT="rodolfo";:}
-            | STRING:s {:RESULT="cometa";:}
-            | CHAR:c {:RESULT="cupido";:}
-            | FLOAT:f {:RESULT="bromista";:}
-            | BOOL:b {:RESULT="trueno";:};
-
 
 expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :}
                      | error {: System.err.println("Error: Expresión relacional inválida"); :};
@@ -133,7 +134,7 @@ parametrosArregloAux ::= asignarTipo | parametrosArregloAux COMA asignarTipo;
 expresionRelacional ::= asignarTipo operadorRelacional variable;
 expresionLogica ::= asignarTipo operadorLogico variable;
 
-asignaVariable ::= variable ASIGNA literales | modificarArreglos ASIGNA literales;
+asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales | modificarArreglos ASIGNA literales;
 
 variable ::= IDENTIFICADOR:idVar {: System.out.println("Variable: " + idVar.toString()); :};
 

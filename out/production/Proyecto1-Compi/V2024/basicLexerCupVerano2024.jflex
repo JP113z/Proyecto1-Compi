@@ -67,7 +67,12 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 /* Procedimiento main */
 <YYINITIAL>"_verano_" { return symbol(sym.MAIN); }
 
-
+/* Tipos de datos */
+<YYINITIAL>"rodolfo" { return symbol(sym.INTEGER); }
+<YYINITIAL>"bromista " { return symbol(sym.FLOAT); }
+<YYINITIAL>"trueno " { return symbol(sym.BOOL); }
+<YYINITIAL>"cupido" { return symbol(sym.CHAR); }
+<YYINITIAL>"cometa" { return symbol(sym.STRING); }
 
 /* Tipo de dato char solo reconoce un caractarer dentro del char (se asume así por el anexo del enunciado del proyecto)*/
 <YYINITIAL>\'([^\\'\n\\r]|\\[bfnrt\'\\])\' {
@@ -87,13 +92,6 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 /* Apertura y cierre de arreglos */
 <YYINITIAL>"abreempaque" { return symbol(sym.CORCHETEAPERTURA); }
 <YYINITIAL>"cierraempaque" { return symbol(sym.CORCHETECIERRE); }
-
-/* Tipos de datos */
-<YYINITIAL>"rodolfo" { return symbol(sym.L_INTEGER, "rodolfo"); }
-<YYINITIAL>"cometa" { return symbol(sym.L_STRING, "cometa"); }
-<YYINITIAL>"bromista" { return symbol(sym.L_FLOAT, "bromista"); }
-<YYINITIAL>"cupido" { return symbol(sym.L_CHAR, "cupido"); }
-<YYINITIAL>"trueno" { return symbol(sym.BOOL, "trueno"); }
 
 
 /* Identificadores válidos */

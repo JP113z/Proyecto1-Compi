@@ -107,17 +107,17 @@ public class MainJFlexCup {
     }
 
     public void pruebaParser(String rutaParsear) throws Exception {
-        // Crear el lector para leer el archivo
-        Reader reader = new BufferedReader(new FileReader(rutaParsear));
-       // reader.read();
-        // Crear el lexer
-        BasicLexerCupV myLexer = new BasicLexerCupV(reader);
+        try (Reader reader = new BufferedReader(new FileReader(rutaParsear))) {
+            BasicLexerCupV myLexer = new BasicLexerCupV(reader);
+            ParserLexer.parser myParser = new ParserLexer.parser(myLexer);
 
-        // Crear el parser utilizando el lexer
-        ParserLexer.parser myParser = new ParserLexer.parser(myLexer);
-
-        // Ejecutar el parser
-        myParser.parse();
+            System.out.println("Iniciando análisis sintáctico...");
+            myParser.parse();
+            System.out.println("Análisis completado con éxito.");
+        } catch (Exception e) {
+            System.err.println("Error durante el análisis sintáctico: " + e.getMessage());
+            throw e;
+        }
     }
 
     /**

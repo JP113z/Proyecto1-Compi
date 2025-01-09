@@ -1,3 +1,4 @@
 Token: 12, Lexema: _verano_, Línea: 1, Columna: 1
-Token: 51, Lexema: rodolfo, Línea: 2, Columna: 1
-Token: 19, Lexema: _miVar2_, Línea: 2, Columna: 9
+Token: 19, Lexema: _var_, Línea: 2, Columna: 1
+Token: 6, Lexema: entrega, Línea: 2, Columna: 7
+Token: 53, Lexema: 1.2, Línea: 2, Columna: 15
