@@ -80,11 +80,6 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 }
 
 
-/* Identificadores validos */
-<YYINITIAL>{Identifier} {
-    return symbol(sym.IDENTIFICADOR, yytext());
-}
-
 /* Apertura de bloques de código */
 <YYINITIAL>"abrecuento" { return symbol(sym.corcheteIzquierdo); }
 <YYINITIAL>"cierracuento" { return symbol(sym.corcheteDerecho); }
@@ -94,11 +89,17 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 <YYINITIAL>"cierraempaque" { return symbol(sym.CORCHETECIERRE); }
 
 /* Tipos de datos */
-<YYINITIAL>"rodolfo" { return symbol(sym.INTEGER); }
-<YYINITIAL>"bromista " { return symbol(sym.FLOAT); }
-<YYINITIAL>"trueno " { return symbol(sym.BOOL); }
-<YYINITIAL>"cupido" { return symbol(sym.CHAR); }
-<YYINITIAL>"cometa" { return symbol(sym.STRING); }
+<YYINITIAL>"rodolfo" { return symbol(sym.L_INTEGER, "rodolfo"); }
+<YYINITIAL>"cometa" { return symbol(sym.L_STRING, "cometa"); }
+<YYINITIAL>"bromista" { return symbol(sym.L_FLOAT, "bromista"); }
+<YYINITIAL>"cupido" { return symbol(sym.L_CHAR, "cupido"); }
+<YYINITIAL>"trueno" { return symbol(sym.BOOL, "trueno"); }
+
+
+/* Identificadores válidos */
+<YYINITIAL>{Identifier} {
+    return symbol(sym.IDENTIFICADOR, yytext());
+}
 
 <YYINITIAL>".." { return symbol(sym.PUNTOS); }
 

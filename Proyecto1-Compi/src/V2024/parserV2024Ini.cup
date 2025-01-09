@@ -49,11 +49,11 @@ inicio ::= MAIN sentencias
          | funciones;
 
 /* Definiciones */
-tipos ::= L_INTEGER:iVar {: System.out.println("tipo: " + iVar.toString()); :}
-        | L_STRING:sVar {: System.out.println("tipo: " + sVar.toString()); :}
-        | L_FLOAT:fVar {: System.out.println("tipo: " + fVar.toString()); :}
-        | L_CHAR:cVar {: System.out.println("tipo: " + cVar.toString()); :}
-        | bool:bVar{: System.out.println("tipo: " + bVar.toString()); :};
+tipos ::= L_INTEGER:iVar {: System.out.println("Tipo: " + iVar.value.toString()); :}
+        | L_STRING:sVar {: System.out.println("Tipo: " + sVar.value.toString()); :}
+        | L_FLOAT:fVar {: System.out.println("Tipo: " + fVar.value.toString()); :}
+        | L_CHAR:cVar {: System.out.println("Tipo: " + cVar.value.toString()); :}
+        | bool:bVar {: System.out.println("Tipo: " + bVar.value.toString()); :};
 
 bool ::= TRUE {:RESULT="true";:}
         | FALSE{:RESULT="false";:};

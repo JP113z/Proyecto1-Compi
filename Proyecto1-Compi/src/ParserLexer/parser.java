@@ -664,7 +664,7 @@ class CUP$parser$actions {
 		int iVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int iVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object iVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 System.out.println("tipo: " + iVar.toString()); 
+		 System.out.println("Tipo: " + iVar.value.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -676,7 +676,7 @@ class CUP$parser$actions {
 		int sVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int sVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object sVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 System.out.println("tipo: " + sVar.toString()); 
+		 System.out.println("Tipo: " + sVar.value.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -688,7 +688,7 @@ class CUP$parser$actions {
 		int fVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int fVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object fVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 System.out.println("tipo: " + fVar.toString()); 
+		 System.out.println("Tipo: " + fVar.value.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -700,7 +700,7 @@ class CUP$parser$actions {
 		int cVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int cVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object cVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 System.out.println("tipo: " + cVar.toString()); 
+		 System.out.println("Tipo: " + cVar.value.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -712,7 +712,7 @@ class CUP$parser$actions {
 		int bVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int bVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object bVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 System.out.println("tipo: " + bVar.toString()); 
+		 System.out.println("Tipo: " + bVar.value.toString()); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("tipos",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

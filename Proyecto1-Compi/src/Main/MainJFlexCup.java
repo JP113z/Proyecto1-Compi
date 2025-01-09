@@ -109,7 +109,7 @@ public class MainJFlexCup {
     public void pruebaParser(String rutaParsear) throws Exception {
         // Crear el lector para leer el archivo
         Reader reader = new BufferedReader(new FileReader(rutaParsear));
-        reader.read();
+       // reader.read();
         // Crear el lexer
         BasicLexerCupV myLexer = new BasicLexerCupV(reader);
 
@@ -118,8 +118,6 @@ public class MainJFlexCup {
 
         // Ejecutar el parser
         myParser.parse();
-
-        myParser.imprimirTablaSimbolos();
     }
 
     /**

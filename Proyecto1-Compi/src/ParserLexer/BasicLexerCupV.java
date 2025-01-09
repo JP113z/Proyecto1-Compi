@@ -1283,12 +1283,12 @@ private Symbol symbol(int type, Object value) {
           // fall through
           case 87: break;
           case 28:
-            { return symbol(sym.STRING);
+            { return symbol(sym.L_STRING, "cometa");
             }
           // fall through
           case 88: break;
           case 29:
-            { return symbol(sym.CHAR);
+            { return symbol(sym.L_CHAR, "cupido");
             }
           // fall through
           case 89: break;
@@ -1308,7 +1308,7 @@ private Symbol symbol(int type, Object value) {
           // fall through
           case 92: break;
           case 33:
-            { return symbol(sym.BOOL);
+            { return symbol(sym.BOOL, "trueno");
             }
           // fall through
           case 93: break;
@@ -1348,7 +1348,7 @@ private Symbol symbol(int type, Object value) {
           // fall through
           case 100: break;
           case 41:
-            { return symbol(sym.INTEGER);
+            { return symbol(sym.L_INTEGER, "rodolfo");
             }
           // fall through
           case 101: break;
@@ -1373,7 +1373,7 @@ private Symbol symbol(int type, Object value) {
           // fall through
           case 105: break;
           case 46:
-            { return symbol(sym.FLOAT);
+            { return symbol(sym.L_FLOAT, "bromista");
             }
           // fall through
           case 106: break;
