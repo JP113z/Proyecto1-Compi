@@ -15,46 +15,45 @@ parser code {:
         this.currentHash = null;
     }
 
-        HashMap<String, ArrayList<String>> listaTablasSimbolos = new HashMap<String, ArrayList<String>>();
-        String currentHash;
-        public void imprimirTablaSimbolos() {
-            for (String key : listaTablasSimbolos.keySet()) {
-                System.out.println("Tabla de símbolo: " + key);
-                System.out.println("Valores: ");
-                for (String item : listaTablasSimbolos.get(key)) {
-                    System.out.println(item);
-                }
-                System.out.println("");
-            }
-        }
-        // Método para agregar una nueva tabla de símbolos (función o main)
-        public void agregarTablaSimbolos(String tipoTabla, String nombre) {
-            System.out.println("/+++Nueva tabla símbolos función o main+++/ " + nombre);
-            String tipo;
-            if (tipoTabla.equals("main")) {
-                tipo = "tipo:main";
-            } else {
-                tipo = "tipo:funcion:" + nombre;
-            }
-            ArrayList<String> nuevaTabla = new ArrayList<>();
-            nuevaTabla.add(tipo);
-            currentHash = nombre;
-            listaTablasSimbolos.put(currentHash, nuevaTabla);
-        }
+    // Tabla de símbolos
+    HashMap<String, ArrayList<String>> listaTablasSimbolos = new HashMap<>();
+    String currentHash;
 
-        public void agregarVariable(String nombre, String tipo) {
-            System.out.println("PARSER: identificador (agregar o verificar) " + nombre);
-            if (currentHash == null) {
-                System.err.println("Error: No hay una tabla de símbolos activa");
-                return;
+    public void imprimirTablaSimbolos() {
+        for (String key : listaTablasSimbolos.keySet()) {
+            System.out.println("\nTabla de símbolos: " + key);
+            System.out.println("+--------+---------+----------------------+------------+");
+            System.out.println("| Línea  | Columna | Lexema              | Tipo       |");
+            System.out.println("+--------+---------+----------------------+------------+");
+            for (String simbolo : listaTablasSimbolos.get(key)) {
+                System.out.println(simbolo);
             }
-            ArrayList<String> tabla = listaTablasSimbolos.get(currentHash);
-            if (tabla == null) {
-                System.err.println("Error: La tabla de símbolos '" + currentHash + "' no existe");
-                return;
-            }
-            tabla.add(nombre + ":" + tipo);
+            System.out.println("+--------+---------+----------------------+------------+\n");
         }
+    }
+
+    public void agregarTablaSimbolos(String tipoTabla, String nombre) {
+        System.out.println("/+++Nueva tabla símbolos función o main+++/ " + nombre);
+        ArrayList<String> nuevaTabla = new ArrayList<>();
+        currentHash = nombre;
+        listaTablasSimbolos.put(currentHash, nuevaTabla);
+    }
+
+    public void agregarVariable(int linea, int columna, String lexema, String tipo) {
+        System.out.println("PARSER: identificador (agregar o verificar) " + lexema);
+        if (currentHash == null) {
+            System.err.println("Error: No hay una tabla de símbolos activa");
+            return;
+        }
+        ArrayList<String> tabla = listaTablasSimbolos.get(currentHash);
+        if (tabla == null) {
+            System.err.println("Error: La tabla de símbolos '" + currentHash + "' no existe");
+            return;
+        }
+        String entrada = String.format("| %-6d | %-7d | %-20s | %-10s |",
+                linea + 1, columna + 1, lexema, tipo);
+        tabla.add(entrada);
+    }
 :}
 
 init with {: :};
@@ -95,7 +94,6 @@ start with inicio;
 inicio ::= MAIN
     {: parser.agregarTablaSimbolos("main", "_verano_"); :}
     sentencias
-    {: parser.imprimirTablaSimbolos(); :}
          | funciones
          | error {: System.err.println("Error en la estructura inicial."); :};
 
@@ -107,11 +105,36 @@ tipos ::=INTEGER:i {:RESULT="rodolfo";:}
         | BOOL:b {:RESULT="trueno";:};
 
 
-literales ::= L_INTEGER:iVar {: System.out.println("Tipo: " + iVar.toString()); :}
-              | L_STRING:sVar {: System.out.println("Tipo: " + sVar.toString()); :}
-              | L_FLOAT:fVar {: System.out.println("Tipo: " + fVar.toString()); :}
-              | L_CHAR:cVar {: System.out.println("Tipo: " + cVar.toString()); :}
-              | bool;
+literales ::= L_INTEGER:i
+              {:
+                  Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                  parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "rodolfo");
+              :}
+            | L_STRING:s
+              {:
+                  Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                  parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cometa");
+              :}
+            | L_FLOAT:f
+              {:
+                  Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                  parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "bromista");
+              :}
+            | L_CHAR:c
+              {:
+                  Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                  parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cupido");
+              :}
+            | TRUE
+              {:
+                  Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                  parser.agregarVariable(symbol.left, symbol.right, "true", "trueno");
+              :}
+            | FALSE
+              {:
+                  Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                  parser.agregarVariable(symbol.left, symbol.right, "false", "trueno");
+              :};
 
 bool ::= TRUE {:RESULT="true";:}
         | FALSE{:RESULT="false";:};
@@ -125,8 +148,8 @@ expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.prin
 
 asignarTipo ::= tipos:t IDENTIFICADOR:idVar
     {:
-        parser.agregarVariable(idVar.toString(), t.toString());
-        System.out.println("Asignación: " + idVar.toString());
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), t.toString());
     :}
     | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
 
@@ -163,8 +186,10 @@ funcion ::= encabezadoFuncion:e
     {: parser.agregarTablaSimbolos("funcion", e.toString()); :}
     bloque;
 
-encabezadoFuncion ::= tipos:t IDENTIFICADOR:id parametros
+encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
     {:
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), t.toString());
         RESULT = id.toString();
     :};
 
@@ -182,7 +207,8 @@ tipoArreglo ::= L_CHAR CORCHETEAPERTURA CORCHETECIERRE
 
 crearArreglos ::= tipoArreglo:t IDENTIFICADOR:id
     {:
-        parser.agregarVariable(id.toString(), t.toString() + "[]");
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), t.toString() + "[]");
     :}
     CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
 
@@ -250,7 +276,8 @@ rango ::= expresion PUNTOS expresion
 
 switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
     {:
-        parser.agregarVariable("switch_" + v.toString(), "switch");
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "switch_" + symbol.value.toString(), "switch");
     :}
     corcheteIzquierdo casos_switch corcheteDerecho;
 

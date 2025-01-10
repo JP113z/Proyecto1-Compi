@@ -114,6 +114,7 @@ public class MainJFlexCup {
             System.out.println("Iniciando análisis sintáctico...");
             myParser.parse();
             System.out.println("Análisis completado con éxito.");
+            myParser.imprimirTablaSimbolos();
         } catch (Exception e) {
             System.err.println("Error durante el análisis sintáctico: " + e.getMessage());
             throw e;
