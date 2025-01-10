@@ -1,3 +1,5 @@
- _verano_
-rodolfo _x_ entrega 5
- _x_ entrega 5 finregalo
+bromista _func1_ abreregalo cupido _x22_ , cupido _x22_ cierraregalo
+ abrecuento
+rodolfo _x_ entrega 5 finregalo
+cierracuento
+envia 1 finregalo

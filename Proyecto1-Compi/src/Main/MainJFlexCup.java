@@ -111,9 +111,9 @@ public class MainJFlexCup {
             BasicLexerCupV myLexer = new BasicLexerCupV(reader);
             ParserLexer.parser myParser = new ParserLexer.parser(myLexer);
 
-            System.out.println("Iniciando análisis sintáctico...");
+            System.out.println("\nIniciando análisis sintáctico...");
             myParser.parse();
-            System.out.println("Análisis completado con éxito.");
+            System.out.println("\nAnálisis completado con éxito.");
             myParser.imprimirTablaSimbolos();
         } catch (Exception e) {
             System.err.println("Error durante el análisis sintáctico: " + e.getMessage());

@@ -88,7 +88,7 @@ parametroAux, parametros, tipoArreglo, crearArreglos, modificarArreglos, arreglo
 parametrosArregloAux, parametrosArreglo, asignaVariable, variable, operandoBinaria, expresionBinaria,
 operandoUnario, expresionUnario, expresionRelacionalMat, expresiones, expresion, sentencia_lista, sentenciaEstructura, if_estructura,
 for_estructura, rango, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion, expresionLogica,
-while_estructura;
+while_estructura, return_funcion;
 
 /* Precedencia */
 precedence left ELSE;
@@ -187,17 +187,17 @@ sentencia ::= asignaVariable
             | creacionAsignacion
             | print
             | read
-            | break_estructura
-            | return_estructura
-            | switch_estructura
-            | error {: System.err.println("Error en sentencia. Se ignoró la sentencia inválida."); :};
+            | error;
 
 funciones ::= funcion
            | funciones funcion;
 
 funcion ::= encabezadoFuncion:e
     {: parser.agregarTablaSimbolos("funcion", e.toString()); :}
-    bloque;
+    parametros
+    bloque
+    return_funcion
+    ;
 
 encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
     {:
@@ -206,7 +206,10 @@ encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
         RESULT = id.toString();
     :};
 
-bloque ::= corcheteIzquierdo sentencias corcheteDerecho;
+bloque ::= corcheteIzquierdo sentencias corcheteDerecho
+         | corcheteIzquierdo sentenciaEstructura corcheteDerecho;
+
+return_funcion ::= RETURN literales FIN_EXPRESION;
 
 parametros ::= PARENTESISAPERTURA{: RESULT = "abreregalo"; :}
                 PARENTESISCIERRE{: RESULT = "cierraregalo"; :}
@@ -244,6 +247,7 @@ arreglo ::= parametrosArreglo;
 
 parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
                     | corcheteIzquierdo parametrosArregloAux corcheteDerecho;
+
 parametrosArregloAux ::= asignarTipo | parametrosArregloAux COMA{: RESULT = ","; :}
                                         asignarTipo;
 
