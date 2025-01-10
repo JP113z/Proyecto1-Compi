@@ -3,4 +3,7 @@ Token: 14, Lexema: rodolfo, Línea: 2, Columna: 1
 Token: 19, Lexema: _x_, Línea: 2, Columna: 9
 Token: 6, Lexema: entrega, Línea: 2, Columna: 13
 Token: 51, Lexema: 5, Línea: 2, Columna: 21
-Token: 9, Lexema: finregalo, Línea: 2, Columna: 23
+Token: 19, Lexema: _x_, Línea: 3, Columna: 2
+Token: 6, Lexema: entrega, Línea: 3, Columna: 6
+Token: 51, Lexema: 5, Línea: 3, Columna: 14
+Token: 9, Lexema: finregalo, Línea: 3, Columna: 16

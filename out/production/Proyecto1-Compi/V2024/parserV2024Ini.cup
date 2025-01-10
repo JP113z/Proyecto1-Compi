@@ -8,6 +8,14 @@ action code {: :};
 parser code {:
     BasicLexerCupV lex;
 
+    @Override
+    public void syntax_error(Symbol s) {
+        System.err.println("Error sintáctico en línea " + (s.left + 1) +
+                           ", columna " + (s.right + 1) + ". Token inesperado: " + s.value);
+
+    }
+
+
     @SuppressWarnings("deprecation")
     public parser(BasicLexerCupV lex) {
         this.lex = lex;
@@ -92,10 +100,14 @@ precedence left CONJUNCION, DISYUNCION;
 start with inicio;
 
 inicio ::= MAIN
-    {: parser.agregarTablaSimbolos("main", "_verano_"); :}
+    {:
+       parser.agregarTablaSimbolos("main", "_verano_");
+    :}
     sentencias
          | funciones
-         | error {: System.err.println("Error en la estructura inicial."); :};
+         | error {:
+             System.err.println("Error en la estructura inicial.");
+         :};
 
 /* Definiciones */
 tipos ::=INTEGER {:RESULT="rodolfo";:}
@@ -177,7 +189,8 @@ sentencia ::= asignaVariable
             | read
             | break_estructura
             | return_estructura
-            | switch_estructura;
+            | switch_estructura
+            | error {: System.err.println("Error en sentencia. Se ignoró la sentencia inválida."); :};
 
 funciones ::= funcion
            | funciones funcion;
