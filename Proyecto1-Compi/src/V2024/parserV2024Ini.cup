@@ -103,8 +103,7 @@ inicio ::= MAIN
     {:
        parser.agregarTablaSimbolos("main", "_verano_");
     :}
-    sentencias
-         | funciones
+    funciones
          | error {:
              System.err.println("Error en la estructura inicial.");
          :};
