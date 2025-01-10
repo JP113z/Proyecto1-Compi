@@ -98,11 +98,11 @@ inicio ::= MAIN
          | error {: System.err.println("Error en la estructura inicial."); :};
 
 /* Definiciones */
-tipos ::=INTEGER:i {:RESULT="rodolfo";:}
-        | STRING:s {:RESULT="cometa";:}
-        | CHAR:c {:RESULT="cupido";:}
-        | FLOAT:f {:RESULT="bromista";:}
-        | BOOL:b {:RESULT="trueno";:};
+tipos ::=INTEGER {:RESULT="rodolfo";:}
+        | STRING {:RESULT="cometa";:}
+        | CHAR {:RESULT="cupido";:}
+        | FLOAT {:RESULT="bromista";:}
+        | BOOL {:RESULT="trueno";:};
 
 
 literales ::= L_INTEGER:i
@@ -195,15 +195,24 @@ encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
 
 bloque ::= corcheteIzquierdo sentencias corcheteDerecho;
 
-parametros ::= PARENTESISAPERTURA PARENTESISCIERRE
-             | PARENTESISAPERTURA parametroAux PARENTESISCIERRE;
-parametroAux ::= asignarTipo | parametroAux COMA asignarTipo;
+parametros ::= PARENTESISAPERTURA{: RESULT = "abreregalo"; :}
+                PARENTESISCIERRE{: RESULT = "cierraregalo"; :}
+             | PARENTESISAPERTURA{: RESULT = "abreregalo"; :}
+              parametroAux PARENTESISCIERRE{: RESULT = "cierraregalo"; :};
+
+parametroAux ::= asignarTipo | parametroAux COMA{: RESULT = ","; :}
+                                asignarTipo;
 
 expresionRelacional ::= crearArreglos operadorRelacional arreglos;
 expresionLogica ::= crearArreglos operadorLogico arreglos;
 
-tipoArreglo ::= L_CHAR CORCHETEAPERTURA CORCHETECIERRE
-              | L_INTEGER CORCHETEAPERTURA CORCHETECIERRE;
+tipoArreglo ::= L_CHAR:cVar
+                CORCHETEAPERTURA {: RESULT = "abreempaque"; :}
+                CORCHETECIERRE {: RESULT = "cierraempaque"; :}
+              | L_INTEGER:iVar
+                CORCHETEAPERTURA {: RESULT = "abreempaque"; :}
+                CORCHETECIERRE {: RESULT = "cierraempaque"; :};
+
 
 crearArreglos ::= tipoArreglo:t IDENTIFICADOR:id
     {:
@@ -212,19 +221,23 @@ crearArreglos ::= tipoArreglo:t IDENTIFICADOR:id
     :}
     CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
 
-modificarArreglos ::= IDENTIFICADOR CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE;
+modificarArreglos ::= IDENTIFICADOR:idVar
+                      CORCHETEAPERTURA{: RESULT = "abreempaque"; :}
+                       CORCHETECIERRE{: RESULT = "cierraempaque"; :};
+
 
 arreglos ::= arreglo | arreglos arreglo;
 arreglo ::= parametrosArreglo;
 
 parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
                     | corcheteIzquierdo parametrosArregloAux corcheteDerecho;
-parametrosArregloAux ::= asignarTipo | parametrosArregloAux COMA asignarTipo;
+parametrosArregloAux ::= asignarTipo | parametrosArregloAux COMA{: RESULT = ","; :}
+                                        asignarTipo;
 
 expresionRelacional ::= asignarTipo operadorRelacional variable;
 expresionLogica ::= asignarTipo operadorLogico variable;
 
-asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales | modificarArreglos ASIGNA literales;
+asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales | modificarArreglos ASIGNA{:RESULT="entrega";:} literales;
 
 variable ::= IDENTIFICADOR:idVar {: System.out.println("Variable: " + idVar.toString()); :};
 
@@ -239,7 +252,8 @@ expresionBinaria ::= expresion operandoBinaria expresion;
 
 operandoUnario ::= INCREMENTO {:RESULT="quien";:}
                 | DECREMENTO {:RESULT="grinch";:};
-expresionUnario ::= expresion operandoUnario | NEGATIVO {:RESULT="-";:} expresion;
+expresionUnario ::= expresion operandoUnario | NEGATIVO {:RESULT="-";:}
+                                                expresion;
 
 expresionRelacionalMat ::= expresion operadorRelacional expresion;
 
@@ -249,7 +263,9 @@ expresiones ::= expresionRelacional
               | expresionBinaria
               | expresionUnario
               | expresionRelacionalMat
-              | PARENTESISAPERTURA expresiones PARENTESISCIERRE;
+              | PARENTESISAPERTURA {: RESULT = "abreregalo"; :}
+              expresiones
+              PARENTESISCIERRE{: RESULT = "cierraregalo"; :};
 
 
 expresion ::= INTEGER {:RESULT="rodolfo";:}
@@ -263,7 +279,8 @@ sentenciaEstructura ::= if_estructura
                       | switch_estructura
                       | return_estructura
                       | break_estructura
-                      | expresiones FIN_EXPRESION;
+                      | expresiones
+                      FIN_EXPRESION{:RESULT="finregalo";:};
 
 if_estructura ::= IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura
                 | IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
