@@ -8,7 +8,7 @@ cierracuento
 
 rodolfo _func2_ abreregalo cupido _x88_ , cupido _x88_ cierraregalo
  abrecuento
-rodolfo _x_ entrega 5 finregalo
+rodolfo _x_ entrega _X1_ finregalo
 
 envia 1.6 finregalo
 cierracuento

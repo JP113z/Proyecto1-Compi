@@ -154,6 +154,7 @@ expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.
 
 expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.println("Expresión lógica: " + op + " " + l); :}
                   | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
+                  |  asignarTipo operadorLogico variable
                   | error {: System.err.println("Error: Expresión lógica inválida"); :};
 
 asignarTipo ::= tipos:t IDENTIFICADOR:idVar
@@ -179,6 +180,9 @@ creacion ::= asignarTipo FIN_EXPRESION
            | error {: System.err.println("Error: Asignación inválida"); :};
 
 creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION
+            | asignarTipo ASIGNA expresiones FIN_EXPRESION
+            | asignarTipo ASIGNA expresionLogica
+            | asignarTipo ASIGNA IDENTIFICADOR FIN_EXPRESION
             | asignarTipo error {: System.err.println("Error: Expresión inválida"); :}
             | ASIGNA literales FIN_EXPRESION
              error {: System.err.println("Error: Falta la asignación"); :}
@@ -259,8 +263,7 @@ modificarArreglos ::= IDENTIFICADOR:idVar
 
 
 arreglos ::= arreglo | arreglos arreglo;
-arreglo ::= parametrosArreglo
-           |error {: System.err.println("Error: Arreglo mal formado"); :};
+arreglo ::= parametrosArreglo;
 
 parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
                     | corcheteIzquierdo parametrosArregloAux corcheteDerecho;
@@ -269,7 +272,7 @@ parametrosArregloAux ::= asignarTipo | parametrosArregloAux COMA{: RESULT = ",";
                                         asignarTipo;
 
 expresionRelacional ::= asignarTipo operadorRelacional variable;
-expresionLogica ::= asignarTipo operadorLogico variable;
+//expresionLogica ::= asignarTipo operadorLogico variable;
 
 asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales
                 | modificarArreglos ASIGNA{:RESULT="entrega";:} literales;
