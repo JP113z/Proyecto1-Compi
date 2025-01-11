@@ -195,7 +195,6 @@ funcion ::= encabezadoFuncion:e
     {: parser.agregarTablaSimbolos("funcion", e.toString()); :}
     parametros
     bloque
-    return_funcion
     ;
 
 encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
@@ -205,8 +204,8 @@ encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
         RESULT = id.toString();
     :};
 
-bloque ::= corcheteIzquierdo sentencias corcheteDerecho
-         | corcheteIzquierdo sentenciaEstructura corcheteDerecho;
+bloque ::= corcheteIzquierdo sentencias return_funcion corcheteDerecho
+         | corcheteIzquierdo sentenciaEstructura return_funcion corcheteDerecho;
 
 return_funcion ::= RETURN literales FIN_EXPRESION;
 

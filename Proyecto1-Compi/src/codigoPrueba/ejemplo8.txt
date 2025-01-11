@@ -2,5 +2,13 @@ _verano_
 bromista _func1_ abreregalo cupido _x22_ , cupido _x22_ cierraregalo
  abrecuento
 rodolfo _x_ entrega 5 finregalo
-cierracuento
+
 envia 1 finregalo
+cierracuento
+
+rodolfo _func2_ abreregalo cupido _x88_ , cupido _x88_ cierraregalo
+ abrecuento
+rodolfo _x_ entrega 5 finregalo
+
+envia 1.6 finregalo
+cierracuento
