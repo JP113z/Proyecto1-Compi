@@ -3,7 +3,7 @@ bromista _func1_ abreregalo cupido _x22_ , cupido _x22_ cierraregalo  abrecuento
      cupido _miChar_ entrega '!' finregalo
      cometa _str1_ entrega "Hola $%&/gaspar$& cierraregalo  mundo" finregalo
      bromista _fl1_ entrega 56.6 finregalo
-     cupido _arr_ abreempaque _lit_ cierraempaque  entrega   abrecuento 'c','d'
+     cupido _arr_ abreempaque _lit_ cierraempaque  entrega   abrecuento 'c' , 'd'
 cierracuento  finregalo
     _arr_ abreempaque _lit_ cierraempaque  entrega  'c' finregalo
      trueno _mibool_  entrega  true finregalo
@@ -49,7 +49,7 @@ _/
 @comentario 2
     escucha  abreregalo  _s1_  cierraregalo   finregalo
     narra abreregalo  _b1_  cierraregalo   finregalo
-    miFunc  abreregalo  _miFunc_  abreregalo   cierraregalo  ,'a'  cierraregalo
+    miFunc  abreregalo  _miFunc_  abreregalo   cierraregalo  , 'a'  cierraregalo
   finregalo
     envia 1 finregalo
  cierracuento
