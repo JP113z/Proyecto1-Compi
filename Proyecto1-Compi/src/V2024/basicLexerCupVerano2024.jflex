@@ -100,8 +100,6 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
     return symbol(sym.IDENTIFICADOR, yytext());
 }
 
-<YYINITIAL>".." { return symbol(sym.PUNTOS, ".."); }
-
 <YYINITIAL>"true" { return symbol(sym.TRUE, "true"); }
 <YYINITIAL>"false" { return symbol(sym.FALSE, "false"); }
 

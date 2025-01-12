@@ -8,8 +8,8 @@ package ParserLexer;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int L_FLOAT = 53;
-  public static final int L_STRING = 52;
+  public static final int L_FLOAT = 52;
+  public static final int L_STRING = 51;
   public static final int PARENTESISCIERRE = 8;
   public static final int CHAR = 16;
   public static final int FIN_EXPRESION = 9;
@@ -22,7 +22,7 @@ public class sym {
   public static final int NEGATIVO = 30;
   public static final int IDENTIFICADOR = 19;
   public static final int IGUAL = 35;
-  public static final int L_CHAR = 54;
+  public static final int L_CHAR = 53;
   public static final int BOOL = 18;
   public static final int INCREMENTO = 28;
   public static final int ASIGNA = 6;
@@ -44,7 +44,6 @@ public class sym {
   public static final int corcheteIzquierdo = 2;
   public static final int SWITCH = 44;
   public static final int MAYOR = 33;
-  public static final int PUNTOS = 50;
   public static final int POTENCIA = 27;
   public static final int ELSE = 41;
   public static final int CORCHETECIERRE = 5;
@@ -61,7 +60,7 @@ public class sym {
   public static final int FALSE = 21;
   public static final int DIVISION = 24;
   public static final int PRINT = 10;
-  public static final int L_INTEGER = 51;
+  public static final int L_INTEGER = 50;
   public static final int MULTIPLICACION = 25;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -114,7 +113,6 @@ public class sym {
   "BREAK",
   "RETURN",
   "DOS_PUNTOS",
-  "PUNTOS",
   "L_INTEGER",
   "L_STRING",
   "L_FLOAT",

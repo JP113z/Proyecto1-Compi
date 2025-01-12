@@ -83,7 +83,7 @@ terminal INTEGER, STRING, CHAR, FLOAT, BOOL, IDENTIFICADOR, TRUE, FALSE;
 terminal SUMA, RESTA, DIVISION, MULTIPLICACION, MODULO, POTENCIA, INCREMENTO, DECREMENTO, NEGATIVO;
 terminal MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL, IGUAL, DIFERENTE;
 terminal CONJUNCION, DISYUNCION, NEGACION;
-terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS, PUNTOS;
+terminal IF, ELSE, WHILE, FOR, SWITCH, CASE, DEFAULT, BREAK, RETURN, DOS_PUNTOS;
 terminal Integer L_INTEGER;
 terminal String L_STRING;
 terminal Float L_FLOAT;
@@ -92,11 +92,11 @@ terminal Character L_CHAR;
 /* No terminales */
 non terminal inicio, tipos, expresionRelacional, asignarTipo, operadorRelacional, literales, bool, operadorLogico, negacion,
 creacion, creacionAsignacion, sentencias, sentencia, funciones, funcion, bloque, return_estructura,
-parametroAux, parametros, tipoArreglo, crearArreglos, modificarArreglos, arreglos, arreglo,
+parametroAux, parametros, crearArreglos, modificarArreglos, arreglos, arreglo,
 parametrosArregloAux, parametrosArreglo, asignaVariable, variable, operandoBinaria, expresionBinaria,
 operandoUnario, expresionUnario, expresionRelacionalMat, expresiones, expresion, sentencia_lista, sentenciaEstructura, if_estructura,
-for_estructura, rango, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion, expresionLogica,
-while_estructura, return_funcion, tiposArr, expresionArr;
+for_estructura, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion, expresionLogica,
+while_estructura, return_funcion, tiposArr, expresionArr, default_case;
 
 /* Precedencia */
 precedence left ELSE;
@@ -170,10 +170,15 @@ expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.prin
 
 asignarTipo ::= tipos:t IDENTIFICADOR:idVar
     {:
-        Symbol symbol = (Symbol) CUP$parser$stack.peek();
-        parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), t.toString());
-    :}
-    | tipos error {: System.err.println("Error: Falta identificador después del tipo"); :};
+        if (t == null || idVar == null) {
+            System.err.println("Error: Tipo o identificador no definido.");
+            parser.agregarVariable(0, 0, "undefined", "undefined");
+        } else {
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, idVar.toString(), t.toString());
+        }
+    :};
+
 
 operadorRelacional ::= MENOR {:RESULT="snowball";:}
                        | MENOR_IGUAL {:RESULT="evergreen";:}
@@ -238,10 +243,28 @@ bloque ::= corcheteIzquierdo sentencias return_funcion corcheteDerecho
          | corcheteIzquierdo sentenciaEstructura  corcheteDerecho
           error {: System.err.println("Error: A la función le falta el retorno"); :};
 
-return_funcion ::= RETURN literales FIN_EXPRESION
-                |  RETURN variable FIN_EXPRESION
-                | RETURN literales
-                error {: System.err.println("Error: Al retorno le falta el fin de expresion"); :};
+return_funcion ::= RETURN literales:t FIN_EXPRESION
+    {:
+        if (t == null) {
+            System.err.println("Error: El tipo de retorno es nulo.");
+            parser.agregarVariable(0, 0, "return", "undefined");
+        } else {
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "return", t.toString());
+        }
+    :}
+    | RETURN variable:v FIN_EXPRESION
+    {:
+        if (v == null) {
+            System.err.println("Error: El valor de retorno es nulo.");
+            parser.agregarVariable(0, 0, "return", "undefined");
+        } else {
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "return", v.toString());
+        }
+    :};
+
+
 
 parametros ::= PARENTESISAPERTURA{: RESULT = "abreregalo"; :}
                 PARENTESISCIERRE{: RESULT = "cierraregalo"; :}
@@ -249,9 +272,28 @@ parametros ::= PARENTESISAPERTURA{: RESULT = "abreregalo"; :}
               parametroAux PARENTESISCIERRE{: RESULT = "cierraregalo"; :}
               | error {: System.err.println("Error: Parametros mal definidos"); :};
 
-parametroAux ::= asignarTipo
-                | parametroAux COMA{: RESULT = ","; :}
-                  asignarTipo;
+parametroAux ::= tipos:t IDENTIFICADOR:id
+    {:
+        if (t == null || id == null) {
+            System.err.println("Error: Parámetro inválido (tipo o identificador nulo).");
+            parser.agregarVariable(0, 0, "parametro: undefined", "undefined");
+        } else {
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "parametro: " + id.toString(), t.toString());
+            System.out.println("Parámetro agregado: " + id.toString() + " de tipo " + t.toString());
+        }
+    :}
+    | parametroAux COMA tipos:t IDENTIFICADOR:id
+    {:
+        if (t == null || id == null) {
+            System.err.println("Error: Parámetro adicional inválido (tipo o identificador nulo).");
+            parser.agregarVariable(0, 0, "parametro: undefined", "undefined");
+        } else {
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "parametro: " + id.toString(), t.toString());
+            System.out.println("Parámetro adicional agregado: " + id.toString() + " de tipo " + t.toString());
+        }
+    :};
 
 expresionArr ::= crearArreglos operadorRelacional arreglos FIN_EXPRESION
                  | crearArreglos ASIGNA arreglos FIN_EXPRESION
@@ -332,25 +374,44 @@ sentenciaEstructura ::= if_estructura
                       | expresiones
                       FIN_EXPRESION{:RESULT="finregalo";:};
 
-if_estructura ::= IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura
-                | IF PARENTESISAPERTURA operadorLogico PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
+if_estructura ::= IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura
+    {:
+        System.out.println("Estructura if reconocida.");
+    :}
+    | IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura
+    {:
+        System.out.println("Estructura if-else reconocida.");
+    :};
 
-for_estructura ::= FOR PARENTESISAPERTURA IDENTIFICADOR DOS_PUNTOS rango PARENTESISCIERRE sentencia;
+for_estructura ::= FOR PARENTESISAPERTURA
+                  creacionAsignacion COMA
+                  expresionLogica COMA
+                  expresionUnario
+                  PARENTESISCIERRE
+                  corcheteIzquierdo sentencias corcheteDerecho
+    {:
+        System.out.println("Estructura for reconocida.");
+    :};
+
+
 while_estructura ::= WHILE PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura;
 
-rango ::= expresion PUNTOS expresion
-        | expresion PUNTOS expresion PUNTOS;
-
 switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-    {:
-        Symbol symbol = (Symbol) CUP$parser$stack.peek();
-        parser.agregarVariable(symbol.left, symbol.right, "switch_" + symbol.value.toString(), "switch");
-    :}
     corcheteIzquierdo casos_switch corcheteDerecho;
 
-casos_switch ::= caso_switch | casos_switch caso_switch;
-caso_switch ::= CASE expresion DOS_PUNTOS sentencia_lista
-              | DEFAULT DOS_PUNTOS sentencia_lista;
+casos_switch ::= caso_switch
+               | casos_switch caso_switch
+               | default_case;
+
+caso_switch ::= CASE expresion DOS_PUNTOS sentencia_lista FIN_EXPRESION
+    {:
+        System.out.println("Caso switch reconocido.");
+    :};
+
+default_case ::= DEFAULT DOS_PUNTOS sentencia_lista FIN_EXPRESION
+    {:
+        System.out.println("Caso default reconocido.");
+    :};
 
 return_estructura ::= RETURN expresion FIN_EXPRESION
                     | RETURN FIN_EXPRESION;
