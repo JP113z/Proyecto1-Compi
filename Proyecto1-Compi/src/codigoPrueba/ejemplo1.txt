@@ -46,10 +46,9 @@ rodolfo _func2_  abreregalo   cierraregalo   abrecuento
 Comentario 1
 _/
 
-@comentario 2
+#@comentario 2
     escucha  abreregalo  _s1_  cierraregalo   finregalo
     narra abreregalo  _b1_  cierraregalo   finregalo
-    miFunc  abreregalo  _miFunc_  abreregalo   cierraregalo  , 'a'  cierraregalo
-  finregalo
+    #miFunc  abreregalo  _miFunc_  abreregalo   cierraregalo  , 'a'  cierraregalo finregalo
     envia _b_ finregalo
  cierracuento

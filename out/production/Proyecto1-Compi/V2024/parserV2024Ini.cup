@@ -12,14 +12,6 @@ parser code {:
     public void syntax_error(Symbol s) {
         System.err.println("Error sintáctico en línea " + (s.left + 1) +
                            ", columna " + (s.right + 1) + ". Token inesperado: " + s.value);
-
-        // Intentar avanzar al siguiente token sin detener el análisis
-        try {
-            // Avanzar al siguiente token
-            s = lex.next_token();
-        } catch (Exception e) {
-            System.err.println("Error al intentar avanzar al siguiente token.");
-        }
     }
 
 
@@ -375,13 +367,8 @@ sentenciaEstructura ::= if_estructura
                       FIN_EXPRESION{:RESULT="finregalo";:};
 
 if_estructura ::= IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura
-    {:
-        System.out.println("Estructura if reconocida.");
-    :}
-    | IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura
-    {:
-        System.out.println("Estructura if-else reconocida.");
-    :};
+                | IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
+
 
 for_estructura ::= FOR PARENTESISAPERTURA
                   creacionAsignacion COMA
@@ -427,5 +414,6 @@ print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE FIN_EXPRESION
                   error {: System.err.println("Print mal formado"); :};
 
 read ::= READ PARENTESISAPERTURA expresion PARENTESISCIERRE FIN_EXPRESION
+        |  READ PARENTESISAPERTURA variable PARENTESISCIERRE FIN_EXPRESION
         | READ PARENTESISAPERTURA  PARENTESISCIERRE
         error ;

@@ -152,7 +152,6 @@ Token: 19, Lexema: _func2_, Línea: 44, Columna: 9
 Token: 7, Lexema: abreregalo, Línea: 44, Columna: 18
 Token: 8, Lexema: cierraregalo, Línea: 44, Columna: 31
 Token: 2, Lexema: abrecuento, Línea: 44, Columna: 46
-Token: 50, Lexema: 2, Línea: 49, Columna: 13
 Token: 11, Lexema: escucha, Línea: 50, Columna: 5
 Token: 7, Lexema: abreregalo, Línea: 50, Columna: 14
 Token: 19, Lexema: _s1_, Línea: 50, Columna: 26
@@ -163,15 +162,7 @@ Token: 7, Lexema: abreregalo, Línea: 51, Columna: 11
 Token: 19, Lexema: _b1_, Línea: 51, Columna: 23
 Token: 8, Lexema: cierraregalo, Línea: 51, Columna: 29
 Token: 9, Lexema: finregalo, Línea: 51, Columna: 44
-Token: 7, Lexema: abreregalo, Línea: 52, Columna: 13
-Token: 19, Lexema: _miFunc_, Línea: 52, Columna: 25
-Token: 7, Lexema: abreregalo, Línea: 52, Columna: 35
-Token: 8, Lexema: cierraregalo, Línea: 52, Columna: 48
-Token: 13, Lexema: ,, Línea: 52, Columna: 62
-Token: 53, Lexema: 'a', Línea: 52, Columna: 64
-Token: 8, Lexema: cierraregalo, Línea: 52, Columna: 69
-Token: 9, Lexema: finregalo, Línea: 53, Columna: 3
-Token: 48, Lexema: envia, Línea: 54, Columna: 5
-Token: 19, Lexema: _b_, Línea: 54, Columna: 11
-Token: 9, Lexema: finregalo, Línea: 54, Columna: 15
-Token: 3, Lexema: cierracuento, Línea: 55, Columna: 2
+Token: 48, Lexema: envia, Línea: 53, Columna: 5
+Token: 19, Lexema: _b_, Línea: 53, Columna: 11
+Token: 9, Lexema: finregalo, Línea: 53, Columna: 15
+Token: 3, Lexema: cierracuento, Línea: 54, Columna: 2
