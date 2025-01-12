@@ -172,6 +172,6 @@ Token: 54, Lexema: 'a', Línea: 52, Columna: 64
 Token: 8, Lexema: cierraregalo, Línea: 52, Columna: 69
 Token: 9, Lexema: finregalo, Línea: 53, Columna: 3
 Token: 48, Lexema: envia, Línea: 54, Columna: 5
-Token: 51, Lexema: 1, Línea: 54, Columna: 11
-Token: 9, Lexema: finregalo, Línea: 54, Columna: 13
+Token: 19, Lexema: _b_, Línea: 54, Columna: 11
+Token: 9, Lexema: finregalo, Línea: 54, Columna: 15
 Token: 3, Lexema: cierracuento, Línea: 55, Columna: 2

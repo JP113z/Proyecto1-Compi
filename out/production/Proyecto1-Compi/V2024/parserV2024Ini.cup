@@ -239,6 +239,7 @@ bloque ::= corcheteIzquierdo sentencias return_funcion corcheteDerecho
           error {: System.err.println("Error: A la función le falta el retorno"); :};
 
 return_funcion ::= RETURN literales FIN_EXPRESION
+                |  RETURN variable FIN_EXPRESION
                 | RETURN literales
                 error {: System.err.println("Error: Al retorno le falta el fin de expresion"); :};
 
