@@ -96,7 +96,7 @@ parametroAux, parametros, tipoArreglo, crearArreglos, modificarArreglos, arreglo
 parametrosArregloAux, parametrosArreglo, asignaVariable, variable, operandoBinaria, expresionBinaria,
 operandoUnario, expresionUnario, expresionRelacionalMat, expresiones, expresion, sentencia_lista, sentenciaEstructura, if_estructura,
 for_estructura, rango, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion, expresionLogica,
-while_estructura, return_funcion;
+while_estructura, return_funcion, tiposArr, expresionArr;
 
 /* Precedencia */
 precedence left ELSE;
@@ -112,7 +112,7 @@ inicio ::= MAIN
        parser.agregarTablaSimbolos("main", "_verano_");
     :}
     funciones
-         | error {:
+    | error {:
              System.err.println("Error en la estructura inicial.");
          :};
 
@@ -123,6 +123,16 @@ tipos ::=INTEGER {:RESULT="rodolfo";:}
         | FLOAT {:RESULT="bromista";:}
         | BOOL {:RESULT="trueno";:};
 
+tiposArr ::=L_INTEGER:i
+                          {:
+                              Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                              parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "rodolfo");
+                          :}
+        | L_CHAR:c
+                        {:
+                            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                            parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cupido");
+                        :};
 
 literales ::= L_INTEGER:i
               {:
@@ -150,6 +160,7 @@ bool ::= TRUE {:RESULT="true";:}
         | FALSE{:RESULT="false";:};
 
 expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :}
+                     | asignarTipo operadorRelacional variable
                      | error {: System.err.println("Error: Expresión relacional inválida"); :};
 
 expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.println("Expresión lógica: " + op + " " + l); :}
@@ -190,7 +201,9 @@ creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION
             error {: System.err.println("Error: Falta el fin de expresión"); :};
 
 sentencias ::= sentencia | sentencias sentencia;
-sentencia ::= asignaVariable
+sentencia ::=
+            expresionArr
+            | asignaVariable
             | creacion
             | creacionAsignacion
             | print
@@ -217,6 +230,7 @@ encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
 
 bloque ::= corcheteIzquierdo sentencias return_funcion corcheteDerecho
          | corcheteIzquierdo sentenciaEstructura return_funcion corcheteDerecho
+//         | corcheteIzquierdo expresionArr return_funcion corcheteDerecho
          | corcheteIzquierdo  corcheteDerecho
          error {: System.err.println("Error: bloque vacio"); :}
          | corcheteIzquierdo sentencias  corcheteDerecho
@@ -238,28 +252,24 @@ parametroAux ::= asignarTipo
                 | parametroAux COMA{: RESULT = ","; :}
                   asignarTipo;
 
-expresionRelacional ::= crearArreglos operadorRelacional arreglos;
-expresionLogica ::= crearArreglos operadorLogico arreglos;
+expresionArr ::= crearArreglos operadorRelacional arreglos FIN_EXPRESION
+                 | crearArreglos ASIGNA arreglos FIN_EXPRESION
+                 | arreglos ASIGNA arreglos FIN_EXPRESION
+                 | arreglos operadorRelacional arreglos FIN_EXPRESION;
+//expresionLogica ::= crearArreglos operadorLogico arreglos;
 
-tipoArreglo ::= L_CHAR:cVar
-                CORCHETEAPERTURA {: RESULT = "abreempaque"; :}
-                CORCHETECIERRE {: RESULT = "cierraempaque"; :}
-              | L_INTEGER:iVar
-                CORCHETEAPERTURA {: RESULT = "abreempaque"; :}
-                CORCHETECIERRE {: RESULT = "cierraempaque"; :};
+crearArreglos ::=tipos:t  IDENTIFICADOR:id
+                {:
+                Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), t.toString() + "[]");
+                :}
+                CORCHETEAPERTURA IDENTIFICADOR:idVarArr CORCHETECIERRE;
 
-
-crearArreglos ::= tipoArreglo:t IDENTIFICADOR:id
-    {:
-        Symbol symbol = (Symbol) CUP$parser$stack.peek();
-        parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), t.toString() + "[]");
-    :}
-    CORCHETEAPERTURA IDENTIFICADOR CORCHETECIERRE
-    |error {: System.err.println("Error en la estructura de crear arreglos"); :};
 
 modificarArreglos ::= IDENTIFICADOR:idVar
                       CORCHETEAPERTURA{: RESULT = "abreempaque"; :}
-                       CORCHETECIERRE{: RESULT = "cierraempaque"; :};
+                      IDENTIFICADOR:id
+                      CORCHETECIERRE{: RESULT = "cierraempaque"; :} ;
 
 
 arreglos ::= arreglo | arreglos arreglo;
@@ -268,14 +278,15 @@ arreglo ::= parametrosArreglo;
 parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
                     | corcheteIzquierdo parametrosArregloAux corcheteDerecho;
 
-parametrosArregloAux ::= asignarTipo | parametrosArregloAux COMA{: RESULT = ","; :}
-                                        asignarTipo;
+parametrosArregloAux ::= tiposArr | parametrosArregloAux COMA{: RESULT = ","; :}
+                                        tiposArr;
 
-expresionRelacional ::= asignarTipo operadorRelacional variable;
+//expresionRelacional ::= asignarTipo operadorRelacional variable;
 //expresionLogica ::= asignarTipo operadorLogico variable;
 
 asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales
-                | modificarArreglos ASIGNA{:RESULT="entrega";:} literales;
+                | modificarArreglos ASIGNA{:RESULT="entrega";:} tiposArr FIN_EXPRESION
+                | modificarArreglos operadorRelacional tiposArr FIN_EXPRESION;
 
 variable ::= IDENTIFICADOR:idVar {: System.out.println("Variable: " + idVar.toString()); :};
 
