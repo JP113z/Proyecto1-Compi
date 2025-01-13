@@ -191,7 +191,8 @@ bool ::= TRUE {:RESULT="true";:}
         | FALSE{:RESULT="false";:};
 
 expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :}
-                     | asignarTipo operadorRelacional variable;
+                     | asignarTipo operadorRelacional variable
+                     | operadorRelacional literales;
 
 expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.println("Expresión lógica: " + op + " " + l); :}
                   | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
@@ -238,6 +239,7 @@ creacionAsignacion ::=
 sentencias ::= sentencia | sentencias sentencia;
 sentencia ::=
             expresionArr
+            | sentenciaEstructura
             | asignaVariable
             | creacion
             | creacionAsignacion
@@ -264,14 +266,12 @@ encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
      |error;
 
 bloque ::= corcheteIzquierdo sentencias return_funcion corcheteDerecho
-         | corcheteIzquierdo sentenciaEstructura return_funcion corcheteDerecho
+//         | corcheteIzquierdo sentenciaEstructura return_funcion corcheteDerecho
 //         | corcheteIzquierdo expresionArr return_funcion corcheteDerecho
          | corcheteIzquierdo  corcheteDerecho
          error {: System.err.println("Error: bloque vacio"); :}
          | corcheteIzquierdo sentencias  corcheteDerecho
-            error {: System.err.println("Error: A la función le falta el retorno"); :}
-         | corcheteIzquierdo sentenciaEstructura  corcheteDerecho
-          error {: System.err.println("Error: A la función le falta el retorno"); :};
+            error {: System.err.println("Error: A la función le falta el retorno"); :};
 
 return_funcion ::= RETURN literales:t FIN_EXPRESION
     {:
@@ -396,7 +396,8 @@ expresionUnario ::= numerosLiterales operandoUnario
                 | variable operandoUnario;
 
 expresionRelacionalMat ::= numerosLiterales operadorRelacional numerosLiterales
-                       | variable operadorRelacional numerosLiterales;
+                       | variable operadorRelacional numerosLiterales
+                       | variable operadorRelacional numerosLiterales operandoBinaria numerosLiterales;
 
 expresiones ::= expresionRelacional
               | literales
@@ -415,20 +416,30 @@ expresiones ::= expresionRelacional
 
 sentencia_lista ::= sentenciaEstructura | sentencia_lista sentenciaEstructura;
 
-sentenciaEstructura ::= if_estructura
-                      | for_estructura
-                      | while_estructura
-                      | switch_estructura
-                      | return_estructura
-                      | break_estructura
-                      | expresiones
-                      FIN_EXPRESION{:RESULT="finregalo";:};
+sentenciaEstructura ::=  for_estructura
+                    | while_estructura;
+//sentenciaEstructura ::= if_estructura
+//                      | for_estructura
+//                      | while_estructura
+//                      | switch_estructura
+//                       | return_estructura
+//                       | break_estructura
+//                       | expresiones
+//                       FIN_EXPRESION{:RESULT="finregalo";:};
 
-if_estructura ::= IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura
-                | IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
-
+//if_estructura ::= IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura
+//                 | IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
+//
 
 for_estructura ::= FOR PARENTESISAPERTURA
+                    variable ASIGNA literales
+                    COMA
+                    expresiones
+                    COMA
+                    expresionUnario
+                   PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura corcheteDerecho
+
+                  | FOR PARENTESISAPERTURA
                   creacionAsignacion COMA
                   expresionLogica COMA
                   expresionUnario
@@ -439,24 +450,30 @@ for_estructura ::= FOR PARENTESISAPERTURA
     :};
 
 
-while_estructura ::= WHILE PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura;
+while_estructura ::= WHILE PARENTESISAPERTURA expresionCompleja PARENTESISCIERRE corcheteIzquierdo expresiones corcheteDerecho
+                    | WHILE PARENTESISAPERTURA expresionCompleja operadorLogico expresiones expresionRelacional  PARENTESISCIERRE
+                    corcheteIzquierdo expresiones return_estructura corcheteDerecho
+                    | WHILE PARENTESISAPERTURA expresionCompleja operadorLogico expresiones expresionRelacional  PARENTESISCIERRE
+                     corcheteIzquierdo sentencia return_estructura corcheteDerecho
+                    | WHILE PARENTESISAPERTURA expresionCompleja operadorLogico expresiones  PARENTESISCIERRE
+                    corcheteIzquierdo expresiones return_estructura corcheteDerecho;
 
-switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-    corcheteIzquierdo casos_switch corcheteDerecho;
+// switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+//     corcheteIzquierdo casos_switch corcheteDerecho;
 
-casos_switch ::= caso_switch
-               | casos_switch caso_switch
-               | default_case;
+// casos_switch ::= caso_switch
+ //               | casos_switch caso_switch
+   //             | default_case;
 
-caso_switch ::= CASE numerosLiterales DOS_PUNTOS sentencia_lista FIN_EXPRESION
-    {:
-        System.out.println("Caso switch reconocido.");
-    :};
+// caso_switch ::= CASE numerosLiterales DOS_PUNTOS sentencia_lista FIN_EXPRESION
+//     {:
+ //        System.out.println("Caso switch reconocido.");
+ //    :};
 
-default_case ::= DEFAULT DOS_PUNTOS sentencia_lista FIN_EXPRESION
-    {:
-        System.out.println("Caso default reconocido.");
-    :};
+// default_case ::= DEFAULT DOS_PUNTOS sentencia_lista FIN_EXPRESION
+ //    {:
+  //       System.out.println("Caso default reconocido.");
+  //   :};
 
 return_estructura ::= RETURN numerosLiterales FIN_EXPRESION
                     | RETURN FIN_EXPRESION;
