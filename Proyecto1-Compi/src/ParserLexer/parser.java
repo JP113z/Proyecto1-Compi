@@ -666,13 +666,19 @@ public class parser extends java_cup.runtime.lr_parser {
 
     BasicLexerCupV lex;
 
+    private int errorCount = 0;
+
     @Override
     public void syntax_error(Symbol s) {
+        errorCount++;
         System.err.println("Error sintáctico en línea " + (s.left + 1) +
                            ", columna " + (s.right + 1) + ". Token inesperado: " + s.value);
     }
 
-
+    // Método para verificar si hubo errores
+    public boolean hasErrors() {
+        return errorCount > 0;
+    }
 
     @SuppressWarnings("deprecation")
     public parser(BasicLexerCupV lex) {

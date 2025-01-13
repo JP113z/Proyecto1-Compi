@@ -85,6 +85,8 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
     return symbol(sym.L_STRING, yytext().substring(1, yytext().length() - 1));
 }
 
+/* Separador */
+<YYINITIAL>"," { return symbol(sym.COMA, ","); }
 
 /* Apertura de bloques de código */
 <YYINITIAL>"abrecuento" { return symbol(sym.corcheteIzquierdo, "abrecuento"); }
@@ -109,9 +111,6 @@ DecIntegerLiteral = {signo}({digit}+|{digit}+"."+{digit}+)
 /* Paréntesis para  operadores y operandos */
 <YYINITIAL>"abreregalo" { return symbol(sym.PARENTESISAPERTURA, "abreregalo"); }
 <YYINITIAL>"cierraregalo" { return symbol(sym.PARENTESISCIERRE, "cierraregalo"); }
-
-/* Separador */
-<YYINITIAL>"," { return symbol(sym.COMA, ","); }
 
 /* Operadores unarios */
 <YYINITIAL>"quien" { return symbol(sym.INCREMENTO, "quien"); }

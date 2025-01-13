@@ -11,7 +11,7 @@ cierracuento  finregalo
     _mibool_  entrega   abreregalo  3.7 nochebuena _fl1_
 quien  cierraregalo  snowball 56 melchor true   finregalo
 
-    duende  abreregalo  _i_  entrega  10 , _i_ snowball 30 nochebuena 2 , _i_
+    duende  abreregalo  _i_  entrega  10, _i_ snowball 30 nochebuena 2 , _i_
 quien  cierraregalo
      abrecuento
         envuelve abreregalo _var2_ minstix 12.2 gaspar  abreregalo 34 navidad 33
