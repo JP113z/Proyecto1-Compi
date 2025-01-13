@@ -8,6 +8,8 @@ package ParserLexer;
 import java_cup.runtime.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import Tree.Arbol;
+import Tree.Nodo;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -819,6 +821,8 @@ public class parser extends java_cup.runtime.lr_parser {
 
     private int errorCount = 0;
 
+    private Arbol arbol;
+
     @Override
     public void syntax_error(Symbol s) {
         errorCount++;
@@ -836,6 +840,7 @@ public class parser extends java_cup.runtime.lr_parser {
         this.lex = lex;
         this.symbolFactory = new DefaultSymbolFactory();
         this.currentHash = null;
+        this.arbol = new Arbol();
     }
 
     // Tabla de símbolos
@@ -876,6 +881,14 @@ public class parser extends java_cup.runtime.lr_parser {
         String entrada = String.format("| %-6d | %-7d | %-20s | %-10s |",
                 linea + 1, columna + 1, lexema, tipo);
         tabla.add(entrada);
+    }
+
+    public Arbol getArbol() {
+        return arbol;
+    }
+
+    private Nodo crearNodo(String dato) {
+        return new Nodo(dato);
     }
 
 
@@ -923,8 +936,14 @@ class CUP$parser$actions {
           case 1: // NT$0 ::= 
             {
               Object RESULT =null;
+		int mleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int mright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object m = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 
-       parser.agregarTablaSimbolos("main", "_verano_");
+        parser.agregarTablaSimbolos("main", "_verano_");
+        Nodo mainNode = new Nodo("_verano_");
+        parser.getArbol().setRaiz(mainNode);
+        RESULT = mainNode;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$0",54, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -936,6 +955,9 @@ class CUP$parser$actions {
               Object RESULT =null;
               // propagate RESULT from NT$0
                 RESULT = (Object) ((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
+		int mleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).left;
+		int mright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)).right;
+		Object m = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-2)).value;
 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("inicio",0, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }

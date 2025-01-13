@@ -2,6 +2,8 @@ package ParserLexer;
 import java_cup.runtime.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import Tree.Arbol;
+import Tree.Nodo;
 
 action code {: :};
 
@@ -9,6 +11,8 @@ parser code {:
     BasicLexerCupV lex;
 
     private int errorCount = 0;
+
+    private Arbol arbol;
 
     @Override
     public void syntax_error(Symbol s) {
@@ -27,6 +31,7 @@ parser code {:
         this.lex = lex;
         this.symbolFactory = new DefaultSymbolFactory();
         this.currentHash = null;
+        this.arbol = new Arbol();
     }
 
     // Tabla de símbolos
@@ -67,6 +72,14 @@ parser code {:
         String entrada = String.format("| %-6d | %-7d | %-20s | %-10s |",
                 linea + 1, columna + 1, lexema, tipo);
         tabla.add(entrada);
+    }
+
+    public Arbol getArbol() {
+        return arbol;
+    }
+
+    private Nodo crearNodo(String dato) {
+        return new Nodo(dato);
     }
 :}
 
@@ -112,14 +125,19 @@ precedence left L_INTEGER, L_FLOAT;
 /* Producción inicial */
 start with inicio;
 
-inicio ::= MAIN
+
+inicio ::= MAIN:m
     {:
-       parser.agregarTablaSimbolos("main", "_verano_");
+        parser.agregarTablaSimbolos("main", "_verano_");
+        Nodo mainNode = new Nodo("_verano_");
+        parser.getArbol().setRaiz(mainNode);
+        RESULT = mainNode;
     :}
     funciones
     | error {:
              System.err.println("Error en la estructura inicial.");
          :};
+
 
 /* Definiciones */
 tipos ::=INTEGER {:RESULT="rodolfo";:}
