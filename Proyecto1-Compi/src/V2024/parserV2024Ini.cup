@@ -92,15 +92,22 @@ non terminal inicio, tipos, expresionRelacional, asignarTipo, operadorRelacional
 creacion, creacionAsignacion, sentencias, sentencia, funciones, funcion, bloque, return_estructura,
 parametroAux, parametros, crearArreglos, modificarArreglos, arreglos, arreglo,
 parametrosArregloAux, parametrosArreglo, asignaVariable, variable, operandoBinaria, expresionBinaria,
-operandoUnario, expresionUnario, expresionRelacionalMat, expresiones, expresion, sentencia_lista, sentenciaEstructura, if_estructura,
+operandoUnario, expresionUnario, expresionRelacionalMat, expresiones, sentencia_lista, sentenciaEstructura, if_estructura,
 for_estructura, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion, expresionLogica,
-while_estructura, return_funcion, tiposArr, expresionArr, default_case;
+while_estructura, return_funcion, tiposArr, expresionArr, default_case,numerosLiterales, expresionCompleja,numeroEntero,  numeroFloat;
 
 /* Precedencia */
 precedence left ELSE;
 precedence left MENOR, MENOR_IGUAL, MAYOR, MAYOR_IGUAL;
 precedence left IGUAL, DIFERENTE;
 precedence left CONJUNCION, DISYUNCION;
+precedence left SUMA, RESTA;
+precedence left MULTIPLICACION, DIVISION, MODULO;
+precedence right POTENCIA;
+precedence right NEGACION;
+precedence left L_INTEGER, L_FLOAT;
+
+
 
 /* Producción inicial */
 start with inicio;
@@ -132,39 +139,45 @@ tiposArr ::=L_INTEGER:i
                             parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cupido");
                         :};
 
-literales ::= L_INTEGER:i
-              {:
-                  Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                  parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "rodolfo");
-              :}
-            | L_STRING:s
+literales ::=
+            L_STRING:s
               {:
                   Symbol symbol = (Symbol) CUP$parser$stack.peek();
                   parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cometa");
-              :}
-            | L_FLOAT:f
-              {:
-                  Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                  parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "bromista");
               :}
             | L_CHAR:c
               {:
                   Symbol symbol = (Symbol) CUP$parser$stack.peek();
                   parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cupido");
               :}
-            | bool;
+            | bool
+            | numerosLiterales;
+numerosLiterales ::=
+    numeroEntero
+    | numeroFloat;
+
+numeroEntero ::= L_INTEGER
+    {:
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "rodolfo");
+    :};
+
+numeroFloat ::= L_FLOAT
+    {:
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "bromista");
+    :};
+
 
 bool ::= TRUE {:RESULT="true";:}
         | FALSE{:RESULT="false";:};
 
 expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :}
-                     | asignarTipo operadorRelacional variable
-                     | error {: System.err.println("Error: Expresión relacional inválida"); :};
+                     | asignarTipo operadorRelacional variable;
 
 expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.println("Expresión lógica: " + op + " " + l); :}
                   | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
-                  |  asignarTipo operadorLogico variable
-                  | error {: System.err.println("Error: Expresión lógica inválida"); :};
+                  |  asignarTipo operadorLogico variable;
 
 asignarTipo ::= tipos:t IDENTIFICADOR:idVar
     {:
@@ -193,9 +206,10 @@ negacion ::= NEGACION {:RESULT="baltazar";:};
 creacion ::= asignarTipo FIN_EXPRESION
            | error {: System.err.println("Error: Asignación inválida"); :};
 
-creacionAsignacion ::= asignarTipo ASIGNA literales FIN_EXPRESION
-            | asignarTipo ASIGNA expresiones FIN_EXPRESION
-            | asignarTipo ASIGNA expresionLogica
+creacionAsignacion ::=
+            //asignarTipo ASIGNA literales FIN_EXPRESION
+             asignarTipo ASIGNA expresiones FIN_EXPRESION
+            | asignarTipo ASIGNA expresionLogica FIN_EXPRESION
             | asignarTipo ASIGNA IDENTIFICADOR FIN_EXPRESION
             | asignarTipo error {: System.err.println("Error: Expresión inválida"); :}
             | ASIGNA literales FIN_EXPRESION
@@ -326,10 +340,23 @@ parametrosArregloAux ::= tiposArr | parametrosArregloAux COMA{: RESULT = ","; :}
 //expresionLogica ::= asignarTipo operadorLogico variable;
 
 asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales
+                | variable ASIGNA expresionCompleja FIN_EXPRESION
                 | modificarArreglos ASIGNA{:RESULT="entrega";:} tiposArr FIN_EXPRESION
                 | modificarArreglos operadorRelacional tiposArr FIN_EXPRESION;
 
 variable ::= IDENTIFICADOR:idVar {: System.out.println("Variable: " + idVar.toString()); :};
+
+
+expresionCompleja ::= expresionBinaria
+                    | expresionUnario
+                    | expresionRelacionalMat
+                    | expresionLogica
+                    | PARENTESISAPERTURA expresionCompleja PARENTESISCIERRE
+                    | expresionBinaria operadorRelacional expresionLogica
+                    | expresionLogica operadorLogico literales
+                    | expresionBinaria expresionUnario
+                    | expresionCompleja operadorRelacional numerosLiterales operadorLogico bool;
+
 
 operandoBinaria ::= SUMA {:RESULT="navidad";:}
                 | RESTA {:RESULT="intercambio";:}
@@ -338,28 +365,35 @@ operandoBinaria ::= SUMA {:RESULT="navidad";:}
                 | MODULO {:RESULT="magos";:}
                 | POTENCIA {:RESULT="adviento";:};
 
-expresionBinaria ::= expresion operandoBinaria expresion;
+expresionBinaria ::= numerosLiterales operandoBinaria numerosLiterales
+                    | numerosLiterales operandoBinaria
+                    | variable operandoBinaria numerosLiterales;
+
 
 operandoUnario ::= INCREMENTO {:RESULT="quien";:}
                 | DECREMENTO {:RESULT="grinch";:};
-expresionUnario ::= expresion operandoUnario | NEGATIVO {:RESULT="-";:}
-                                                expresion;
+expresionUnario ::= numerosLiterales operandoUnario
+                | NEGATIVO {:RESULT="-";:}
+                numerosLiterales
+                | variable operandoUnario;
 
-expresionRelacionalMat ::= expresion operadorRelacional expresion;
+expresionRelacionalMat ::= numerosLiterales operadorRelacional numerosLiterales
+                       | variable operadorRelacional numerosLiterales;
 
 expresiones ::= expresionRelacional
-              | expresion
-              | operandoBinaria expresion
+              | literales
+              | operandoBinaria numerosLiterales
               | expresionBinaria
               | expresionUnario
               | expresionRelacionalMat
+              | variable ASIGNA variable
               | PARENTESISAPERTURA {: RESULT = "abreregalo"; :}
               expresiones
               PARENTESISCIERRE{: RESULT = "cierraregalo"; :};
 
 
-expresion ::= INTEGER {:RESULT="rodolfo";:}
-            | FLOAT {:RESULT="bromista";:};
+//expresion ::= INTEGER {:RESULT="rodolfo";:}
+//            | FLOAT {:RESULT="bromista";:};
 
 sentencia_lista ::= sentenciaEstructura | sentencia_lista sentenciaEstructura;
 
@@ -396,7 +430,7 @@ casos_switch ::= caso_switch
                | casos_switch caso_switch
                | default_case;
 
-caso_switch ::= CASE expresion DOS_PUNTOS sentencia_lista FIN_EXPRESION
+caso_switch ::= CASE numerosLiterales DOS_PUNTOS sentencia_lista FIN_EXPRESION
     {:
         System.out.println("Caso switch reconocido.");
     :};
@@ -406,7 +440,7 @@ default_case ::= DEFAULT DOS_PUNTOS sentencia_lista FIN_EXPRESION
         System.out.println("Caso default reconocido.");
     :};
 
-return_estructura ::= RETURN expresion FIN_EXPRESION
+return_estructura ::= RETURN numerosLiterales FIN_EXPRESION
                     | RETURN FIN_EXPRESION;
 break_estructura ::= BREAK FIN_EXPRESION;
 
@@ -419,7 +453,7 @@ print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE FIN_EXPRESION
         | PRINT  variable  PARENTESISCIERRE
                   error {: System.err.println("Print mal formado"); :};
 
-read ::= READ PARENTESISAPERTURA expresion PARENTESISCIERRE FIN_EXPRESION
+read ::= READ PARENTESISAPERTURA numerosLiterales PARENTESISCIERRE FIN_EXPRESION
         |  READ PARENTESISAPERTURA variable PARENTESISCIERRE FIN_EXPRESION
         | READ PARENTESISAPERTURA  PARENTESISCIERRE
         error ;
