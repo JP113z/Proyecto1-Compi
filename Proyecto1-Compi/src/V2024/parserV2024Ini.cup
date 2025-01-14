@@ -518,12 +518,20 @@ return_funcion ::= RETURN literales:N1 FIN_EXPRESION
     {:
         Nodo returnNode = parser.crearNodo("RETURN");
 
-        // Verificar y agregar el nodo del literal
+        // Verificar y agregar el nodo del literal o cualquier tipo de dato
         if (N1 != null) {
             returnNode.agregarHijo(parser.crearNodo("return"));
-            returnNode.agregarHijo(N1);
+
+            if (N1 instanceof Nodo) {
+                returnNode.agregarHijo((Nodo) N1); // Si es Nodo, agregar directamente
+                Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                parser.agregarVariable(symbol.left, symbol.right, "return", ((Nodo) N1).getDato());
+            } else {
+                returnNode.agregarHijo(parser.crearNodo(N1.toString())); // Si no, convertir a String
+                Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
+            }
         } else {
-            System.err.println("Error: El tipo de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
@@ -535,12 +543,20 @@ return_funcion ::= RETURN literales:N1 FIN_EXPRESION
     {:
         Nodo returnNode = parser.crearNodo("RETURN");
 
-        // Verificar y agregar el nodo de la variable
+        // Verificar y agregar el nodo de la variable o cualquier tipo de dato
         if (N1 != null) {
             returnNode.agregarHijo(parser.crearNodo("return"));
-            returnNode.agregarHijo(N1);
+
+            if (N1 instanceof Nodo) {
+                returnNode.agregarHijo((Nodo) N1); // Si es Nodo, agregar directamente
+                Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                parser.agregarVariable(symbol.left, symbol.right, "return", ((Nodo) N1).getDato());
+            } else {
+                returnNode.agregarHijo(parser.crearNodo(N1.toString())); // Si no, convertir a String
+                Symbol symbol = (Symbol) CUP$parser$stack.peek();
+                parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
+            }
         } else {
-            System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
@@ -809,18 +825,108 @@ sentenciaEstructura ::= for_estructura:N1
         RESULT = sentenciaExpresionNode;
     :};
 
-if_estructura ::= IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura corcheteDerecho
-                 | IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo return_estructura corcheteDerecho
-                 | IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura return_estructura corcheteDerecho
-                 | IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo expresiones corcheteDerecho
-                 | if_estructura
-                 ELSE corcheteIzquierdo sentenciaEstructura corcheteDerecho
-                 | if_estructura
-                  ELSE corcheteIzquierdo return_estructura corcheteDerecho
-                 | if_estructura
-                 ELSE corcheteIzquierdo sentenciaEstructura return_estructura corcheteDerecho
-                 | if_estructura
-                 ELSE corcheteIzquierdo expresiones corcheteDerecho;
+if_estructura ::= IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura:N2 corcheteDerecho
+    {:
+        Nodo ifNode = parser.crearNodo("IF");
+
+        // Agregar la expresión condicional
+        if (N1 != null) {
+            ifNode.agregarHijo(parser.crearNodo("if"));
+            ifNode.agregarHijo(N1);
+        }
+
+        // Agregar el bloque de sentencias
+        if (N2 != null) {
+            ifNode.agregarHijo(N2);
+        }
+
+        // Agregar a la tabla de símbolos
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "if", "elfo");
+
+        parser.getArbol().getRaiz().agregarHijo(ifNode);
+        RESULT = ifNode;
+    :}
+    | IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo return_estructura:N2 corcheteDerecho
+    {:
+        Nodo ifNode = parser.crearNodo("IF");
+
+        if (N1 != null) {
+            ifNode.agregarHijo(parser.crearNodo("if"));
+            ifNode.agregarHijo(N1);
+        }
+
+        if (N2 != null) {
+            ifNode.agregarHijo(N2);
+        }
+
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "if", "elfo");
+
+        parser.getArbol().getRaiz().agregarHijo(ifNode);
+        RESULT = ifNode;
+    :}
+    | IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura:N2 return_estructura:N3 corcheteDerecho
+    {:
+        Nodo ifNode = parser.crearNodo("IF");
+
+        if (N1 != null) {
+            ifNode.agregarHijo(parser.crearNodo("if"));
+            ifNode.agregarHijo(N1);
+        }
+
+        if (N2 != null) ifNode.agregarHijo(N2);
+        if (N3 != null) ifNode.agregarHijo(N3);
+
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "if", "elfo");
+
+        parser.getArbol().getRaiz().agregarHijo(ifNode);
+        RESULT = ifNode;
+    :}
+    | if_estructura:N1 ELSE corcheteIzquierdo sentenciaEstructura:N2 corcheteDerecho
+    {:
+        Nodo ifElseNode = parser.crearNodo("ELSE");
+
+        if (N1 != null) ifElseNode.agregarHijo(N1);
+        ifElseNode.agregarHijo(parser.crearNodo("else"));
+        if (N2 != null) ifElseNode.agregarHijo(N2);
+
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "else", "hada");
+
+        parser.getArbol().getRaiz().agregarHijo(ifElseNode);
+        RESULT = ifElseNode;
+    :}
+    | if_estructura:N1 ELSE corcheteIzquierdo return_estructura:N2 corcheteDerecho
+    {:
+        Nodo ifElseNode = parser.crearNodo("ELSE");
+
+        if (N1 != null) ifElseNode.agregarHijo(N1);
+        ifElseNode.agregarHijo(parser.crearNodo("else"));
+        if (N2 != null) ifElseNode.agregarHijo(N2);
+
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "else", "hada");
+
+        parser.getArbol().getRaiz().agregarHijo(ifElseNode);
+        RESULT = ifElseNode;
+    :}
+    | if_estructura:N1 ELSE corcheteIzquierdo sentenciaEstructura:N2 return_estructura:N3 corcheteDerecho
+    {:
+        Nodo ifElseNode = parser.crearNodo("ELSE");
+
+        if (N1 != null) ifElseNode.agregarHijo(N1);
+        ifElseNode.agregarHijo(parser.crearNodo("else"));
+        if (N2 != null) ifElseNode.agregarHijo(N2);
+        if (N3 != null) ifElseNode.agregarHijo(N3);
+
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "else", "hada");
+
+        parser.getArbol().getRaiz().agregarHijo(ifElseNode);
+        RESULT = ifElseNode;
+    :};
 
 for_estructura ::= FOR PARENTESISAPERTURA
                     variable:N1 ASIGNA:N2 literales:N3
@@ -845,6 +951,8 @@ for_estructura ::= FOR PARENTESISAPERTURA
         forNode.agregarHijo(parser.crearNodo("{"));
         if (N6 != null) forNode.agregarHijo(N6);
         forNode.agregarHijo(parser.crearNodo("}"));
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "for", "elfo");
 
         RESULT = forNode;
     :}
@@ -867,6 +975,8 @@ for_estructura ::= FOR PARENTESISAPERTURA
         forNode.agregarHijo(parser.crearNodo("{"));
         if (N5 != null) forNode.agregarHijo(N5);
         forNode.agregarHijo(parser.crearNodo("}"));
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "for", "elfo");
 
         RESULT = forNode;
     :}
@@ -888,6 +998,8 @@ for_estructura ::= FOR PARENTESISAPERTURA
         forNode.agregarHijo(parser.crearNodo("{"));
         if (N4 != null) forNode.agregarHijo(N4);
         forNode.agregarHijo(parser.crearNodo("}"));
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "for", "elfo");
 
         RESULT = forNode;
     :};
@@ -902,6 +1014,8 @@ while_estructura ::= WHILE PARENTESISAPERTURA expresionCompleja:N1 PARENTESISCIE
         whileNode.agregarHijo(parser.crearNodo("{"));
         if (N2 != null) whileNode.agregarHijo(N2); // Nodo de las expresiones
         whileNode.agregarHijo(parser.crearNodo("}"));
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "while", "envuelve");
 
         RESULT = whileNode;
     :}
@@ -920,6 +1034,8 @@ while_estructura ::= WHILE PARENTESISAPERTURA expresionCompleja:N1 PARENTESISCIE
         if (N5 != null) whileNode.agregarHijo(N5); // Expresiones dentro del bloque
         if (N6 != null) whileNode.agregarHijo(N6); // Return estructura
         whileNode.agregarHijo(parser.crearNodo("}"));
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "while", "envuelve");
 
         RESULT = whileNode;
     :}
@@ -938,6 +1054,8 @@ while_estructura ::= WHILE PARENTESISAPERTURA expresionCompleja:N1 PARENTESISCIE
         if (N5 != null) whileNode.agregarHijo(N5); // Sentencia dentro del bloque
         if (N6 != null) whileNode.agregarHijo(N6); // Return estructura
         whileNode.agregarHijo(parser.crearNodo("}"));
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "while", "envuelve");
 
         RESULT = whileNode;
     :}
@@ -955,42 +1073,270 @@ while_estructura ::= WHILE PARENTESISAPERTURA expresionCompleja:N1 PARENTESISCIE
         if (N4 != null) whileNode.agregarHijo(N4); // Expresiones dentro del bloque
         if (N5 != null) whileNode.agregarHijo(N5); // Return estructura
         whileNode.agregarHijo(parser.crearNodo("}"));
-
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "while", "envuelve");
         RESULT = whileNode;
     :};
 
 switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-                     corcheteIzquierdo casos_switch corcheteDerecho
-                     |SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-                     corcheteIzquierdo casos_switch default_case corcheteDerecho
-                     | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-                     corcheteIzquierdo casos_switch return_estructura corcheteDerecho
-                     | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-                     corcheteIzquierdo casos_switch return_estructura default_case corcheteDerecho
-                     | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-                      corcheteIzquierdo casos_switch break_estructura corcheteDerecho
-                     | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-                     corcheteIzquierdo casos_switch break_estructura default_case corcheteDerecho;
+                     corcheteIzquierdo casos_switch:N1 corcheteDerecho
+    {:
+        Nodo switchNode = parser.crearNodo("SWITCH");
 
-casos_switch ::= caso_switch
-               | casos_switch caso_switch
-               | break_estructura;
+        // Verificar y agregar la variable
+        if (v != null) {
+            switchNode.agregarHijo(parser.crearNodo("switch"));
+            switchNode.agregarHijo(v);
 
-caso_switch ::= CASE numerosLiterales DOS_PUNTOS sentencia_lista FIN_EXPRESION
-     {:
-     System.out.println("Caso switch reconocido.");
-     :}
-     | CASE numerosLiterales DOS_PUNTOS expresiones FIN_EXPRESION;
+            // Agregar a la tabla de símbolos
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+        } else {
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
+        }
 
-default_case ::= DEFAULT DOS_PUNTOS expresiones FIN_EXPRESION
-     {:
-         System.out.println("Caso default reconocido.");
+        if (N1 != null) switchNode.agregarHijo(N1);
+
+        parser.getArbol().getRaiz().agregarHijo(switchNode);
+        RESULT = switchNode;
+    :}
+    | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+      corcheteIzquierdo casos_switch:N1 default_case:N2 corcheteDerecho
+    {:
+        Nodo switchNode = parser.crearNodo("SWITCH");
+
+        if (v != null) {
+            switchNode.agregarHijo(parser.crearNodo("switch"));
+            switchNode.agregarHijo(v);
+
+            // Agregar a la tabla de símbolos
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+        }
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
+        if (N1 != null) switchNode.agregarHijo(N1);
+        if (N2 != null) switchNode.agregarHijo(N2);
+
+        parser.getArbol().getRaiz().agregarHijo(switchNode);
+        RESULT = switchNode;
+    :}
+    | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+      corcheteIzquierdo casos_switch:N1 return_estructura:N2 corcheteDerecho
+    {:
+        Nodo switchNode = parser.crearNodo("SWITCH");
+
+        if (v != null) {
+            switchNode.agregarHijo(parser.crearNodo("switch"));
+            switchNode.agregarHijo(v);
+
+            // Agregar a la tabla de símbolos
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+        }
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
+        if (N1 != null) switchNode.agregarHijo(N1);
+        if (N2 != null) switchNode.agregarHijo(N2);
+
+        parser.getArbol().getRaiz().agregarHijo(switchNode);
+        RESULT = switchNode;
+    :}
+    | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+      corcheteIzquierdo casos_switch:N1 return_estructura:N2 default_case:N3 corcheteDerecho
+    {:
+        Nodo switchNode = parser.crearNodo("SWITCH");
+
+        if (v != null) {
+            switchNode.agregarHijo(parser.crearNodo("switch"));
+            switchNode.agregarHijo(v);
+
+            // Agregar a la tabla de símbolos
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+        }
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
+        if (N1 != null) switchNode.agregarHijo(N1);
+        if (N2 != null) switchNode.agregarHijo(N2);
+        if (N3 != null) switchNode.agregarHijo(N3);
+
+        parser.getArbol().getRaiz().agregarHijo(switchNode);
+        RESULT = switchNode;
+    :}
+    | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+      corcheteIzquierdo casos_switch:N1 break_estructura:N2 corcheteDerecho
+    {:
+        Nodo switchNode = parser.crearNodo("SWITCH");
+
+        if (v != null) {
+            switchNode.agregarHijo(parser.crearNodo("switch"));
+            switchNode.agregarHijo(v);
+
+            // Agregar a la tabla de símbolos
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+        }
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
+        if (N1 != null) switchNode.agregarHijo(N1);
+        if (N2 != null) switchNode.agregarHijo(N2);
+
+        parser.getArbol().getRaiz().agregarHijo(switchNode);
+        RESULT = switchNode;
+    :}
+    | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+      corcheteIzquierdo casos_switch:N1 break_estructura:N2 default_case:N3 corcheteDerecho
+    {:
+        Nodo switchNode = parser.crearNodo("SWITCH");
+
+        if (v != null) {
+            switchNode.agregarHijo(parser.crearNodo("switch"));
+            switchNode.agregarHijo(v);
+
+            // Agregar a la tabla de símbolos
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+        }
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
+        if (N1 != null) switchNode.agregarHijo(N1);
+        if (N2 != null) switchNode.agregarHijo(N2);
+        if (N3 != null) switchNode.agregarHijo(N3);
+
+        parser.getArbol().getRaiz().agregarHijo(switchNode);
+        RESULT = switchNode;
     :};
 
-return_estructura ::= RETURN numerosLiterales FIN_EXPRESION
-                    | RETURN FIN_EXPRESION;
+casos_switch ::= caso_switch:N1
+    {:
+        RESULT = N1;
+    :}
+    | casos_switch:N1 caso_switch:N2
+    {:
+        Nodo casosNode = (Nodo) N1;
+        if (N2 != null) casosNode.agregarHijo(N2);
+        RESULT = casosNode;
+    :}
+    | break_estructura:N1
+    {:
+        RESULT = N1;
+    :};
 
-break_estructura ::= BREAK FIN_EXPRESION;
+caso_switch ::= CASE numerosLiterales:N1 DOS_PUNTOS sentencia_lista:N2 FIN_EXPRESION
+    {:
+        Nodo casoNode = parser.crearNodo("CASE");
+
+        // Verificar y agregar el nodo de números literales (N1)
+        if (N1 != null) {
+            casoNode.agregarHijo(N1);
+
+            // Agregar a la tabla de símbolos con el valor de N1
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "case", N1.toString());
+        } else {
+            parser.agregarVariable(0, 0, "case", "undefined");
+        }
+
+        // Agregar el nodo ":" y sentencia (N2)
+        casoNode.agregarHijo(parser.crearNodo(":"));
+        if (N2 != null) casoNode.agregarHijo(N2);
+
+        RESULT = casoNode;
+    :}
+    | CASE numerosLiterales:N1 DOS_PUNTOS expresiones:N2 FIN_EXPRESION
+    {:
+        Nodo casoNode = parser.crearNodo("CASE");
+
+        // Verificar y agregar el nodo de números literales (N1)
+        if (N1 != null) {
+            casoNode.agregarHijo(N1);
+
+            // Agregar a la tabla de símbolos con el valor de N1
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "case", N1.toString());
+        } else {
+            parser.agregarVariable(0, 0, "case", "undefined");
+        }
+
+        // Agregar el nodo ":" y expresiones (N2)
+        casoNode.agregarHijo(parser.crearNodo(":"));
+        if (N2 != null) casoNode.agregarHijo(N2);
+
+        RESULT = casoNode;
+    :};
+
+default_case ::= DEFAULT DOS_PUNTOS expresiones:N1 FIN_EXPRESION
+    {:
+        Nodo defaultNode = parser.crearNodo("DEFAULT");
+
+        defaultNode.agregarHijo(parser.crearNodo("default"));
+        defaultNode.agregarHijo(parser.crearNodo(":"));
+        if (N1 != null) defaultNode.agregarHijo(N1);
+
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "default", "default_case");
+        RESULT = defaultNode;
+    :};
+
+
+break_estructura ::= BREAK FIN_EXPRESION
+    {:
+        Nodo breakNode = parser.crearNodo("BREAK");
+        breakNode.agregarHijo(parser.crearNodo("break"));
+
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "break", "break_statement");
+
+        parser.getArbol().getRaiz().agregarHijo(breakNode);
+        RESULT = breakNode;
+    :};
+
+
+return_estructura ::= RETURN numerosLiterales:N1 FIN_EXPRESION
+    {:
+        // Crear el nodo para el retorno
+        Nodo returnNode = parser.crearNodo("RETURN");
+        returnNode.agregarHijo(parser.crearNodo("return")); // Nodo para el literal "return"
+
+        if (N1 != null) {
+            returnNode.agregarHijo(parser.crearNodo("return"));
+
+            // Agregar el valor al nodo RETURN dependiendo de su tipo
+            if (N1 instanceof Nodo) {
+                returnNode.agregarHijo((Nodo) N1); // Si es Nodo, lo agrega directamente
+            } else {
+                returnNode.agregarHijo(parser.crearNodo(N1.toString())); // Si no, lo convierte a String
+            }
+
+            // Agregar a la tabla de símbolos
+            String valor = N1.toString(); // Convertir cualquier objeto a su representación en String
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "return", valor);
+        } else {
+            System.err.println("Error: El valor de retorno es nulo.");
+            parser.agregarVariable(0, 0, "return", "undefined");
+        }
+
+        // Agregar el nodo RETURN al árbol sintáctico
+        parser.getArbol().getRaiz().agregarHijo(returnNode);
+        RESULT = returnNode;
+    :}
+    | RETURN FIN_EXPRESION
+    {:
+        // Crear el nodo para el retorno sin valor
+        Nodo returnNode = parser.crearNodo("RETURN");
+        returnNode.agregarHijo(parser.crearNodo("return")); // Nodo para el literal "return"
+
+        // Registrar en la tabla de símbolos como "undefined"
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "return", "undefined");
+
+        // Agregar el nodo RETURN al árbol sintáctico
+        parser.getArbol().getRaiz().agregarHijo(returnNode);
+        RESULT = returnNode;
+    :};
 
 print ::= PRINT PARENTESISAPERTURA literales:N1 PARENTESISCIERRE FIN_EXPRESION
     {:
@@ -1000,6 +1346,8 @@ print ::= PRINT PARENTESISAPERTURA literales:N1 PARENTESISCIERRE FIN_EXPRESION
         if (N1 != null) printNode.agregarHijo(N1); // Nodo del literal
         printNode.agregarHijo(parser.crearNodo(")"));
         RESULT = printNode;
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "print", "narra");
     :}
     | PRINT PARENTESISAPERTURA variable:N1 PARENTESISCIERRE FIN_EXPRESION
     {:
@@ -1009,6 +1357,8 @@ print ::= PRINT PARENTESISAPERTURA literales:N1 PARENTESISCIERRE FIN_EXPRESION
         if (N1 != null) printNode.agregarHijo(N1); // Nodo de la variable
         printNode.agregarHijo(parser.crearNodo(")"));
         RESULT = printNode;
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "print", "narra");
     :}
     | PRINT PARENTESISAPERTURA variable:N1
       error
@@ -1047,6 +1397,8 @@ read ::= READ PARENTESISAPERTURA numerosLiterales:N1 PARENTESISCIERRE FIN_EXPRES
         if (N1 != null) readNode.agregarHijo(N1); // Nodo de los números literales
         readNode.agregarHijo(parser.crearNodo(")"));
         RESULT = readNode;
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "read", "escucha");
     :}
     | READ PARENTESISAPERTURA variable:N1 PARENTESISCIERRE FIN_EXPRESION
     {:
@@ -1056,6 +1408,8 @@ read ::= READ PARENTESISAPERTURA numerosLiterales:N1 PARENTESISCIERRE FIN_EXPRES
         if (N1 != null) readNode.agregarHijo(N1); // Nodo de la variable
         readNode.agregarHijo(parser.crearNodo(")"));
         RESULT = readNode;
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, "read", "escucha");
     :}
     | READ PARENTESISAPERTURA PARENTESISCIERRE
       error
