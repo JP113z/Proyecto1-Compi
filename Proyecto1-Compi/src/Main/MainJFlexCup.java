@@ -106,6 +106,22 @@ public class MainJFlexCup {
         }
     }
 
+    /**
+     * Método: pruebaParser
+     * Objetivo: Realizar el analisis sintactico de un archivo fuente dado, generar el arbol sintactico junto con la tabla de simbolos
+     *           e indicar si se puede generar un archivo a partir de la gramatica.
+     * Entradas:
+     *   - rutaParsear: Ruta del archivo fuente a analizar.
+     * Salida: Imprime en consola:
+     *   - Resultado del análisis sintáctico (si el archivo puede ser generado o no según la gramática).
+     *   - Tabla de símbolos generada.
+     *   - Árbol sintáctico generado.
+     * Restricciones:
+     *   - El archivo en la ruta especificada debe existir y ser accesible.
+     *   - El archivo debe cumplir con la gramática especificada.
+     * Excepciones:
+     *   - Puede lanzar una excepción si ocurre un error durante el proceso de análisis.
+     */
     public void pruebaParser(String rutaParsear) throws Exception {
         try (Reader reader = new BufferedReader(new FileReader(rutaParsear))) {
             BasicLexerCupV myLexer = new BasicLexerCupV(reader);
@@ -123,7 +139,7 @@ public class MainJFlexCup {
             myParser.imprimirTablaSimbolos();
 
             System.out.println("\nÁrbol sintáctico generado:");
-           myParser.getArbol().imprimirArbol(); // Aquí se llama al método imprimirArbol
+           myParser.getArbol().imprimirArbol();
         } catch (Exception e) {
             System.err.println("Error durante el análisis sintáctico: " + e.getMessage());
             throw e;

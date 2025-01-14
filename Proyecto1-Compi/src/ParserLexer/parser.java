@@ -1261,14 +1261,35 @@ public class parser extends java_cup.runtime.lr_parser {
 
     private Arbol arbol;
 
+
+    /**
+     * Método: getArbol
+     * Objetivo: Obtener el arbol.
+     * Entradas: Ninguna
+     * Salida: El arbol actual.
+     */
     public Arbol getArbol() {
         return arbol;
     }
-
+    /**
+     * Método: crearNodo
+     * Objetivo: Crear un nuevo nodo para el árbol sintáctico con un dato específico.
+     * Entradas:
+     *   - dato: Cadena de texto que representa el valor asociado al nodo.
+     * Salida: Una instancia de la clase Nodo con el dato proporcionado.
+     */
     private Nodo crearNodo(String dato) {
         return new Nodo(dato);
     }
 
+    /**
+     * Método: syntax_error
+     * Objetivo: Manejar los errores sintácticos encontrados durante el análisis sintáctico.
+     * Entradas:
+     *   - s: Objeto de tipo Symbol que contiene información sobre el error sintáctico, como la posición y el token involucrado.
+     * Salida: Ninguna.
+     * Restricciones: Se espera que el objeto Symbol contenga información válida de posición y token.
+     */
     @Override
     public void syntax_error(Symbol s) {
         errorCount++;
@@ -1276,7 +1297,14 @@ public class parser extends java_cup.runtime.lr_parser {
                            ", columna " + (s.right + 1) + ". Token inesperado: " + s.value);
     }
 
-    // Método para verificar si hubo errores
+    /**
+     * Método: hasErrors
+     * Objetivo: Verificar si se han registrado errores durante el análisis sintáctico.
+     * Entradas: Ninguna.
+     * Salida: Booleano que indica si existen errores (true si hay errores, false sino).
+     *         Se utiliza en la clase MainJFlexCup para indicar si el archivo puede generarse
+     * Restricciones: La variable errorCount debe haber sido correctamente inicializada y actualizada.
+     */
     public boolean hasErrors() {
         return errorCount > 0;
     }
@@ -1293,6 +1321,16 @@ public class parser extends java_cup.runtime.lr_parser {
     HashMap<String, ArrayList<String>> listaTablasSimbolos = new HashMap<>();
     String currentHash;
 
+    /**
+     * Método: imprimirTablaSimbolos
+     * Objetivo: Imprimir todas las tablas de símbolos almacenadas, mostrando el contenido de cada tabla en un formato tabular.
+     * Entradas: Ninguna.
+     * Salida: Se llama en MainJFlexCup para imprimir en la consola el contenido de las tablas de símbolos.
+     * Detalles:
+     *   - Cada tabla está asociada a una clave (nombre de la función o el main).
+     *   - Se imprime una tabla separada para cada clave con columnas que incluyen línea, columna, lexema y tipo.
+     * Restricciones: Se espera que la estructura `listaTablasSimbolos` esté correctamente inicializada y contenga las claves y los valores correspondientes.
+     */
     public void imprimirTablaSimbolos() {
         for (String key : listaTablasSimbolos.keySet()) {
             System.out.println("\nTabla de símbolos: " + key);
@@ -1306,6 +1344,20 @@ public class parser extends java_cup.runtime.lr_parser {
         }
     }
 
+    /**
+     * Método: agregarTablaSimbolos
+     * Objetivo: Crear una nueva tabla de símbolos asociada a una función o al main y agregarla al mapa de tablas de símbolos.
+     * Entradas:
+     *   - tipoTabla: Tipo de la tabla ("función" o "main").
+     *   - nombre: Nombre asociado a la tabla (El nombre de la función o "_verano_" que es el token asociado a main).
+     * Salida: Ninguna.
+     * Detalles:
+     *   - Se inicializa una nueva tabla de símbolos como una lista de cadenas.
+     *   - Se guarda en el mapa `listaTablasSimbolos` con el nombre como clave.
+     *   - `currentHash` se actualiza para indicar que la tabla activa es la recién creada.
+     * Restricciones:
+     *   - El nombre de la tabla debe ser único para evitar sobrescribir tablas existentes.
+     */
     public void agregarTablaSimbolos(String tipoTabla, String nombre) {
         System.out.println("/+++Nueva tabla símbolos función o main+++/ " + nombre);
         ArrayList<String> nuevaTabla = new ArrayList<>();
@@ -1313,6 +1365,23 @@ public class parser extends java_cup.runtime.lr_parser {
         listaTablasSimbolos.put(currentHash, nuevaTabla);
     }
 
+    /**
+     * Método: agregarVariable
+     * Objetivo: Agregar una nueva variable a la tabla de símbolos activa, registrando su línea, columna, lexema y tipo.
+     * Entradas:
+     *   - linea: Número de línea donde se encuentra la variable.
+     *   - columna: Número de columna donde se encuentra la variable.
+     *   - lexema: Nombre o representación textual de la variable.
+     *   - tipo: Tipo de la variable
+     * Salida: Ninguna.
+     * Detalles:
+     *   - Verifica que haya una tabla de símbolos activa (`currentHash`) y que esta exista en el mapa `listaTablasSimbolos`.
+     *   - Si no hay tabla activa o no existe, se imprime un mensaje de error.
+     *   - Si todo es válido, formatea la información de la variable en una tabla y la agrega a la tabla de símbolos activa.
+     * Restricciones:
+     *   - Debe existir una tabla de símbolos activa antes de llamar a este método.
+     *   - La línea, columna, lexema y tipo deben ser datos válidos y coherentes con el análisis.
+     */
     public void agregarVariable(int linea, int columna, String lexema, String tipo) {
         System.out.println("PARSER: identificador (agregar o verificar) " + lexema);
         if (currentHash == null) {
@@ -1870,8 +1939,8 @@ class CUP$parser$actions {
 		Object N3 = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
         Nodo creacionAsignacionNode = parser.crearNodo("CREACION_ASIGNACION");
-        Nodo asignarTipoNode = (Nodo) N1; // Casting explícito a Nodo
-        Nodo expresionesNode = (Nodo) N3; // Casting explícito a Nodo
+        Nodo asignarTipoNode = (Nodo) N1;
+        Nodo expresionesNode = (Nodo) N3;
 
         creacionAsignacionNode.agregarHijo(asignarTipoNode);
         creacionAsignacionNode.agregarHijo(parser.crearNodo("="));
@@ -1896,8 +1965,8 @@ class CUP$parser$actions {
 		Object N3 = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
         Nodo creacionAsignacionNode = parser.crearNodo("CREACION_ASIGNACION");
-        Nodo asignarTipoNode = (Nodo) N1; // Casting explícito
-        Nodo expresionLogicaNode = (Nodo) N3; // Casting explícito
+        Nodo asignarTipoNode = (Nodo) N1;
+        Nodo expresionLogicaNode = (Nodo) N3;
 
         creacionAsignacionNode.agregarHijo(asignarTipoNode);
         creacionAsignacionNode.agregarHijo(parser.crearNodo("="));
@@ -1922,8 +1991,9 @@ class CUP$parser$actions {
 		Object I = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
         Nodo creacionAsignacionNode = parser.crearNodo("CREACION_ASIGNACION");
-        Nodo asignarTipoNode = (Nodo) N1; // Casting explícito
-        Nodo identificadorNode = parser.crearNodo(I.toString()); // Convertir IDENTIFICADOR a Nodo
+        Nodo asignarTipoNode = (Nodo) N1;
+        // Convertir IDENTIFICADOR a Nodo
+        Nodo identificadorNode = parser.crearNodo(I.toString());
 
         creacionAsignacionNode.agregarHijo(asignarTipoNode);
         creacionAsignacionNode.agregarHijo(parser.crearNodo("="));
@@ -1960,7 +2030,7 @@ class CUP$parser$actions {
 		Object N2 = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
         Nodo asignacionNode = parser.crearNodo("ASIGNA_LITERAL");
-        Nodo literalNode = (Nodo) N2; // Casting explícito
+        Nodo literalNode = (Nodo) N2;
 
         asignacionNode.agregarHijo(parser.crearNodo("="));
         asignacionNode.agregarHijo(literalNode);
@@ -2313,8 +2383,10 @@ class CUP$parser$actions {
               Object RESULT =null;
 
         Nodo parametrosNode = parser.crearNodo("PARAMETROS");
-        parametrosNode.agregarHijo(parser.crearNodo("(")); // Nodo para apertura de paréntesis
-        parser.getArbol().getRaiz().agregarHijo(parametrosNode); // Agregar a la raíz
+        // Nodo para apertura de paréntesis
+        parametrosNode.agregarHijo(parser.crearNodo("("));
+        // Agregar a la raíz
+        parser.getArbol().getRaiz().agregarHijo(parametrosNode);
         RESULT = parametrosNode;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$2",56, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -2328,8 +2400,9 @@ class CUP$parser$actions {
               // propagate RESULT from NT$2
                 RESULT = (Object) ((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-        Nodo parametrosNode = (Nodo) RESULT; // Reutilizar el nodo existente
-        parametrosNode.agregarHijo(parser.crearNodo(")")); // Nodo para cierre de paréntesis
+        Nodo parametrosNode = (Nodo) RESULT;
+        // Nodo para cierre de paréntesis
+        parametrosNode.agregarHijo(parser.crearNodo(")"));
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("parametros",15, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-2)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -2341,8 +2414,10 @@ class CUP$parser$actions {
               Object RESULT =null;
 
         Nodo parametrosNode = parser.crearNodo("PARAMETROS");
-        parametrosNode.agregarHijo(parser.crearNodo("(")); // Nodo para apertura de paréntesis
-        parser.getArbol().getRaiz().agregarHijo(parametrosNode); // Agregar a la raíz
+        // Nodo para apertura de paréntesis
+        parametrosNode.agregarHijo(parser.crearNodo("("));
+        // Agregar a la raíz
+        parser.getArbol().getRaiz().agregarHijo(parametrosNode);
         RESULT = parametrosNode;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("NT$3",57, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -2359,9 +2434,11 @@ class CUP$parser$actions {
 		int N1right = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object N1 = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-        Nodo parametrosNode = (Nodo) RESULT; // Reutilizar el nodo existente
-        parametrosNode.agregarHijo(N1); // Agregar nodo de parametroAux
-        parametrosNode.agregarHijo(parser.crearNodo(")")); // Nodo para cierre de paréntesis
+        Nodo parametrosNode = (Nodo) RESULT;
+        // Agregar nodo de parametroAux
+        parametrosNode.agregarHijo(N1);
+        // Nodo para cierre de paréntesis
+        parametrosNode.agregarHijo(parser.crearNodo(")"));
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("parametros",15, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -2399,13 +2476,15 @@ class CUP$parser$actions {
             parser.agregarVariable(symbol.left, symbol.right, "parametro: " + id.toString(), t.toString());
             System.out.println("Parámetro agregado: " + id.toString() + " de tipo " + t.toString());
         }
-
         // Crear el nodo para el parámetro
         Nodo parametrosNode = parser.crearNodo("PARAMETROS");
         Nodo parametroNode = parser.crearNodo("PARAMETRO");
-        parametroNode.agregarHijo(parser.crearNodo(t.toString())); // Nodo del tipo
-        parametroNode.agregarHijo(parser.crearNodo(id.toString())); // Nodo del identificador
-        parametrosNode.agregarHijo(parametroNode); // Agregar el parámetro al nodo de parámetros
+        // Nodo del tipo
+        parametroNode.agregarHijo(parser.crearNodo(t.toString()));
+        // Nodo del identificador
+        parametroNode.agregarHijo(parser.crearNodo(id.toString()));
+        // Agregar el parámetro al nodo de parámetros
+        parametrosNode.agregarHijo(parametroNode);
         RESULT = parametrosNode;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("parametroAux",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -2435,15 +2514,16 @@ class CUP$parser$actions {
             parser.agregarVariable(symbol.left, symbol.right, "parametro: " + id.toString(), t.toString());
             System.out.println("Parámetro adicional agregado: " + id.toString() + " de tipo " + t.toString());
         }
-
         // Crear el nodo para el nuevo parámetro
         Nodo nuevoParametroNode = parser.crearNodo("PARAMETRO");
-        nuevoParametroNode.agregarHijo(parser.crearNodo(t.toString())); // Nodo del tipo
-        nuevoParametroNode.agregarHijo(parser.crearNodo(id.toString())); // Nodo del identificador
-
-        // Reutilizar el nodo existente de parámetros y agregar el nuevo parámetro
-        Nodo parametrosNode = (Nodo) N1; // Nodo existente de parámetros
-        parametrosNode.agregarHijo(nuevoParametroNode); // Agregar el nuevo parámetro
+        // Nodo del tipo
+        nuevoParametroNode.agregarHijo(parser.crearNodo(t.toString()));
+        // Nodo del identificador
+        nuevoParametroNode.agregarHijo(parser.crearNodo(id.toString()));
+        // Nodo existente de parámetros para el nuevo parametro
+        Nodo parametrosNode = (Nodo) N1;
+        // Agregar el nuevo parámetro
+        parametrosNode.agregarHijo(nuevoParametroNode);
         RESULT = parametrosNode;
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("parametroAux",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
