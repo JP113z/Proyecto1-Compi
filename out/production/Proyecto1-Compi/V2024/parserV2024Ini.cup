@@ -14,6 +14,10 @@ parser code {:
 
     private Arbol arbol;
 
+    /**
+         * Método para manejar errores sintácticos.
+         * @Se uso Symbol s para notificar donde ocurrió el error.
+     */
     @Override
     public void syntax_error(Symbol s) {
         errorCount++;
@@ -354,9 +358,6 @@ parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
 parametrosArregloAux ::= tiposArr | parametrosArregloAux COMA{: RESULT = ","; :}
                                         tiposArr;
 
-//expresionRelacional ::= asignarTipo operadorRelacional variable;
-//expresionLogica ::= asignarTipo operadorLogico variable;
-
 asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales
                 | variable ASIGNA expresionCompleja FIN_EXPRESION
                 | modificarArreglos ASIGNA{:RESULT="entrega";:} tiposArr FIN_EXPRESION
@@ -440,6 +441,7 @@ for_estructura ::= FOR PARENTESISAPERTURA
                     COMA
                     expresionUnario
                    PARENTESISCIERRE corcheteIzquierdo sentencia_lista corcheteDerecho
+                  | FOR PARENTESISAPERTURA variable ASIGNA literales COMA expresionUnario PARENTESISCIERRE corcheteIzquierdo sentencia_lista corcheteDerecho
                   | FOR PARENTESISAPERTURA
                   creacionAsignacion COMA
                   expresionLogica COMA

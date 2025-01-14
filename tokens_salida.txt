@@ -66,14 +66,8 @@ Token: 7, Lexema: abreregalo, Línea: 14, Columna: 13
 Token: 19, Lexema: _i_, Línea: 14, Columna: 25
 Token: 6, Lexema: entrega, Línea: 14, Columna: 30
 Token: 50, Lexema: 10, Línea: 14, Columna: 39
-Token: 13, Lexema: ,, Línea: 14, Columna: 42
-Token: 19, Lexema: _i_, Línea: 14, Columna: 44
-Token: 31, Lexema: snowball, Línea: 14, Columna: 48
-Token: 50, Lexema: 30, Línea: 14, Columna: 57
-Token: 25, Lexema: nochebuena, Línea: 14, Columna: 60
-Token: 50, Lexema: 2, Línea: 14, Columna: 71
-Token: 13, Lexema: ,, Línea: 14, Columna: 73
-Token: 19, Lexema: _i_, Línea: 14, Columna: 75
+Token: 13, Lexema: ,, Línea: 14, Columna: 43
+Token: 19, Lexema: _i_, Línea: 14, Columna: 45
 Token: 28, Lexema: quien, Línea: 15, Columna: 1
 Token: 8, Lexema: cierraregalo, Línea: 15, Columna: 8
 Token: 2, Lexema: abrecuento, Línea: 16, Columna: 6
