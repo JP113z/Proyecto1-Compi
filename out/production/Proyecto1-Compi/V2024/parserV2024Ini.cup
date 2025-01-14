@@ -176,7 +176,7 @@ parametrosArregloAux, parametrosArreglo, asignaVariable, variable, operandoBinar
 operandoUnario, expresionUnario, expresionRelacionalMat, sentencia_lista, sentenciaEstructura, if_estructura,
 for_estructura, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion,
 while_estructura, return_funcion, tiposArr, expresionArr, default_case,numerosLiterales, expresionCompleja,numeroEntero,  numeroFloat,
-creacion, creacionAsignacion, asignarTipo, expresiones, expresionLogica;
+creacion, creacionAsignacion, asignarTipo, expresiones, expresionLogica, invocacionFuncion,parametrosInvFuncion, parametrosInvFuncionAux;
 
 /* Precedencia */
 precedence left ELSE;
@@ -186,6 +186,8 @@ precedence left CONJUNCION, DISYUNCION;
 precedence left SUMA, RESTA;
 precedence left MULTIPLICACION, DIVISION, MODULO;
 precedence right POTENCIA;
+precedence left FIN_EXPRESION;
+precedence left ASIGNA, MENOR, MAYOR, CONJUNCION, DISYUNCION;
 precedence right NEGACION;
 precedence left L_INTEGER, L_FLOAT;
 
@@ -445,6 +447,7 @@ sentencias ::= sentencia:N1
 
 sentencia ::=
             expresionArr
+            | invocacionFuncion
             | sentenciaEstructura:N1
             {:
                 RESULT = N1;
@@ -504,12 +507,12 @@ encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
      |error;
 
 bloque ::= corcheteIzquierdo sentencias return_funcion corcheteDerecho
-//         | corcheteIzquierdo sentenciaEstructura return_funcion corcheteDerecho
-//         | corcheteIzquierdo expresionArr return_funcion corcheteDerecho
          | corcheteIzquierdo  corcheteDerecho
          error {: System.err.println("Error: bloque vacio"); :}
          | corcheteIzquierdo sentencias  corcheteDerecho
-            error {: System.err.println("Error: A la función le falta el retorno"); :};
+          error {: System.err.println("Error: A la función le falta el retorno"); :}
+         | corcheteIzquierdo sentencias return_funcion
+          error {: System.err.println("Error: El bloque de la función no se cerró"); :};
 
 return_funcion ::= RETURN literales:N1 FIN_EXPRESION
     {:
@@ -1064,3 +1067,11 @@ read ::= READ PARENTESISAPERTURA numerosLiterales:N1 PARENTESISCIERRE FIN_EXPRES
         readNode.agregarHijo(parser.crearNodo(")"));
         RESULT = readNode;
     :};
+invocacionFuncion::= variable parametrosInvFuncion FIN_EXPRESION;
+
+parametrosInvFuncion::= PARENTESISAPERTURA PARENTESISCIERRE
+                       | PARENTESISAPERTURA parametrosInvFuncionAux PARENTESISCIERRE;
+
+parametrosInvFuncionAux::= literales
+                        | variable PARENTESISAPERTURA PARENTESISCIERRE
+                        | parametrosInvFuncionAux COMA literales;
