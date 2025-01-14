@@ -411,25 +411,27 @@ expresiones ::= expresionRelacional
               PARENTESISCIERRE{: RESULT = "cierraregalo"; :};
 
 
-//expresion ::= INTEGER {:RESULT="rodolfo";:}
-//            | FLOAT {:RESULT="bromista";:};
-
 sentencia_lista ::= sentenciaEstructura | sentencia_lista sentenciaEstructura;
 
 sentenciaEstructura ::=  for_estructura
-                    | while_estructura;
-//sentenciaEstructura ::= if_estructura
-//                      | for_estructura
-//                      | while_estructura
-//                      | switch_estructura
-//                       | return_estructura
-//                       | break_estructura
-//                       | expresiones
-//                       FIN_EXPRESION{:RESULT="finregalo";:};
+                    | while_estructura
+                    | if_estructura
+                    | switch_estructura
+                    | expresiones FIN_EXPRESION{:RESULT="finregalo";:};
 
-//if_estructura ::= IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura
-//                 | IF PARENTESISAPERTURA expresionLogica PARENTESISCIERRE sentenciaEstructura ELSE sentenciaEstructura;
-//
+
+if_estructura ::= IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura corcheteDerecho
+                 | IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo return_estructura corcheteDerecho
+                 | IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura return_estructura corcheteDerecho
+                 | IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo expresiones corcheteDerecho
+                 | if_estructura
+                 ELSE corcheteIzquierdo sentenciaEstructura corcheteDerecho
+                 | if_estructura
+                  ELSE corcheteIzquierdo return_estructura corcheteDerecho
+                 | if_estructura
+                 ELSE corcheteIzquierdo sentenciaEstructura return_estructura corcheteDerecho
+                 | if_estructura
+                 ELSE corcheteIzquierdo expresiones corcheteDerecho;
 
 for_estructura ::= FOR PARENTESISAPERTURA
                     variable ASIGNA literales
@@ -437,8 +439,7 @@ for_estructura ::= FOR PARENTESISAPERTURA
                     expresiones
                     COMA
                     expresionUnario
-                   PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura corcheteDerecho
-
+                   PARENTESISCIERRE corcheteIzquierdo sentencia_lista corcheteDerecho
                   | FOR PARENTESISAPERTURA
                   creacionAsignacion COMA
                   expresionLogica COMA
@@ -458,25 +459,37 @@ while_estructura ::= WHILE PARENTESISAPERTURA expresionCompleja PARENTESISCIERRE
                     | WHILE PARENTESISAPERTURA expresionCompleja operadorLogico expresiones  PARENTESISCIERRE
                     corcheteIzquierdo expresiones return_estructura corcheteDerecho;
 
-// switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-//     corcheteIzquierdo casos_switch corcheteDerecho;
+switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+                     corcheteIzquierdo casos_switch corcheteDerecho
+                     |SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+                     corcheteIzquierdo casos_switch default_case corcheteDerecho
+                     | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+                     corcheteIzquierdo casos_switch return_estructura corcheteDerecho
+                     | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+                     corcheteIzquierdo casos_switch return_estructura default_case corcheteDerecho
+                     | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+                      corcheteIzquierdo casos_switch break_estructura corcheteDerecho
+                     | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
+                     corcheteIzquierdo casos_switch break_estructura default_case corcheteDerecho;
 
-// casos_switch ::= caso_switch
- //               | casos_switch caso_switch
-   //             | default_case;
+casos_switch ::= caso_switch
+               | casos_switch caso_switch
+               | break_estructura;
 
-// caso_switch ::= CASE numerosLiterales DOS_PUNTOS sentencia_lista FIN_EXPRESION
-//     {:
- //        System.out.println("Caso switch reconocido.");
- //    :};
+caso_switch ::= CASE numerosLiterales DOS_PUNTOS sentencia_lista FIN_EXPRESION
+     {:
+     System.out.println("Caso switch reconocido.");
+     :}
+     | CASE numerosLiterales DOS_PUNTOS expresiones FIN_EXPRESION;
 
-// default_case ::= DEFAULT DOS_PUNTOS sentencia_lista FIN_EXPRESION
- //    {:
-  //       System.out.println("Caso default reconocido.");
-  //   :};
+default_case ::= DEFAULT DOS_PUNTOS expresiones FIN_EXPRESION
+     {:
+         System.out.println("Caso default reconocido.");
+    :};
 
 return_estructura ::= RETURN numerosLiterales FIN_EXPRESION
                     | RETURN FIN_EXPRESION;
+
 break_estructura ::= BREAK FIN_EXPRESION;
 
 print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE FIN_EXPRESION
