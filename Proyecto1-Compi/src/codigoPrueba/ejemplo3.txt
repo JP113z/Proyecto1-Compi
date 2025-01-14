@@ -1,18 +1,18 @@
-# Comentario inicial
-rodolfo _num_ entrega 42 finregalo  
-bromista _flotante_ entrega 3.14 finregalo  
-trueno _bool_ entrega true finregalo  
-cupido _caracter_ entrega 'c' finregalo  
-cometa _texto_ entrega "Hola Navidad" finregalo  
 _verano_
 
-# Declaración de variables
+rodolfo _funcion_ abreregalo cupido _x22_ , rodolfo _id_ , cometa _hola_ cierraregalo
+abrecuento
+
+rodolfo _num_ entrega 42 finregalo
+bromista _flotante_ entrega 3.14 finregalo
+trueno _bool_ entrega true finregalo
+
 rodolfo _x_ entrega 10 finregalo
-bromista 6.6 _y_ entrega 5.5 finregalo
+bromista _y_ entrega 5.5 finregalo
 trueno _esNavidad_ entrega false finregalo
 
 # Operaciones aritméticas
-_x_ entrega _x_ navidad 2 intercambio 1 finregalo
+bromista _x_ entrega _x_ navidad 2 intercambio 1 finregalo
 
 # Estructuras de control
 elfo abreregalo _x_ minstix 0 cierraregalo
@@ -23,8 +23,16 @@ hada
     abrecuento
         narra abreregalo "No es Navidad" cierraregalo finregalo
     cierracuento
-# Función
-rodolfo _verano_ abreregalo cierraregalo
+
+envia _c_ finregalo
+cierracuento
+
+
+# Función 2
+rodolfo _FUNC2_ abreregalo cierraregalo
     abrecuento
+
+        trueno _bool_ entrega true finregalo
+
         envia 0 finregalo
     cierracuento

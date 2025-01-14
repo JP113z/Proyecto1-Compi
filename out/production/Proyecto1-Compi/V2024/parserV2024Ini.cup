@@ -532,7 +532,6 @@ return_funcion ::= RETURN literales:N1 FIN_EXPRESION
                 parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
             }
         } else {
-            System.err.println("Error: El tipo de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
@@ -558,7 +557,6 @@ return_funcion ::= RETURN literales:N1 FIN_EXPRESION
                 parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
             }
         } else {
-            System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
@@ -775,7 +773,9 @@ operandoBinaria ::= SUMA {:RESULT="navidad";:}
 
 expresionBinaria ::= numerosLiterales operandoBinaria numerosLiterales
                     | numerosLiterales operandoBinaria
-                    | variable operandoBinaria numerosLiterales;
+                    | variable operandoBinaria numerosLiterales
+                    | variable operandoBinaria
+                    | variable operandoBinaria numerosLiterales operandoBinaria numerosLiterales ;
 
 
 operandoUnario ::= INCREMENTO {:RESULT="quien";:}
@@ -795,6 +795,8 @@ expresiones ::= expresionRelacional
               | expresionBinaria
               | expresionUnario
               | expresionRelacionalMat
+              | expresionBinaria operadorRelacional literales
+              | expresionBinaria operadorRelacional variable
               | variable ASIGNA variable
               | PARENTESISAPERTURA {: RESULT = "abreregalo"; :}
               expresiones
@@ -827,7 +829,7 @@ sentenciaEstructura ::= for_estructura:N1
         RESULT = sentenciaExpresionNode;
     :};
 
-if_estructura ::= IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura:N2 corcheteDerecho
+if_estructura ::= IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo sentencias:N2 corcheteDerecho
     {:
         Nodo ifNode = parser.crearNodo("IF");
 
@@ -849,6 +851,7 @@ if_estructura ::= IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corchete
         parser.getArbol().getRaiz().agregarHijo(ifNode);
         RESULT = ifNode;
     :}
+ //   |IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo sentencias corcheteDerecho
     | IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo return_estructura:N2 corcheteDerecho
     {:
         Nodo ifNode = parser.crearNodo("IF");
@@ -868,7 +871,7 @@ if_estructura ::= IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corchete
         parser.getArbol().getRaiz().agregarHijo(ifNode);
         RESULT = ifNode;
     :}
-    | IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura:N2 return_estructura:N3 corcheteDerecho
+    | IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corcheteIzquierdo sentencias:N2 return_estructura:N3 corcheteDerecho
     {:
         Nodo ifNode = parser.crearNodo("IF");
 
@@ -886,7 +889,7 @@ if_estructura ::= IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corchete
         parser.getArbol().getRaiz().agregarHijo(ifNode);
         RESULT = ifNode;
     :}
-    | if_estructura:N1 ELSE corcheteIzquierdo sentenciaEstructura:N2 corcheteDerecho
+    | if_estructura:N1 ELSE corcheteIzquierdo sentencias:N2 corcheteDerecho
     {:
         Nodo ifElseNode = parser.crearNodo("ELSE");
 
@@ -914,7 +917,7 @@ if_estructura ::= IF PARENTESISAPERTURA expresiones:N1 PARENTESISCIERRE corchete
         parser.getArbol().getRaiz().agregarHijo(ifElseNode);
         RESULT = ifElseNode;
     :}
-    | if_estructura:N1 ELSE corcheteIzquierdo sentenciaEstructura:N2 return_estructura:N3 corcheteDerecho
+    | if_estructura:N1 ELSE corcheteIzquierdo sentencias:N2 return_estructura:N3 corcheteDerecho
     {:
         Nodo ifElseNode = parser.crearNodo("ELSE");
 
