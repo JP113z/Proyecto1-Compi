@@ -14,10 +14,14 @@ parser code {:
 
     private Arbol arbol;
 
-    /**
-         * Método para manejar errores sintácticos.
-         * @Se uso Symbol s para notificar donde ocurrió el error.
-     */
+    public Arbol getArbol() {
+        return arbol;
+    }
+
+    private Nodo crearNodo(String dato) {
+        return new Nodo(dato);
+    }
+
     @Override
     public void syntax_error(Symbol s) {
         errorCount++;
@@ -77,14 +81,6 @@ parser code {:
                 linea + 1, columna + 1, lexema, tipo);
         tabla.add(entrada);
     }
-
-    public Arbol getArbol() {
-        return arbol;
-    }
-
-    private Nodo crearNodo(String dato) {
-        return new Nodo(dato);
-    }
 :}
 
 init with {: :};
@@ -105,13 +101,13 @@ terminal Float L_FLOAT;
 terminal Character L_CHAR;
 
 /* No terminales */
-non terminal inicio, tipos, expresionRelacional, asignarTipo, operadorRelacional, literales, bool, operadorLogico, negacion,
-creacion, creacionAsignacion, sentencias, sentencia, funciones, funcion, bloque, return_estructura,
+non terminal inicio, tipos, expresionRelacional, operadorRelacional, literales, bool, operadorLogico, negacion, sentencias, sentencia, funciones, funcion, bloque, return_estructura,
 parametroAux, parametros, crearArreglos, modificarArreglos, arreglos, arreglo,
 parametrosArregloAux, parametrosArreglo, asignaVariable, variable, operandoBinaria, expresionBinaria,
-operandoUnario, expresionUnario, expresionRelacionalMat, expresiones, sentencia_lista, sentenciaEstructura, if_estructura,
-for_estructura, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion, expresionLogica,
-while_estructura, return_funcion, tiposArr, expresionArr, default_case,numerosLiterales, expresionCompleja,numeroEntero,  numeroFloat;
+operandoUnario, expresionUnario, expresionRelacionalMat, sentencia_lista, sentenciaEstructura, if_estructura,
+for_estructura, switch_estructura, casos_switch, caso_switch, break_estructura, print, read, encabezadoFuncion,
+while_estructura, return_funcion, tiposArr, expresionArr, default_case,numerosLiterales, expresionCompleja,numeroEntero,  numeroFloat,
+creacion, creacionAsignacion, asignarTipo, expresiones, expresionLogica;
 
 /* Precedencia */
 precedence left ELSE;
@@ -144,11 +140,37 @@ inicio ::= MAIN:m
 
 
 /* Definiciones */
-tipos ::=INTEGER {:RESULT="rodolfo";:}
-        | STRING {:RESULT="cometa";:}
-        | CHAR {:RESULT="cupido";:}
-        | FLOAT {:RESULT="bromista";:}
-        | BOOL {:RESULT="trueno";:};
+tipos ::= INTEGER
+    {:
+        Nodo tipoNode = parser.crearNodo("INTEGER");
+        parser.getArbol().getRaiz().agregarHijo(tipoNode);
+        RESULT = "rodolfo";
+    :}
+    | STRING
+    {:
+        Nodo tipoNode = parser.crearNodo("STRING");
+        parser.getArbol().getRaiz().agregarHijo(tipoNode);
+        RESULT = "cometa";
+    :}
+    | CHAR
+    {:
+        Nodo tipoNode = parser.crearNodo("CHAR");
+        parser.getArbol().getRaiz().agregarHijo(tipoNode);
+        RESULT = "cupido";
+    :}
+    | FLOAT
+    {:
+        Nodo tipoNode = parser.crearNodo("FLOAT");
+        parser.getArbol().getRaiz().agregarHijo(tipoNode);
+        RESULT = "bromista";
+    :}
+    | BOOL
+    {:
+        Nodo tipoNode = parser.crearNodo("BOOL");
+        parser.getArbol().getRaiz().agregarHijo(tipoNode);
+        RESULT = "trueno";
+    :};
+
 
 tiposArr ::=L_INTEGER:i
                           {:
@@ -194,9 +216,36 @@ numeroFloat ::= L_FLOAT
 bool ::= TRUE {:RESULT="true";:}
         | FALSE{:RESULT="false";:};
 
-expresionRelacional ::= asignarTipo operadorRelacional:op literales:l {: System.out.println("Expresión relacional: " + op + " " + l); :}
-                     | asignarTipo operadorRelacional variable
-                     | operadorRelacional literales;
+expresionRelacional ::= asignarTipo:N1 operadorRelacional:op literales:N2
+    {:
+        Nodo expresionRelacionalNode = parser.crearNodo("EXPRESION_RELACIONAL");
+
+        if (N1 != null) expresionRelacionalNode.agregarHijo(N1);
+        if (op != null) expresionRelacionalNode.agregarHijo(parser.crearNodo(op.toString()));
+        if (N2 != null) expresionRelacionalNode.agregarHijo(N2);
+
+        RESULT = expresionRelacionalNode;
+    :}
+    | asignarTipo:N1 operadorRelacional:op variable:N2
+    {:
+        Nodo expresionRelacionalNode = parser.crearNodo("EXPRESION_RELACIONAL");
+
+        if (N1 != null) expresionRelacionalNode.agregarHijo(N1);
+        if (op != null) expresionRelacionalNode.agregarHijo(parser.crearNodo(op.toString()));
+        if (N2 != null) expresionRelacionalNode.agregarHijo(N2);
+
+        RESULT = expresionRelacionalNode;
+    :}
+    | operadorRelacional:op literales:N1
+    {:
+        Nodo expresionRelacionalNode = parser.crearNodo("EXPRESION_RELACIONAL");
+
+        if (op != null) expresionRelacionalNode.agregarHijo(parser.crearNodo(op.toString()));
+        if (N1 != null) expresionRelacionalNode.agregarHijo(N1);
+
+        RESULT = expresionRelacionalNode;
+    :};
+
 
 expresionLogica ::= asignarTipo operadorLogico:op literales:l {: System.out.println("Expresión lógica: " + op + " " + l); :}
                   | negacion literales:n {: System.out.println("Expresión lógica con negación: !" + n); :}
@@ -226,38 +275,155 @@ operadorLogico ::= CONJUNCION {:RESULT="melchor";:}
 
 negacion ::= NEGACION {:RESULT="baltazar";:};
 
-creacion ::= asignarTipo FIN_EXPRESION
-           | error {: System.err.println("Error: Asignación inválida"); :};
+creacion ::= asignarTipo:N FIN_EXPRESION
+    {:
+        Nodo creacionNode = parser.crearNodo("CREACION");
+        creacionNode.agregarHijo(N);
+        parser.getArbol().getRaiz().agregarHijo(creacionNode);
+        RESULT = creacionNode;
+    :}
+    | error
+    {:
+        System.err.println("Error: Asignación inválida");
+        RESULT = null;
+    :};
+
 
 creacionAsignacion ::=
-            //asignarTipo ASIGNA literales FIN_EXPRESION
-             asignarTipo ASIGNA expresiones FIN_EXPRESION
-            | asignarTipo ASIGNA expresionLogica FIN_EXPRESION
-            | asignarTipo ASIGNA IDENTIFICADOR FIN_EXPRESION
-            | asignarTipo error {: System.err.println("Error: Expresión inválida"); :}
-            | ASIGNA literales FIN_EXPRESION
-             error {: System.err.println("Error: Falta la asignación"); :}
-            | asignarTipo ASIGNA literales
-            error {: System.err.println("Error: Falta el fin de expresión"); :};
+    //asignarTipo ASIGNA literales FIN_EXPRESION
+    asignarTipo:N1 ASIGNA expresiones:N3 FIN_EXPRESION
+    {:
+        Nodo creacionAsignacionNode = parser.crearNodo("CREACION_ASIGNACION");
+        Nodo asignarTipoNode = (Nodo) N1; // Casting explícito a Nodo
+        Nodo expresionesNode = (Nodo) N3; // Casting explícito a Nodo
 
-sentencias ::= sentencia | sentencias sentencia;
+        creacionAsignacionNode.agregarHijo(asignarTipoNode);
+        creacionAsignacionNode.agregarHijo(parser.crearNodo("="));
+        creacionAsignacionNode.agregarHijo(expresionesNode);
+
+        parser.getArbol().getRaiz().agregarHijo(creacionAsignacionNode);
+        RESULT = creacionAsignacionNode;
+    :}
+    | asignarTipo:N1 ASIGNA expresionLogica:N3 FIN_EXPRESION
+    {:
+        Nodo creacionAsignacionNode = parser.crearNodo("CREACION_ASIGNACION");
+        Nodo asignarTipoNode = (Nodo) N1; // Casting explícito
+        Nodo expresionLogicaNode = (Nodo) N3; // Casting explícito
+
+        creacionAsignacionNode.agregarHijo(asignarTipoNode);
+        creacionAsignacionNode.agregarHijo(parser.crearNodo("="));
+        creacionAsignacionNode.agregarHijo(expresionLogicaNode);
+
+        parser.getArbol().getRaiz().agregarHijo(creacionAsignacionNode);
+        RESULT = creacionAsignacionNode;
+    :}
+    | asignarTipo:N1 ASIGNA IDENTIFICADOR:I FIN_EXPRESION
+    {:
+        Nodo creacionAsignacionNode = parser.crearNodo("CREACION_ASIGNACION");
+        Nodo asignarTipoNode = (Nodo) N1; // Casting explícito
+        Nodo identificadorNode = parser.crearNodo(I.toString()); // Convertir IDENTIFICADOR a Nodo
+
+        creacionAsignacionNode.agregarHijo(asignarTipoNode);
+        creacionAsignacionNode.agregarHijo(parser.crearNodo("="));
+        creacionAsignacionNode.agregarHijo(identificadorNode);
+
+        parser.getArbol().getRaiz().agregarHijo(creacionAsignacionNode);
+        RESULT = creacionAsignacionNode;
+    :}
+    | asignarTipo:N1 error
+    {:
+        System.err.println("Error: Expresión inválida");
+        RESULT = null;
+    :}
+    | ASIGNA literales:N2 FIN_EXPRESION
+    {:
+        Nodo asignacionNode = parser.crearNodo("ASIGNA_LITERAL");
+        Nodo literalNode = (Nodo) N2; // Casting explícito
+
+        asignacionNode.agregarHijo(parser.crearNodo("="));
+        asignacionNode.agregarHijo(literalNode);
+
+        parser.getArbol().getRaiz().agregarHijo(asignacionNode);
+        RESULT = asignacionNode;
+    :}
+    | asignarTipo:N1 ASIGNA literales:N2 error
+    {:
+        System.err.println("Error: Falta el fin de expresión");
+        RESULT = null;
+    :};
+
+sentencias ::= sentencia:N1
+    {:
+        // Crear un nodo para las sentencias
+        Nodo sentenciasNode = parser.crearNodo("SENTENCIAS");
+
+        // Agregar la sentencia al nodo
+        if (N1 != null) sentenciasNode.agregarHijo(N1);
+
+        // Agregar el nodo al árbol
+        parser.getArbol().getRaiz().agregarHijo(sentenciasNode);
+        RESULT = sentenciasNode;
+    :}
+    | sentencias:N1 sentencia:N2
+    {:
+        // Reutilizar el nodo de sentencias existente
+        Nodo sentenciasNode = (Nodo) N1;
+
+        // Agregar la nueva sentencia como hijo
+        if (N2 != null) sentenciasNode.agregarHijo(N2);
+
+        RESULT = sentenciasNode;
+    :};
+
 sentencia ::=
             expresionArr
-            | sentenciaEstructura
+            | sentenciaEstructura:N1
+            {:
+                RESULT = N1;
+            :}
             | asignaVariable
             | creacion
             | creacionAsignacion
             | print
             | read;
 
-funciones ::= funcion
-           | funciones funcion;
+funciones ::= funcion:N1
+    {:
+        // Crear el nodo de FUNCIONES
+        Nodo funcionesNode = parser.crearNodo("FUNCIONES");
+        // Agregar la función como hijo si no es nula
+        if (N1 != null) {funcionesNode.agregarHijo(N1);}
+        parser.getArbol().getRaiz().agregarHijo(funcionesNode);
+        RESULT = funcionesNode;
+    :}
+    | funciones:N1 funcion:N2
+    {:
+        Nodo funcionesNode = (Nodo) N1;
+        if (N2 != null) {funcionesNode.agregarHijo(N2);}
+        RESULT = funcionesNode;
+    :};
 
 funcion ::= encabezadoFuncion:e
-    {: parser.agregarTablaSimbolos("funcion", e.toString()); :}
-    parametros
-    bloque
-    ;
+        {:
+            parser.agregarTablaSimbolos("funcion", e.toString());
+        :}
+        parametros:N1 bloque:N2
+        {:
+            // Crear el nodo de la función
+            Nodo funcionNode = parser.crearNodo("FUNCION");
+            // Crear y agregar el encabezado
+            String nombreFuncion = e.toString();
+            Nodo encabezadoNode = parser.crearNodo(nombreFuncion);
+            funcionNode.agregarHijo(encabezadoNode);
+            // Validar y agregar parámetros
+            if (N1 != null) {funcionNode.agregarHijo(N1);}
+
+            // Validar y agregar bloque
+            if (N2 != null) {funcionNode.agregarHijo(N2);}
+            // Retornar el nodo de la función
+            RESULT = funcionNode;
+        :};
+
 
 encabezadoFuncion ::= tipos:t IDENTIFICADOR:id
     {:
@@ -277,37 +443,75 @@ bloque ::= corcheteIzquierdo sentencias return_funcion corcheteDerecho
          | corcheteIzquierdo sentencias  corcheteDerecho
             error {: System.err.println("Error: A la función le falta el retorno"); :};
 
-return_funcion ::= RETURN literales:t FIN_EXPRESION
+return_funcion ::= RETURN literales:N1 FIN_EXPRESION
     {:
-        if (t == null) {
+        Nodo returnNode = parser.crearNodo("RETURN");
+
+        // Verificar y agregar el nodo del literal
+        if (N1 != null) {
+            returnNode.agregarHijo(parser.crearNodo("return"));
+            returnNode.agregarHijo(N1);
+        } else {
             System.err.println("Error: El tipo de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
-        } else {
-            Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "return", t.toString());
         }
+
+        // Agregar el nodo RETURN al árbol
+        parser.getArbol().getRaiz().agregarHijo(returnNode);
+        RESULT = returnNode;
     :}
-    | RETURN variable:v FIN_EXPRESION
+    | RETURN variable:N1 FIN_EXPRESION
     {:
-        if (v == null) {
+        Nodo returnNode = parser.crearNodo("RETURN");
+
+        // Verificar y agregar el nodo de la variable
+        if (N1 != null) {
+            returnNode.agregarHijo(parser.crearNodo("return"));
+            returnNode.agregarHijo(N1);
+        } else {
             System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
-        } else {
-            Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "return", v.toString());
         }
+
+        // Agregar el nodo RETURN al árbol
+        parser.getArbol().getRaiz().agregarHijo(returnNode);
+        RESULT = returnNode;
     :};
 
-
-
-parametros ::= PARENTESISAPERTURA{: RESULT = "abreregalo"; :}
-                PARENTESISCIERRE{: RESULT = "cierraregalo"; :}
-             | PARENTESISAPERTURA{: RESULT = "abreregalo"; :}
-              parametroAux PARENTESISCIERRE{: RESULT = "cierraregalo"; :}
-              | error {: System.err.println("Error: Parametros mal definidos"); :};
+parametros ::= PARENTESISAPERTURA
+    {:
+        Nodo parametrosNode = parser.crearNodo("PARAMETROS");
+        parametrosNode.agregarHijo(parser.crearNodo("(")); // Nodo para apertura de paréntesis
+        parser.getArbol().getRaiz().agregarHijo(parametrosNode); // Agregar a la raíz
+        RESULT = parametrosNode;
+    :}
+    PARENTESISCIERRE
+    {:
+        Nodo parametrosNode = (Nodo) RESULT; // Reutilizar el nodo existente
+        parametrosNode.agregarHijo(parser.crearNodo(")")); // Nodo para cierre de paréntesis
+    :}
+    | PARENTESISAPERTURA
+    {:
+        Nodo parametrosNode = parser.crearNodo("PARAMETROS");
+        parametrosNode.agregarHijo(parser.crearNodo("(")); // Nodo para apertura de paréntesis
+        parser.getArbol().getRaiz().agregarHijo(parametrosNode); // Agregar a la raíz
+        RESULT = parametrosNode;
+    :}
+    parametroAux:N1 PARENTESISCIERRE
+    {:
+        Nodo parametrosNode = (Nodo) RESULT; // Reutilizar el nodo existente
+        parametrosNode.agregarHijo(N1); // Agregar nodo de parametroAux
+        parametrosNode.agregarHijo(parser.crearNodo(")")); // Nodo para cierre de paréntesis
+    :}
+    | error
+    {:
+        System.err.println("Error: Parámetros mal definidos");
+        RESULT = null;
+    :};
 
 parametroAux ::= tipos:t IDENTIFICADOR:id
     {:
+        // Verificar y agregar a la tabla de símbolos
         if (t == null || id == null) {
             System.err.println("Error: Parámetro inválido (tipo o identificador nulo).");
             parser.agregarVariable(0, 0, "parametro: undefined", "undefined");
@@ -316,9 +520,19 @@ parametroAux ::= tipos:t IDENTIFICADOR:id
             parser.agregarVariable(symbol.left, symbol.right, "parametro: " + id.toString(), t.toString());
             System.out.println("Parámetro agregado: " + id.toString() + " de tipo " + t.toString());
         }
+
+        // Crear el nodo para el parámetro
+        Nodo parametrosNode = parser.crearNodo("PARAMETROS");
+        Nodo parametroNode = parser.crearNodo("PARAMETRO");
+        parametroNode.agregarHijo(parser.crearNodo(t.toString())); // Nodo del tipo
+        parametroNode.agregarHijo(parser.crearNodo(id.toString())); // Nodo del identificador
+        parametrosNode.agregarHijo(parametroNode); // Agregar el parámetro al nodo de parámetros
+        RESULT = parametrosNode;
     :}
-    | parametroAux COMA tipos:t IDENTIFICADOR:id
+
+    | parametroAux:N1 COMA tipos:t IDENTIFICADOR:id
     {:
+        // Verificar y agregar a la tabla de símbolos
         if (t == null || id == null) {
             System.err.println("Error: Parámetro adicional inválido (tipo o identificador nulo).");
             parser.agregarVariable(0, 0, "parametro: undefined", "undefined");
@@ -327,20 +541,72 @@ parametroAux ::= tipos:t IDENTIFICADOR:id
             parser.agregarVariable(symbol.left, symbol.right, "parametro: " + id.toString(), t.toString());
             System.out.println("Parámetro adicional agregado: " + id.toString() + " de tipo " + t.toString());
         }
+
+        // Crear el nodo para el nuevo parámetro
+        Nodo nuevoParametroNode = parser.crearNodo("PARAMETRO");
+        nuevoParametroNode.agregarHijo(parser.crearNodo(t.toString())); // Nodo del tipo
+        nuevoParametroNode.agregarHijo(parser.crearNodo(id.toString())); // Nodo del identificador
+
+        // Reutilizar el nodo existente de parámetros y agregar el nuevo parámetro
+        Nodo parametrosNode = (Nodo) N1; // Nodo existente de parámetros
+        parametrosNode.agregarHijo(nuevoParametroNode); // Agregar el nuevo parámetro
+        RESULT = parametrosNode;
     :};
 
-expresionArr ::= crearArreglos operadorRelacional arreglos FIN_EXPRESION
-                 | crearArreglos ASIGNA arreglos FIN_EXPRESION
-                 | arreglos ASIGNA arreglos FIN_EXPRESION
-                 | arreglos operadorRelacional arreglos FIN_EXPRESION;
-//expresionLogica ::= crearArreglos operadorLogico arreglos;
+expresionArr ::= crearArreglos:N1 operadorRelacional:op arreglos:N2 FIN_EXPRESION
+    {:
+        Nodo expresionArrNode = parser.crearNodo("EXPRESION_ARR");
+        if (N1 != null) expresionArrNode.agregarHijo(N1); // Nodo de crearArreglos
+        if (op != null) expresionArrNode.agregarHijo(parser.crearNodo(op.toString())); // Nodo del operador relacional
+        if (N2 != null) expresionArrNode.agregarHijo(N2); // Nodo de arreglos
+        parser.getArbol().getRaiz().agregarHijo(expresionArrNode); // Agregar al árbol
+        RESULT = expresionArrNode;
+    :}
+    | crearArreglos:N1 ASIGNA arreglos:N2 FIN_EXPRESION
+    {:
+        Nodo expresionArrNode = parser.crearNodo("EXPRESION_ARR");
+        if (N1 != null) expresionArrNode.agregarHijo(N1); // Nodo de crearArreglos
+        expresionArrNode.agregarHijo(parser.crearNodo("=")); // Nodo del operador de asignación
+        if (N2 != null) expresionArrNode.agregarHijo(N2); // Nodo de arreglos
+        parser.getArbol().getRaiz().agregarHijo(expresionArrNode); // Agregar al árbol
+        RESULT = expresionArrNode;
+    :}
+    | arreglos:N1 ASIGNA arreglos:N2 FIN_EXPRESION
+    {:
+        Nodo expresionArrNode = parser.crearNodo("EXPRESION_ARR");
+        if (N1 != null) expresionArrNode.agregarHijo(N1); // Nodo del primer arreglo
+        expresionArrNode.agregarHijo(parser.crearNodo("=")); // Nodo del operador de asignación
+        if (N2 != null) expresionArrNode.agregarHijo(N2); // Nodo del segundo arreglo
+        parser.getArbol().getRaiz().agregarHijo(expresionArrNode); // Agregar al árbol
+        RESULT = expresionArrNode;
+    :}
+    | arreglos:N1 operadorRelacional:op arreglos:N2 FIN_EXPRESION
+    {:
+        Nodo expresionArrNode = parser.crearNodo("EXPRESION_ARR");
+        if (N1 != null) expresionArrNode.agregarHijo(N1); // Nodo del primer arreglo
+        if (op != null) expresionArrNode.agregarHijo(parser.crearNodo(op.toString())); // Nodo del operador relacional
+        if (N2 != null) expresionArrNode.agregarHijo(N2); // Nodo del segundo arreglo
+        parser.getArbol().getRaiz().agregarHijo(expresionArrNode); // Agregar al árbol
+        RESULT = expresionArrNode;
+    :};
 
-crearArreglos ::=tipos:t  IDENTIFICADOR:id
-                {:
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), t.toString() + "[]");
-                :}
-                CORCHETEAPERTURA IDENTIFICADOR:idVarArr CORCHETECIERRE;
+crearArreglos ::= tipos:t IDENTIFICADOR:id
+    {:
+        Symbol symbol = (Symbol) CUP$parser$stack.peek();
+        parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), t.toString() + "[]");
+    :}
+    CORCHETEAPERTURA IDENTIFICADOR:idVarArr CORCHETECIERRE
+    {:
+        // Crear el nodo para la creación del arreglo
+        Nodo crearArreglosNode = parser.crearNodo("CREAR_ARREGLO");
+        if (t != null) crearArreglosNode.agregarHijo(parser.crearNodo(t.toString())); // Nodo del tipo
+        if (id != null) crearArreglosNode.agregarHijo(parser.crearNodo(id.toString())); // Nodo del identificador
+        crearArreglosNode.agregarHijo(parser.crearNodo("[")); // Nodo de apertura de corchete
+        if (idVarArr != null) crearArreglosNode.agregarHijo(parser.crearNodo(idVarArr.toString())); // Nodo del identificador del tamaño
+        crearArreglosNode.agregarHijo(parser.crearNodo("]")); // Nodo de cierre de corchete
+
+        RESULT = crearArreglosNode; // Retornar el nodo
+    :};
 
 
 modificarArreglos ::= IDENTIFICADOR:idVar
@@ -348,12 +614,38 @@ modificarArreglos ::= IDENTIFICADOR:idVar
                       IDENTIFICADOR:id
                       CORCHETECIERRE{: RESULT = "cierraempaque"; :} ;
 
+arreglos ::= arreglo:N1
+    {:
+        Nodo arreglosNode = parser.crearNodo("ARREGLOS");
+        if (N1 != null) arreglosNode.agregarHijo(N1);
+        RESULT = arreglosNode;
+    :}
+    | arreglos:N1 arreglo:N2
+    {:
+        Nodo arreglosNode = (Nodo) N1;
+        if (N2 != null) arreglosNode.agregarHijo(N2);
+        RESULT = arreglosNode;
+    :};
 
-arreglos ::= arreglo | arreglos arreglo;
 arreglo ::= parametrosArreglo;
 
 parametrosArreglo ::= corcheteIzquierdo corcheteDerecho
-                    | corcheteIzquierdo parametrosArregloAux corcheteDerecho;
+    {:
+        // Crear nodo para el parámetro de arreglo vacío
+        Nodo parametroArregloNode = parser.crearNodo("PARAMETRO_ARREGLO");
+        parametroArregloNode.agregarHijo(parser.crearNodo("corcheteIzquierdo")); // Nodo de apertura de corchete
+        parametroArregloNode.agregarHijo(parser.crearNodo("corcheteDerecho")); // Nodo de cierre de corchete
+        RESULT = parametroArregloNode;
+    :}
+    | corcheteIzquierdo parametrosArregloAux:N1 corcheteDerecho
+    {:
+        // Crear nodo para el parámetro de arreglo con contenido
+        Nodo parametroArregloNode = parser.crearNodo("PARAMETRO_ARREGLO");
+        parametroArregloNode.agregarHijo(parser.crearNodo("corcheteIzquierdo")); // Nodo de apertura de corchete
+        parametroArregloNode.agregarHijo(N1); // Nodo auxiliar con parámetros
+        parametroArregloNode.agregarHijo(parser.crearNodo("corcheteDerecho")); // Nodo de cierre de corchete
+        RESULT = parametroArregloNode;
+    :};
 
 parametrosArregloAux ::= tiposArr | parametrosArregloAux COMA{: RESULT = ","; :}
                                         tiposArr;
@@ -364,7 +656,6 @@ asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales
                 | modificarArreglos operadorRelacional tiposArr FIN_EXPRESION;
 
 variable ::= IDENTIFICADOR:idVar {: System.out.println("Variable: " + idVar.toString()); :};
-
 
 expresionCompleja ::= expresionBinaria
                     | expresionUnario
@@ -411,15 +702,32 @@ expresiones ::= expresionRelacional
               expresiones
               PARENTESISCIERRE{: RESULT = "cierraregalo"; :};
 
-
 sentencia_lista ::= sentenciaEstructura | sentencia_lista sentenciaEstructura;
 
-sentenciaEstructura ::=  for_estructura
-                    | while_estructura
-                    | if_estructura
-                    | switch_estructura
-                    | expresiones FIN_EXPRESION{:RESULT="finregalo";:};
-
+sentenciaEstructura ::= for_estructura:N1
+    {:
+        RESULT = N1; // Pasar directamente el nodo del for
+    :}
+    | while_estructura:N1
+    {:
+        RESULT = N1; // Pasar directamente el nodo del while
+    :}
+    | if_estructura:N1
+    {:
+        RESULT = N1; // Pasar directamente el nodo del if
+    :}
+    | switch_estructura:N1
+    {:
+        RESULT = N1; // Pasar directamente el nodo del switch
+    :}
+    | expresiones:N1 FIN_EXPRESION
+    {:
+        // Crear un nodo para la expresión seguida de fin de expresión
+        Nodo sentenciaExpresionNode = parser.crearNodo("SENTENCIA_EXPRESION");
+        sentenciaExpresionNode.agregarHijo(N1); // Nodo de la expresión
+        sentenciaExpresionNode.agregarHijo(parser.crearNodo(";")); // Nodo para el fin de expresión
+        RESULT = sentenciaExpresionNode;
+    :};
 
 if_estructura ::= IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo sentenciaEstructura corcheteDerecho
                  | IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzquierdo return_estructura corcheteDerecho
@@ -435,31 +743,141 @@ if_estructura ::= IF PARENTESISAPERTURA expresiones PARENTESISCIERRE corcheteIzq
                  ELSE corcheteIzquierdo expresiones corcheteDerecho;
 
 for_estructura ::= FOR PARENTESISAPERTURA
-                    variable ASIGNA literales
+                    variable:N1 ASIGNA:N2 literales:N3
                     COMA
-                    expresiones
+                    expresiones:N4
                     COMA
-                    expresionUnario
-                   PARENTESISCIERRE corcheteIzquierdo sentencia_lista corcheteDerecho
-                  | FOR PARENTESISAPERTURA variable ASIGNA literales COMA expresionUnario PARENTESISCIERRE corcheteIzquierdo sentencia_lista corcheteDerecho
-                  | FOR PARENTESISAPERTURA
-                  creacionAsignacion COMA
-                  expresionLogica COMA
-                  expresionUnario
-                  PARENTESISCIERRE
-                  corcheteIzquierdo sentencias corcheteDerecho
+                    expresionUnario:N5
+                   PARENTESISCIERRE corcheteIzquierdo sentencia_lista:N6 corcheteDerecho
     {:
-        System.out.println("Estructura for reconocida.");
+        Nodo forNode = parser.crearNodo("FOR");
+
+        // Agregar nodos de manera segura
+        if (N1 != null) forNode.agregarHijo(N1);
+        forNode.agregarHijo(parser.crearNodo("="));
+        if (N2 != null) forNode.agregarHijo(N2);
+        if (N3 != null) forNode.agregarHijo(N3);
+        forNode.agregarHijo(parser.crearNodo(","));
+        if (N4 != null) forNode.agregarHijo(N4);
+        forNode.agregarHijo(parser.crearNodo(","));
+        if (N5 != null) forNode.agregarHijo(N5);
+        forNode.agregarHijo(parser.crearNodo(")"));
+        forNode.agregarHijo(parser.crearNodo("{"));
+        if (N6 != null) forNode.agregarHijo(N6);
+        forNode.agregarHijo(parser.crearNodo("}"));
+
+        RESULT = forNode;
+    :}
+    | FOR PARENTESISAPERTURA
+        variable:N1 ASIGNA:N2 literales:N3
+        COMA
+        expresionUnario:N4
+        PARENTESISCIERRE corcheteIzquierdo sentencia_lista:N5 corcheteDerecho
+    {:
+        Nodo forNode = parser.crearNodo("FOR");
+
+        // Agregar nodos de manera segura
+        if (N1 != null) forNode.agregarHijo(N1);
+        forNode.agregarHijo(parser.crearNodo("="));
+        if (N2 != null) forNode.agregarHijo(N2);
+        if (N3 != null) forNode.agregarHijo(N3);
+        forNode.agregarHijo(parser.crearNodo(","));
+        if (N4 != null) forNode.agregarHijo(N4);
+        forNode.agregarHijo(parser.crearNodo(")"));
+        forNode.agregarHijo(parser.crearNodo("{"));
+        if (N5 != null) forNode.agregarHijo(N5);
+        forNode.agregarHijo(parser.crearNodo("}"));
+
+        RESULT = forNode;
+    :}
+    | FOR PARENTESISAPERTURA
+        creacionAsignacion:N1 COMA
+        expresionLogica:N2 COMA
+        expresionUnario:N3
+        PARENTESISCIERRE corcheteIzquierdo sentencias:N4 corcheteDerecho
+    {:
+        Nodo forNode = parser.crearNodo("FOR");
+
+        // Agregar nodos de manera segura
+        if (N1 != null) forNode.agregarHijo(N1);
+        forNode.agregarHijo(parser.crearNodo(","));
+        if (N2 != null) forNode.agregarHijo(N2);
+        forNode.agregarHijo(parser.crearNodo(","));
+        if (N3 != null) forNode.agregarHijo(N3);
+        forNode.agregarHijo(parser.crearNodo(")"));
+        forNode.agregarHijo(parser.crearNodo("{"));
+        if (N4 != null) forNode.agregarHijo(N4);
+        forNode.agregarHijo(parser.crearNodo("}"));
+
+        RESULT = forNode;
     :};
 
+while_estructura ::= WHILE PARENTESISAPERTURA expresionCompleja:N1 PARENTESISCIERRE corcheteIzquierdo expresiones:N2 corcheteDerecho
+    {:
+        Nodo whileNode = parser.crearNodo("WHILE");
+        whileNode.agregarHijo(parser.crearNodo("while"));
+        whileNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) whileNode.agregarHijo(N1); // Nodo de la expresión compleja
+        whileNode.agregarHijo(parser.crearNodo(")"));
+        whileNode.agregarHijo(parser.crearNodo("{"));
+        if (N2 != null) whileNode.agregarHijo(N2); // Nodo de las expresiones
+        whileNode.agregarHijo(parser.crearNodo("}"));
 
-while_estructura ::= WHILE PARENTESISAPERTURA expresionCompleja PARENTESISCIERRE corcheteIzquierdo expresiones corcheteDerecho
-                    | WHILE PARENTESISAPERTURA expresionCompleja operadorLogico expresiones expresionRelacional  PARENTESISCIERRE
-                    corcheteIzquierdo expresiones return_estructura corcheteDerecho
-                    | WHILE PARENTESISAPERTURA expresionCompleja operadorLogico expresiones expresionRelacional  PARENTESISCIERRE
-                     corcheteIzquierdo sentencia return_estructura corcheteDerecho
-                    | WHILE PARENTESISAPERTURA expresionCompleja operadorLogico expresiones  PARENTESISCIERRE
-                    corcheteIzquierdo expresiones return_estructura corcheteDerecho;
+        RESULT = whileNode;
+    :}
+    | WHILE PARENTESISAPERTURA expresionCompleja:N1 operadorLogico:N2 expresiones:N3 expresionRelacional:N4 PARENTESISCIERRE
+      corcheteIzquierdo expresiones:N5 return_estructura:N6 corcheteDerecho
+    {:
+        Nodo whileNode = parser.crearNodo("WHILE");
+        whileNode.agregarHijo(parser.crearNodo("while"));
+        whileNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) whileNode.agregarHijo(N1); // Expresión compleja
+        if (N2 != null) whileNode.agregarHijo(N2); // Operador lógico
+        if (N3 != null) whileNode.agregarHijo(N3); // Expresiones
+        if (N4 != null) whileNode.agregarHijo(N4); // Expresión relacional
+        whileNode.agregarHijo(parser.crearNodo(")"));
+        whileNode.agregarHijo(parser.crearNodo("{"));
+        if (N5 != null) whileNode.agregarHijo(N5); // Expresiones dentro del bloque
+        if (N6 != null) whileNode.agregarHijo(N6); // Return estructura
+        whileNode.agregarHijo(parser.crearNodo("}"));
+
+        RESULT = whileNode;
+    :}
+    | WHILE PARENTESISAPERTURA expresionCompleja:N1 operadorLogico:N2 expresiones:N3 expresionRelacional:N4 PARENTESISCIERRE
+      corcheteIzquierdo sentencia:N5 return_estructura:N6 corcheteDerecho
+    {:
+        Nodo whileNode = parser.crearNodo("WHILE");
+        whileNode.agregarHijo(parser.crearNodo("while"));
+        whileNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) whileNode.agregarHijo(N1); // Expresión compleja
+        if (N2 != null) whileNode.agregarHijo(N2); // Operador lógico
+        if (N3 != null) whileNode.agregarHijo(N3); // Expresiones
+        if (N4 != null) whileNode.agregarHijo(N4); // Expresión relacional
+        whileNode.agregarHijo(parser.crearNodo(")"));
+        whileNode.agregarHijo(parser.crearNodo("{"));
+        if (N5 != null) whileNode.agregarHijo(N5); // Sentencia dentro del bloque
+        if (N6 != null) whileNode.agregarHijo(N6); // Return estructura
+        whileNode.agregarHijo(parser.crearNodo("}"));
+
+        RESULT = whileNode;
+    :}
+    | WHILE PARENTESISAPERTURA expresionCompleja:N1 operadorLogico:N2 expresiones:N3 PARENTESISCIERRE
+      corcheteIzquierdo expresiones:N4 return_estructura:N5 corcheteDerecho
+    {:
+        Nodo whileNode = parser.crearNodo("WHILE");
+        whileNode.agregarHijo(parser.crearNodo("while"));
+        whileNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) whileNode.agregarHijo(N1); // Expresión compleja
+        if (N2 != null) whileNode.agregarHijo(N2); // Operador lógico
+        if (N3 != null) whileNode.agregarHijo(N3); // Expresiones
+        whileNode.agregarHijo(parser.crearNodo(")"));
+        whileNode.agregarHijo(parser.crearNodo("{"));
+        if (N4 != null) whileNode.agregarHijo(N4); // Expresiones dentro del bloque
+        if (N5 != null) whileNode.agregarHijo(N5); // Return estructura
+        whileNode.agregarHijo(parser.crearNodo("}"));
+
+        RESULT = whileNode;
+    :};
 
 switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
                      corcheteIzquierdo casos_switch corcheteDerecho
@@ -494,16 +912,78 @@ return_estructura ::= RETURN numerosLiterales FIN_EXPRESION
 
 break_estructura ::= BREAK FIN_EXPRESION;
 
-print ::= PRINT PARENTESISAPERTURA literales PARENTESISCIERRE FIN_EXPRESION
-        | PRINT PARENTESISAPERTURA variable PARENTESISCIERRE FIN_EXPRESION
-        | PRINT PARENTESISAPERTURA variable
-        error {: System.err.println("Error: No se cerró el print"); :}
-        | PRINT
-        error {: System.err.println("Error: Print mal formado"); :}
-        | PRINT  variable  PARENTESISCIERRE
-                  error {: System.err.println("Print mal formado"); :};
+print ::= PRINT PARENTESISAPERTURA literales:N1 PARENTESISCIERRE FIN_EXPRESION
+    {:
+        Nodo printNode = parser.crearNodo("PRINT");
+        printNode.agregarHijo(parser.crearNodo("print"));
+        printNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) printNode.agregarHijo(N1); // Nodo del literal
+        printNode.agregarHijo(parser.crearNodo(")"));
+        RESULT = printNode;
+    :}
+    | PRINT PARENTESISAPERTURA variable:N1 PARENTESISCIERRE FIN_EXPRESION
+    {:
+        Nodo printNode = parser.crearNodo("PRINT");
+        printNode.agregarHijo(parser.crearNodo("print"));
+        printNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) printNode.agregarHijo(N1); // Nodo de la variable
+        printNode.agregarHijo(parser.crearNodo(")"));
+        RESULT = printNode;
+    :}
+    | PRINT PARENTESISAPERTURA variable:N1
+      error
+    {:
+        System.err.println("Error: No se cerró el print");
+        Nodo printNode = parser.crearNodo("PRINT_ERROR");
+        printNode.agregarHijo(parser.crearNodo("print"));
+        printNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) printNode.agregarHijo(N1); // Nodo de la variable
+        RESULT = printNode;
+    :}
+    | PRINT
+      error
+    {:
+        System.err.println("Error: Print mal formado");
+        Nodo printNode = parser.crearNodo("PRINT_ERROR");
+        printNode.agregarHijo(parser.crearNodo("print"));
+        RESULT = printNode;
+    :}
+    | PRINT variable:N1 PARENTESISCIERRE
+      error
+    {:
+        System.err.println("Print mal formado");
+        Nodo printNode = parser.crearNodo("PRINT_ERROR");
+        printNode.agregarHijo(parser.crearNodo("print"));
+        if (N1 != null) printNode.agregarHijo(N1); // Nodo de la variable
+        printNode.agregarHijo(parser.crearNodo(")"));
+        RESULT = printNode;
+    :};
 
-read ::= READ PARENTESISAPERTURA numerosLiterales PARENTESISCIERRE FIN_EXPRESION
-        |  READ PARENTESISAPERTURA variable PARENTESISCIERRE FIN_EXPRESION
-        | READ PARENTESISAPERTURA  PARENTESISCIERRE
-        error ;
+read ::= READ PARENTESISAPERTURA numerosLiterales:N1 PARENTESISCIERRE FIN_EXPRESION
+    {:
+        Nodo readNode = parser.crearNodo("READ");
+        readNode.agregarHijo(parser.crearNodo("read"));
+        readNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) readNode.agregarHijo(N1); // Nodo de los números literales
+        readNode.agregarHijo(parser.crearNodo(")"));
+        RESULT = readNode;
+    :}
+    | READ PARENTESISAPERTURA variable:N1 PARENTESISCIERRE FIN_EXPRESION
+    {:
+        Nodo readNode = parser.crearNodo("READ");
+        readNode.agregarHijo(parser.crearNodo("read"));
+        readNode.agregarHijo(parser.crearNodo("("));
+        if (N1 != null) readNode.agregarHijo(N1); // Nodo de la variable
+        readNode.agregarHijo(parser.crearNodo(")"));
+        RESULT = readNode;
+    :}
+    | READ PARENTESISAPERTURA PARENTESISCIERRE
+      error
+    {:
+        System.err.println("Error: Read mal formado");
+        Nodo readNode = parser.crearNodo("READ_ERROR");
+        readNode.agregarHijo(parser.crearNodo("read"));
+        readNode.agregarHijo(parser.crearNodo("("));
+        readNode.agregarHijo(parser.crearNodo(")"));
+        RESULT = readNode;
+    :};

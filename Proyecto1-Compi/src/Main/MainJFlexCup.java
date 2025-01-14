@@ -123,7 +123,7 @@ public class MainJFlexCup {
             myParser.imprimirTablaSimbolos();
 
             System.out.println("\nÁrbol sintáctico generado:");
-            myParser.getArbol().imprimirArbol(); // Aquí se llama al método imprimirArbol
+           myParser.getArbol().imprimirArbol(); // Aquí se llama al método imprimirArbol
         } catch (Exception e) {
             System.err.println("Error durante el análisis sintáctico: " + e.getMessage());
             throw e;

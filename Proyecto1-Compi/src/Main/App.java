@@ -10,7 +10,7 @@ public class App {
     /**
      * Método: GenerarLexerParser
      * Objetivo: Generar el lexer y parser utilizando los archivos .jflex y .cup, eliminando archivos previos
-     *           y moviendo los archivos generados a la carpeta llamada ParserLexer.
+     *           y moviendo los archivos genGterados a la carpeta llamada ParserLexer.
      * Entradas: Ninguna.
      * Salida: Genera y mueve los archivos `sym.java`, `BasicLexerCupV.java` y `parser.java`
      *         a la carpeta `ParserLexer`.
