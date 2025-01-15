@@ -1176,49 +1176,6 @@ switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
 
         parser.getArbol().getRaiz().agregarHijo(switchNode);
         RESULT = switchNode;
-    :}
-    | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-      corcheteIzquierdo casos_switch:N1 break_estructura:N2 corcheteDerecho
-    {:
-        Nodo switchNode = parser.crearNodo("SWITCH");
-
-        if (v != null) {
-            switchNode.agregarHijo(parser.crearNodo("switch"));
-            switchNode.agregarHijo(v);
-
-            // Agregar a la tabla de símbolos
-            Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
-        }
-        Symbol symbol = (Symbol) CUP$parser$stack.peek();
-        parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
-        if (N1 != null) switchNode.agregarHijo(N1);
-        if (N2 != null) switchNode.agregarHijo(N2);
-
-        parser.getArbol().getRaiz().agregarHijo(switchNode);
-        RESULT = switchNode;
-    :}
-    | SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
-      corcheteIzquierdo casos_switch:N1 break_estructura:N2 default_case:N3 corcheteDerecho
-    {:
-        Nodo switchNode = parser.crearNodo("SWITCH");
-
-        if (v != null) {
-            switchNode.agregarHijo(parser.crearNodo("switch"));
-            switchNode.agregarHijo(v);
-
-            // Agregar a la tabla de símbolos
-            Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
-        }
-        Symbol symbol = (Symbol) CUP$parser$stack.peek();
-        parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
-        if (N1 != null) switchNode.agregarHijo(N1);
-        if (N2 != null) switchNode.agregarHijo(N2);
-        if (N3 != null) switchNode.agregarHijo(N3);
-
-        parser.getArbol().getRaiz().agregarHijo(switchNode);
-        RESULT = switchNode;
     :};
 
 casos_switch ::= caso_switch:N1
@@ -1231,12 +1188,14 @@ casos_switch ::= caso_switch:N1
         if (N2 != null) casosNode.agregarHijo(N2);
         RESULT = casosNode;
     :}
-    | break_estructura:N1
-    {:
-        RESULT = N1;
-    :};
+    |casos_switch:N1 break_estructura
+        {:
+                Nodo casosNode = (Nodo) N1;
+                RESULT = casosNode;
+            :}
+        ;
 
-caso_switch ::= CASE numerosLiterales:N1 DOS_PUNTOS sentencia_lista:N2 FIN_EXPRESION
+caso_switch ::= CASE numerosLiterales:N1 DOS_PUNTOS sentencias:N2 FIN_EXPRESION
     {:
         Nodo casoNode = parser.crearNodo("CASE");
 

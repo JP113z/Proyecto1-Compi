@@ -1,4 +1,7 @@
  _verano_
+ bromista _funcion1_ abreregalo rodolfo _a_ , rodolfo _b_ cierraregalo
+     abrecuento
+
     # Declaración de variables simples
     rodolfo _entero_ finregalo
     bromista _decimal_ finregalo
@@ -18,42 +21,26 @@
     bromista _mult_ entrega 2.5 nochebuena 3.0 finregalo
 
     # Estructuras de control
-    elfo abreregalo _activo_ mary true cierraregalo
+    elfo abreregalo _activo_ mary 8 cierraregalo
     abrecuento
         narra abreregalo "Condición verdadera" cierraregalo finregalo
     cierracuento
     
-    # Bucle while
-    rodolfo _contador_ entrega 0 finregalo
-    envuelve abreregalo _contador_ snowball 5 cierraregalo
-    abrecuento
-        narra abreregalo _contador_ cierraregalo finregalo
-        _contador_ entrega _contador_ navidad 1 finregalo
-    cierracuento
-
-    # Bucle for con rango
-    duende abreregalo _i_ sigue 1 .. 5 cierraregalo
-    abrecuento
-        narra abreregalo _i_ cierraregalo finregalo
-    cierracuento
+ envuelve abreregalo _var2_ minstix 12.2 gaspar  abreregalo 34 navidad 33
+cierraregalo minstix 12 cierraregalo
+         abrecuento
+            _var_  entrega  _var_ intercambio 1 finregalo
+            envia finregalo
+         cierracuento
 
     # Switch case
-    varios abreregalo _numero_ cierraregalo
-    abrecuento
-        historia 1 sigue
-            narra abreregalo "Uno" cierraregalo finregalo
-            corta finregalo
-        historia 2 sigue
-            narra abreregalo "Dos" cierraregalo finregalo
-            corta finregalo
-        ultimo sigue
-            narra abreregalo "Otro número" cierraregalo finregalo
-    cierracuento
+    varios abreregalo _ch_ cierraregalo   abrecuento
+                 historia 1 sigue _id_ quien  finregalo
 
-    # Operadores lógicos
-    trueno _resultado_ entrega _activo_ melchor true finregalo
-    
-    # Entrada de datos
-    escucha abreregalo _numero_ cierraregalo finregalo
+                 historia 2 sigue _id_ grinch finregalo
+                 corta finregalo
+                 ultimo sigue _id_ entrega _id_ finregalo
+                  cierracuento
 
-cierracuento
+envia _x22_ finregalo
+ cierracuento

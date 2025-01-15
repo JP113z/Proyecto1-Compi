@@ -1,8 +1,11 @@
+_verano_
+bromista _funcion2_ abreregalo rodolfo _a_ , rodolfo _b_ , cupido _c_ cierraregalo
+    abrecuento
+
 # Declaración de variables correctas e incorrectas
 rodolfo _numero_ entrega 42 finregalo  
-bromista incorrect_ entrega 3.14 finregalo  # Error: identificador mal formado  
-trueno _valido_ entrega true finregalo  
-trueno _incorrect entrega false finregalo  # Error: identificador debe terminar con "_"
+bromista _incorrect_ entrega 3.14 finregalo
+trueno _valido_ entrega true finregalo
 
 # Estructuras de control
 elfo abreregalo _numero_ minstix 40 cierraregalo  
@@ -14,5 +17,6 @@ hada
         narra abreregalo "El número no es mayor que 40" cierraregalo finregalo  
     cierracuento  
 
-# Operación inválida
-_x_ entrega @ finregalo  # Error: caracter no reconocido
+
+envia _x22_ finregalo
+ cierracuento
