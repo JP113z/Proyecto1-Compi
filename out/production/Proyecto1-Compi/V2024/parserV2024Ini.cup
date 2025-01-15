@@ -542,6 +542,7 @@ return_funcion ::= RETURN literales:N1 FIN_EXPRESION
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
         } else {
+            System.err.println("Error: El tipo de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
@@ -560,6 +561,7 @@ return_funcion ::= RETURN literales:N1 FIN_EXPRESION
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
         } else {
+            System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 

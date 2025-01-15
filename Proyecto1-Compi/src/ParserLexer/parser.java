@@ -2450,6 +2450,7 @@ class CUP$parser$actions {
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
         } else {
+            System.err.println("Error: El tipo de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
@@ -2478,6 +2479,7 @@ class CUP$parser$actions {
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
         } else {
+            System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
