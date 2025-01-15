@@ -259,33 +259,50 @@ literales ::=
               {:
                   Symbol symbol = (Symbol) CUP$parser$stack.peek();
                   parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cometa");
+                  RESULT = "cometa";
               :}
             | L_CHAR:c
               {:
                   Symbol symbol = (Symbol) CUP$parser$stack.peek();
                   parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cupido");
+                  RESULT = "cupido";
               :}
-            | bool
-            | numerosLiterales;
-numerosLiterales ::=
-    numeroEntero
-    | numeroFloat;
+            | bool:N1
+              {:
+                  RESULT = N1;
+              :}
+            | numerosLiterales:N1
+              {:
+                  RESULT = N1;
+              :};
 
-numeroEntero ::= L_INTEGER
+numerosLiterales ::=
+    numeroEntero:N1
+    {:
+        RESULT = N1;
+    :}
+    | numeroFloat:N1
+    {:
+        RESULT = N1;
+    :};
+
+numeroEntero ::= L_INTEGER:i
     {:
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "rodolfo");
+        RESULT = "rodolfo";
     :};
 
-numeroFloat ::= L_FLOAT
+numeroFloat ::= L_FLOAT:f
     {:
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "bromista");
+        RESULT = "bromista";
     :};
 
+bool ::= TRUE {:RESULT = "true";:}
+        | FALSE {:RESULT = "false";:};
 
-bool ::= TRUE {:RESULT="true";:}
-        | FALSE{:RESULT="false";:};
 
 expresionRelacional ::= asignarTipo:N1 operadorRelacional:op literales:N2
     {:
@@ -518,20 +535,14 @@ return_funcion ::= RETURN literales:N1 FIN_EXPRESION
     {:
         Nodo returnNode = parser.crearNodo("RETURN");
 
-        // Verificar y agregar el nodo del literal o cualquier tipo de dato
+        // Verificar y agregar el nodo del literal como cadena
         if (N1 != null) {
             returnNode.agregarHijo(parser.crearNodo("return"));
-
-            if (N1 instanceof Nodo) {
-                returnNode.agregarHijo((Nodo) N1); // Si es Nodo, agregar directamente
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, "return", ((Nodo) N1).getDato());
-            } else {
-                returnNode.agregarHijo(parser.crearNodo(N1.toString())); // Si no, convertir a String
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
-            }
+            returnNode.agregarHijo(parser.crearNodo(N1.toString()));
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
         } else {
+            System.err.println("Error: El tipo de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
@@ -543,20 +554,14 @@ return_funcion ::= RETURN literales:N1 FIN_EXPRESION
     {:
         Nodo returnNode = parser.crearNodo("RETURN");
 
-        // Verificar y agregar el nodo de la variable o cualquier tipo de dato
+        // Verificar y agregar el nodo de la variable
         if (N1 != null) {
             returnNode.agregarHijo(parser.crearNodo("return"));
-
-            if (N1 instanceof Nodo) {
-                returnNode.agregarHijo((Nodo) N1); // Si es Nodo, agregar directamente
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, "return", ((Nodo) N1).getDato());
-            } else {
-                returnNode.agregarHijo(parser.crearNodo(N1.toString())); // Si no, convertir a String
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
-            }
+            returnNode.agregarHijo(N1);
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
         } else {
+            System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
         }
 
@@ -751,7 +756,9 @@ asignaVariable ::= variable ASIGNA{:RESULT="entrega";:} literales
                 | modificarArreglos ASIGNA{:RESULT="entrega";:} tiposArr FIN_EXPRESION
                 | modificarArreglos operadorRelacional tiposArr FIN_EXPRESION;
 
-variable ::= IDENTIFICADOR:idVar {: System.out.println("Variable: " + idVar.toString()); :};
+variable ::= IDENTIFICADOR:idVar {: System.out.println("Variable: " + idVar.toString());
+                RESULT = idVar.toString();
+                :};
 
 expresionCompleja ::= expresionBinaria
                     | expresionUnario
@@ -1090,7 +1097,7 @@ switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         } else {
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -1112,7 +1119,7 @@ switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -1133,7 +1140,7 @@ switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -1154,7 +1161,7 @@ switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -1176,7 +1183,7 @@ switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -1197,7 +1204,7 @@ switch_estructura ::= SWITCH PARENTESISAPERTURA variable:v PARENTESISCIERRE
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -1236,7 +1243,7 @@ caso_switch ::= CASE numerosLiterales:N1 DOS_PUNTOS sentencia_lista:N2 FIN_EXPRE
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "case", N1.toString());
         } else {
-            parser.agregarVariable(0, 0, "case", "undefined");
+            parser.agregarVariable(0, 0, "case", "historia");
         }
 
         // Agregar el nodo ":" y sentencia (N2)
@@ -1257,7 +1264,7 @@ caso_switch ::= CASE numerosLiterales:N1 DOS_PUNTOS sentencia_lista:N2 FIN_EXPRE
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "case", N1.toString());
         } else {
-            parser.agregarVariable(0, 0, "case", "undefined");
+            parser.agregarVariable(0, 0, "case", "historia");
         }
 
         // Agregar el nodo ":" y expresiones (N2)
@@ -1301,8 +1308,6 @@ return_estructura ::= RETURN numerosLiterales:N1 FIN_EXPRESION
         returnNode.agregarHijo(parser.crearNodo("return")); // Nodo para el literal "return"
 
         if (N1 != null) {
-            returnNode.agregarHijo(parser.crearNodo("return"));
-
             // Agregar el valor al nodo RETURN dependiendo de su tipo
             if (N1 instanceof Nodo) {
                 returnNode.agregarHijo((Nodo) N1); // Si es Nodo, lo agrega directamente
@@ -1314,6 +1319,7 @@ return_estructura ::= RETURN numerosLiterales:N1 FIN_EXPRESION
             String valor = N1.toString(); // Convertir cualquier objeto a su representación en String
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "return", valor);
+            System.out.println("Valor de retorno ayuda: " + valor);
         } else {
             System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
@@ -1337,6 +1343,7 @@ return_estructura ::= RETURN numerosLiterales:N1 FIN_EXPRESION
         parser.getArbol().getRaiz().agregarHijo(returnNode);
         RESULT = returnNode;
     :};
+
 
 print ::= PRINT PARENTESISAPERTURA literales:N1 PARENTESISCIERRE FIN_EXPRESION
     {:

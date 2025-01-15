@@ -1602,6 +1602,7 @@ class CUP$parser$actions {
 		
                   Symbol symbol = (Symbol) CUP$parser$stack.peek();
                   parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cometa");
+                  RESULT = "cometa";
               
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1617,6 +1618,7 @@ class CUP$parser$actions {
 		
                   Symbol symbol = (Symbol) CUP$parser$stack.peek();
                   parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "cupido");
+                  RESULT = "cupido";
               
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1626,7 +1628,12 @@ class CUP$parser$actions {
           case 13: // literales ::= bool 
             {
               Object RESULT =null;
-
+		int N1left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int N1right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object N1 = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+                  RESULT = N1;
+              
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1635,7 +1642,12 @@ class CUP$parser$actions {
           case 14: // literales ::= numerosLiterales 
             {
               Object RESULT =null;
-
+		int N1left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int N1right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object N1 = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+                  RESULT = N1;
+              
               CUP$parser$result = parser.getSymbolFactory().newSymbol("literales",4, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1644,7 +1656,12 @@ class CUP$parser$actions {
           case 15: // numerosLiterales ::= numeroEntero 
             {
               Object RESULT =null;
-
+		int N1left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int N1right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object N1 = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+        RESULT = N1;
+    
               CUP$parser$result = parser.getSymbolFactory().newSymbol("numerosLiterales",45, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1653,7 +1670,12 @@ class CUP$parser$actions {
           case 16: // numerosLiterales ::= numeroFloat 
             {
               Object RESULT =null;
-
+		int N1left = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int N1right = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Object N1 = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
+		
+        RESULT = N1;
+    
               CUP$parser$result = parser.getSymbolFactory().newSymbol("numerosLiterales",45, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1662,9 +1684,13 @@ class CUP$parser$actions {
           case 17: // numeroEntero ::= L_INTEGER 
             {
               Object RESULT =null;
+		int ileft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int iright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Integer i = (Integer)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "rodolfo");
+        RESULT = "rodolfo";
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("numeroEntero",47, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1674,9 +1700,13 @@ class CUP$parser$actions {
           case 18: // numeroFloat ::= L_FLOAT 
             {
               Object RESULT =null;
+		int fleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
+		int fright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
+		Float f = (Float)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, symbol.value.toString(), "bromista");
+        RESULT = "bromista";
     
               CUP$parser$result = parser.getSymbolFactory().newSymbol("numeroFloat",48, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
@@ -1686,7 +1716,7 @@ class CUP$parser$actions {
           case 19: // bool ::= TRUE 
             {
               Object RESULT =null;
-		RESULT="true";
+		RESULT = "true";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("bool",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1695,7 +1725,7 @@ class CUP$parser$actions {
           case 20: // bool ::= FALSE 
             {
               Object RESULT =null;
-		RESULT="false";
+		RESULT = "false";
               CUP$parser$result = parser.getSymbolFactory().newSymbol("bool",5, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -2367,19 +2397,12 @@ class CUP$parser$actions {
 		
         Nodo returnNode = parser.crearNodo("RETURN");
 
-        // Verificar y agregar el nodo del literal o cualquier tipo de dato
+        // Verificar y agregar el nodo del literal como cadena
         if (N1 != null) {
             returnNode.agregarHijo(parser.crearNodo("return"));
-
-            if (N1 instanceof Nodo) {
-                returnNode.agregarHijo((Nodo) N1); // Si es Nodo, agregar directamente
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, "return", ((Nodo) N1).getDato());
-            } else {
-                returnNode.agregarHijo(parser.crearNodo(N1.toString())); // Si no, convertir a String
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
-            }
+            returnNode.agregarHijo(parser.crearNodo(N1.toString()));
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
         } else {
             System.err.println("Error: El tipo de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
@@ -2403,19 +2426,12 @@ class CUP$parser$actions {
 		
         Nodo returnNode = parser.crearNodo("RETURN");
 
-        // Verificar y agregar el nodo de la variable o cualquier tipo de dato
+        // Verificar y agregar el nodo de la variable
         if (N1 != null) {
             returnNode.agregarHijo(parser.crearNodo("return"));
-
-            if (N1 instanceof Nodo) {
-                returnNode.agregarHijo((Nodo) N1); // Si es Nodo, agregar directamente
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, "return", ((Nodo) N1).getDato());
-            } else {
-                returnNode.agregarHijo(parser.crearNodo(N1.toString())); // Si no, convertir a String
-                Symbol symbol = (Symbol) CUP$parser$stack.peek();
-                parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
-            }
+            returnNode.agregarHijo(N1);
+            Symbol symbol = (Symbol) CUP$parser$stack.peek();
+            parser.agregarVariable(symbol.left, symbol.right, "return", N1.toString());
         } else {
             System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
@@ -2925,7 +2941,9 @@ RESULT="entrega";
 		int idVarleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int idVarright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object idVar = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 System.out.println("Variable: " + idVar.toString()); 
+		 System.out.println("Variable: " + idVar.toString());
+                RESULT = idVar.toString();
+                
               CUP$parser$result = parser.getSymbolFactory().newSymbol("variable",23, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -3838,7 +3856,7 @@ RESULT="-";
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         } else {
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -3875,7 +3893,7 @@ RESULT="-";
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -3911,7 +3929,7 @@ RESULT="-";
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -3950,7 +3968,7 @@ RESULT="-";
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -3987,7 +4005,7 @@ RESULT="-";
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -4026,7 +4044,7 @@ RESULT="-";
 
             // Agregar a la tabla de símbolos
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
-            parser.agregarVariable(symbol.left, symbol.right, "switch", v.toString());
+            parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
         }
         Symbol symbol = (Symbol) CUP$parser$stack.peek();
         parser.agregarVariable(symbol.left, symbol.right, "switch", "varios");
@@ -4109,7 +4127,7 @@ RESULT="-";
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "case", N1.toString());
         } else {
-            parser.agregarVariable(0, 0, "case", "undefined");
+            parser.agregarVariable(0, 0, "case", "historia");
         }
 
         // Agregar el nodo ":" y sentencia (N2)
@@ -4143,7 +4161,7 @@ RESULT="-";
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "case", N1.toString());
         } else {
-            parser.agregarVariable(0, 0, "case", "undefined");
+            parser.agregarVariable(0, 0, "case", "historia");
         }
 
         // Agregar el nodo ":" y expresiones (N2)
@@ -4209,8 +4227,6 @@ RESULT="-";
         returnNode.agregarHijo(parser.crearNodo("return")); // Nodo para el literal "return"
 
         if (N1 != null) {
-            returnNode.agregarHijo(parser.crearNodo("return"));
-
             // Agregar el valor al nodo RETURN dependiendo de su tipo
             if (N1 instanceof Nodo) {
                 returnNode.agregarHijo((Nodo) N1); // Si es Nodo, lo agrega directamente
@@ -4222,6 +4238,7 @@ RESULT="-";
             String valor = N1.toString(); // Convertir cualquier objeto a su representación en String
             Symbol symbol = (Symbol) CUP$parser$stack.peek();
             parser.agregarVariable(symbol.left, symbol.right, "return", valor);
+            System.out.println("Valor de retorno ayuda: " + valor);
         } else {
             System.err.println("Error: El valor de retorno es nulo.");
             parser.agregarVariable(0, 0, "return", "undefined");
